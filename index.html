@@ -350,7 +350,7 @@
     aspect-ratio: 4 / 3;
     overflow: hidden;
   }
-  .tile img {
+  .tile img, .tile video {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -359,7 +359,7 @@
     opacity: 0;
     transition: opacity 1.4s ease-in-out;
   }
-  .tile img.active { opacity: 1; }
+  .tile img.active, .tile video { opacity: 1; }
   .tile .idx {
     position: absolute;
     top: 0.6rem;
@@ -612,32 +612,40 @@
             </div>
             <div class="tile">
               <img src="new-zealand.jpg" alt="New Zealand" class="active" loading="lazy">
+              <img src="new-zealand-2.jpg" alt="New Zealand" loading="lazy">
               <span class="idx">03</span>
               <span class="cap"><span class="code">NZL</span><span class="place">New Zealand</span></span>
             </div>
             <div class="tile">
-              <img src="thailand.jpg" alt="Thailand" class="active" loading="lazy">
+              <video src="thailand.mp4" poster="thailand.jpg" autoplay muted loop playsinline></video>
               <span class="idx">04</span>
               <span class="cap"><span class="code">THA</span><span class="place">Thailand</span></span>
             </div>
             <div class="tile">
               <img src="vietnam.jpg" alt="Vietnam" class="active" loading="lazy">
+              <img src="vietnam-2.jpg" alt="Vietnam" loading="lazy">
               <span class="idx">05</span>
               <span class="cap"><span class="code">VNM</span><span class="place">Vietnam</span></span>
             </div>
             <div class="tile">
               <img src="cambodia.jpg" alt="Cambodia" class="active" loading="lazy">
+              <img src="cambodia-2.jpg" alt="Cambodia" loading="lazy">
+              <img src="cambodia-3.jpg" alt="Cambodia" loading="lazy">
               <span class="idx">06</span>
               <span class="cap"><span class="code">KHM</span><span class="place">Cambodia</span></span>
             </div>
             <div class="tile">
               <img src="indonesia.jpg" alt="Indonesia" class="active" loading="lazy">
+              <img src="indonesia-2.jpg" alt="Indonesia" loading="lazy">
+              <img src="indonesia-3.jpg" alt="Indonesia" loading="lazy">
               <span class="idx">07</span>
               <span class="cap"><span class="code">IDN</span><span class="place">Indonesia</span></span>
             </div>
             <div class="tile">
               <img src="japan-1.jpg" alt="Japan" class="active" loading="lazy">
               <img src="japan-2.jpg" alt="Japan" loading="lazy">
+              <img src="japan-3.jpg" alt="Japan" loading="lazy">
+              <img src="japan-4.jpg" alt="Japan" loading="lazy">
               <span class="idx">08</span>
               <span class="cap"><span class="code">JPN</span><span class="place">Japan</span></span>
             </div>
@@ -652,9 +660,9 @@
       <div class="now-box">
         <div class="section-head">
           <span class="section-num">06</span>
-          <h2 class="section-title">Now &amp; contact</h2>
+          <h2 class="section-title">Contact</h2>
         </div>
-        <p>Back from six months of travelling and job hunting for Commercial Analysis and Club Operations roles in football. Building projects like this one in the meantime, with more on the way.</p>
+        <p>Back from six months of travelling, I am looking for roles in Commercial Analysis and Operations in Sport and Business roles while building projects just like this one in the meantime.</p>
         <div class="contact-row">
           <a class="btn primary" href="mailto:awdowney1@gmail.com">Email me</a>
           <a class="btn ghost" href="https://www.linkedin.com/in/andrew-downey-74a78a338/" target="_blank" rel="noopener">LinkedIn</a>
