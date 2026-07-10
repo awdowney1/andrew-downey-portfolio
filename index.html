@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrew Downey — Commercial Analysis & Club Operations</title>
+<meta name="description" content="Portfolio of Andrew Downey — Commercial Analysis & Club Operations in football. MSc Sports Business & Management, University of Liverpool.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F6F3;
+    --bg-panel: #FFFFFF;
+    --ink: #12161C;
+    --ink-soft: #4B5563;
+    --navy: #1B2634;
+    --gold: #A9762F;
+    --gold-soft: #C9962F;
+    --green: #3B7A57;
+    --border: #DFE0DA;
+    --font-head: 'Outfit', sans-serif;
+    --font-body: 'Work Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --max: 1120px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--ink);
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    z-index: 100;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  .skip-link:focus { left: 1rem; top: 1rem; }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 1.75rem;
+  }
+
+  /* ---------- Nav ---------- */
+  header.site {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 246, 243, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 0;
+  }
+  .brand {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  nav.links { display: flex; gap: 1.75rem; }
+  nav.links a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-soft);
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color 150ms ease, border-color 150ms ease;
+  }
+  nav.links a:hover { color: var(--ink); border-color: var(--gold); }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.4rem 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 720px) {
+    nav.links {
+      position: fixed;
+      inset: 64px 0 0 0;
+      background: var(--bg);
+      flex-direction: column;
+      gap: 0;
+      padding: 1rem 1.75rem;
+      display: none;
+      border-top: 1px solid var(--border);
+    }
+    nav.links.open { display: flex; }
+    nav.links a { padding: 0.9rem 0; border-bottom: 1px solid var(--border); width: 100%; }
+    .menu-toggle { display: block; }
+  }
+
+  section { scroll-margin-top: 84px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 5.5rem 0 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 1rem;
+  }
+  h1.name {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+  .role {
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    color: var(--navy);
+    margin: 0 0 1.5rem;
+  }
+  .contact-line {
+    font-family: var(--font-mono);
+    font-size: 0.98rem;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .contact-line a {
+    color: var(--navy);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+  }
+  .contact-line a:hover { color: var(--gold); }
+  .contact-line .dot { color: var(--border); margin: 0 0.3rem; }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    padding: 0.85rem 1.4rem;
+    border: 1px solid var(--ink);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .btn.primary { background: var(--ink); color: #fff; }
+  .btn.primary:hover { background: var(--navy); }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: #fff; }
+
+  /* ---------- Section shell ---------- */
+  .section { padding: 4.5rem 0; border-bottom: 1px solid var(--border); }
+  .section-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.25rem; }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--gold);
+  }
+  h2.section-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .lede { max-width: 62ch; color: var(--ink-soft); margin-bottom: 2rem; }
+
+  /* ---------- About ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+  }
+  @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-grid p { max-width: 58ch; }
+  .about-grid p + p { margin-top: 1.1rem; }
+
+  .side-card {
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    padding: 1.5rem;
+  }
+  .side-card h3 {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 1rem;
+  }
+  .side-card ul { margin: 0; padding: 0; list-style: none; }
+  .side-card li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.92rem;
+  }
+  .side-card li:last-child { border-bottom: none; }
+  .side-card li span:last-child { font-family: var(--font-mono); font-size: 0.82rem; color: var(--gold); white-space: nowrap; }
+
+  /* ---------- Education ---------- */
+  .edu-item + .edu-item { margin-top: 2.25rem; padding-top: 2.25rem; border-top: 1px solid var(--border); }
+  .edu-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem; margin-bottom: 0.6rem; }
+  .edu-top h3 { font-family: var(--font-head); font-weight: 600; font-size: 1.2rem; margin: 0; }
+  .edu-meta { font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-soft); }
+  .edu-grade { font-family: var(--font-mono); font-size: 0.8rem; color: #fff; background: var(--green); padding: 0.2rem 0.6rem; }
+  .edu-item ul { margin: 0.6rem 0 0; padding-left: 1.2rem; color: var(--ink-soft); }
+  .edu-item ul li { margin-bottom: 0.35rem; }
+  .edu-item ul li strong { color: var(--ink); }
+
+  /* ---------- Projects ---------- */
+  .project {
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    margin-bottom: 1.5rem;
+  }
+  .project-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.5rem 1.75rem;
+  }
+  .project-num {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--gold);
+    padding-top: 0.15rem;
+  }
+  .project-heading { flex: 1; }
+  .project-heading h3 {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin: 0 0 0.35rem;
+  }
+  .project-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--navy);
+    padding: 0.2rem 0.55rem;
+    margin-right: 0.4rem;
+  }
+  .project-summary { color: var(--ink-soft); margin-top: 0.6rem; max-width: 68ch; }
+
+  .project-body {
+    padding: 0 1.75rem 1.75rem 4.15rem;
+    color: var(--ink-soft);
+  }
+  .project-body p + p { margin-top: 1rem; }
+  .project-body p strong { color: var(--ink); }
+  .project-note {
+    margin-top: 1.25rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--bg);
+    border-left: 3px solid var(--gold-soft);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .project.collapsed .project-body { display: none; }
+  .project-toggle {
+    background: none;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--navy);
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ---------- Skills (ledger) ---------- */
+  .ledger { border: 1px solid var(--border); background: var(--bg-panel); }
+  .ledger-row {
+    display: grid;
+    grid-template-columns: 1.1fr 1.9fr;
+    gap: 1.5rem;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .ledger-row:last-child { border-bottom: none; }
+  .ledger-row .k { font-family: var(--font-head); font-weight: 600; font-size: 0.98rem; }
+  .ledger-row .v { color: var(--ink-soft); font-size: 0.95rem; }
+  @media (max-width: 640px) { .ledger-row { grid-template-columns: 1fr; gap: 0.35rem; } }
+
+  /* ---------- Me / Travel ---------- */
+  .me-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  @media (max-width: 800px) { .me-grid { grid-template-columns: 1fr; } }
+
+  .stub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .stub {
+    border: 1px dashed var(--border);
+    background: var(--bg-panel);
+    aspect-ratio: 4 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.8rem;
+  }
+  .stub .code { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; color: var(--navy); }
+  .stub .place { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0.03em; }
+  .stub .idx { font-family: var(--font-mono); font-size: 0.68rem; color: var(--gold); align-self: flex-end; }
+  .photo-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-soft); margin-top: 0.75rem; }
+
+  /* ---------- Now / Contact ---------- */
+  .now-box {
+    border: 1px solid var(--navy);
+    background: var(--navy);
+    color: #fff;
+    padding: 2.25rem;
+  }
+  .now-box .section-num { color: var(--gold-soft); }
+  .now-box h2 { color: #fff; }
+  .now-box p { color: #E7EAEE; max-width: 60ch; }
+  .contact-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.75rem; }
+  .now-box .btn.primary { background: var(--gold-soft); border-color: var(--gold-soft); color: var(--navy); }
+  .now-box .btn.primary:hover { background: #fff; border-color: #fff; }
+  .now-box .btn.ghost { border-color: #fff; color: #fff; }
+  .now-box .btn.ghost:hover { background: #fff; color: var(--navy); }
+
+  footer.site {
+    padding: 2.5rem 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap nav-row">
+    <a class="brand" href="#home">Andrew Downey</a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+    <nav class="links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#me">Me</a>
+      <a href="#now">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="home">
+    <div class="wrap">
+      <p class="eyebrow">Portfolio</p>
+      <h1 class="name">Andrew Downey</h1>
+      <p class="role">Commercial Analysis and Operations in Sport and Business</p>
+      <p class="contact-line"><a href="mailto:awdowney1@gmail.com">awdowney1@gmail.com</a> <span class="dot">·</span> <a href="https://www.linkedin.com/in/andrew-downey-74a78a338/" target="_blank" rel="noopener">LinkedIn</a></p>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <h2 class="section-title">About</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>I'm an MSc Sports Business &amp; Management graduate (University of Liverpool) working towards Commercial Analysis and Club Operations roles in football. Throughout my degree I kept applying quantitative analysis to football specifically, from modelling how competitive imbalance affects a dominant club's commercial performance to building forecasting models for live sporting events.</p>
+          <p>I'm now taking that same approach outside the classroom. I'm directing the build of financial decision-support tools using AI-assisted development, with the aim of bringing structure to parts of the football industry that interest me, that still run mostly on intuition.</p>
+        </div>
+        <div class="side-card">
+          <h3>At a glance</h3>
+          <ul>
+            <li><span>MSc Sports Business &amp; Mgmt</span><span>Merit</span></li>
+            <li><span>BA Economics &amp; History</span><span>2:1</span></li>
+            <li><span>University</span><span>Liverpool</span></li>
+            <li><span>Self-directed project</span><span>Transfer Utility Model</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="education">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Education</h2>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-top">
+          <h3>MSc Sports Business &amp; Management</h3>
+          <span class="edu-meta">University of Liverpool · 2024–2025</span>
+        </div>
+        <span class="edu-grade">Merit</span>
+        <ul>
+          <li>Focus areas: Sports Marketing, Event Management, Business in Practice, Finance</li>
+          <li><strong>Dissertation:</strong> how the absence of competitive rivalry affects a structurally dominant club's commercial performance, using Celtic FC during Rangers' relegation as the case study</li>
+          <li><strong>Group project:</strong> led the data analysis workstream on an NFL UK event simulation, building a regression model to forecast UK viewership by matchup and demographics and inform host-city selection strategy. Presented the findings to an academic panel</li>
+        </ul>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-top">
+          <h3>BA (Hons) Economics &amp; History</h3>
+          <span class="edu-meta">University of Liverpool · 2021–2024</span>
+        </div>
+        <span class="edu-grade" style="background: var(--navy);">2:1</span>
+        <ul>
+          <li>Key modules: Microeconomics, Macroeconomics, Sports Economics, Global Nuclear Culture, Modern History</li>
+          <li><strong>Final project:</strong> a review of economist Walt Rostow and his involvement in Operation Rolling Thunder</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Work</h2>
+      </div>
+      <p class="lede">Projects in rough order of how much they say about how I think, not necessarily when I made them.</p>
+
+      <div class="project">
+        <div class="project-top">
+          <span class="project-num">01</span>
+          <div class="project-heading">
+            <span class="project-tag">Self-directed</span>
+            <h3>Transfer Target Utility Optimisation Model</h3>
+            <p class="project-summary">A budget-constrained optimisation model for transfer window decisions, built by directing AI tools rather than writing code by hand.</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <p>Deciding who to sign in a transfer window usually comes down to a scouting judgement call. I wanted to reframe it as a proper optimisation problem instead: given a fixed budget and a pool of scouted targets, which combination of signings gets the most value without breaking the budget?</p>
+          <p>I built this because I'm genuinely interested in the finance side of football, not because it was set as an exercise. I don't code myself, but I've learned to direct AI tools like Claude to turn my own logic and assumptions into a working model on Excel.</p>
+          <p>The model scores targets on utility, weighs them against cost and positional need, and solves for the best combination given the budget. It's the same logic that sits behind real transfer committee decisions, just made explicit and testable instead of left to gut feel.</p>
+          <p>Football's transfer market still runs largely on scouting relationships and valuation by feel, with financial discipline applied loosely at best. This is a small attempt at bringing some of that decision-making into a structured, repeatable framework, the sort of thing that could genuinely sit inside a recruitment or finance department rather than staying an academic exercise.</p>
+        </div>
+      </div>
+
+      <div class="project collapsed" id="proj-nfl">
+        <div class="project-top">
+          <span class="project-num">02</span>
+          <div class="project-heading">
+            <span class="project-tag">Team project</span>
+            <h3>NFL UK Event Simulation</h3>
+            <p class="project-summary">Regression model forecasting UK viewership to assess the commercial feasibility of hosting an NFL game outside London.</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <p>I worked on a team project building a regression model to forecast UK viewership based on team matchups and demographics, to help assess the commercial feasibility of hosting an NFL game outside London. We presented our findings to an academic panel.</p>
+        </div>
+      </div>
+
+      <div class="project collapsed" id="proj-adidas">
+        <div class="project-top">
+          <span class="project-num">03</span>
+          <div class="project-heading">
+            <span class="project-tag">Independent research</span>
+            <h3>Manchester United × Adidas Activation Concept</h3>
+            <p class="project-summary">A sustainability-focused activation concept using AI to reduce fast fashion's environmental impact.</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <p>I put together independent research proposing a technology-driven, sustainability-focused activation: using AI to cut the environmental impact of fast fashion while giving fans a more immersive experience.</p>
+        </div>
+      </div>
+
+      <div class="project collapsed" id="proj-econ">
+        <div class="project-top">
+          <span class="project-num">04</span>
+          <div class="project-heading">
+            <span class="project-tag">Independent research</span>
+            <h3>Econometric Research: Football Leagues &amp; Clubs</h3>
+            <p class="project-summary">Hypothesis-testing and econometric analysis across the Saudi Pro League, Celtic FC, and Huddersfield Town.</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <p>Independent hypothesis-testing and econometric analysis across the Saudi Pro League, Celtic FC, and Huddersfield Town. Built a solid grounding in Excel-based data modelling and quantitative research methods along the way.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Skills</h2>
+      </div>
+      <div class="ledger">
+        <div class="ledger-row"><div class="k">Financial &amp; strategic analysis</div><div class="v">Including Squad Cost Ratio and budget-constrained modelling</div></div>
+        <div class="ledger-row"><div class="k">Applied optimisation</div><div class="v">Directing structured, constrained problem-solving</div></div>
+        <div class="ledger-row"><div class="k">Directing AI tools</div><div class="v">Turning domain logic into working technical solutions</div></div>
+        <div class="ledger-row"><div class="k">Data modelling</div><div class="v">Excel/Google Sheets, regression analysis</div></div>
+        <div class="ledger-row"><div class="k">Research &amp; market analysis</div><div class="v">Trend analysis, commercial opportunity evaluation</div></div>
+        <div class="ledger-row"><div class="k">Communication</div><div class="v">Presenting technical findings to non-technical audiences</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="me">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <h2 class="section-title">A bit more about me</h2>
+      </div>
+      <div class="me-grid">
+        <div>
+          <p>Outside football and finance, I'm into travelling, the gym, and music.</p>
+          <p>In December, I packed my life into a 40L backpack and flew to Australia. I spent the next six months travelling: Australia, Fiji, New Zealand, Thailand, Vietnam, Cambodia, Indonesia and Japan, with family, friends, and people I met along the way. I hadn't taken a proper break from education since starting reception at four years old, so it was well overdue.</p>
+          <p>Now I'm back. I'm job hunting and building projects I'm genuinely passionate about, like this portfolio, to show the dedication and work ethic I hope to bring to a future employer.</p>
+        </div>
+        <div>
+          <div class="stub-grid">
+            <div class="stub"><span class="idx">01</span><span class="code">AUS</span><span class="place">Australia</span></div>
+            <div class="stub"><span class="idx">02</span><span class="code">FJI</span><span class="place">Fiji</span></div>
+            <div class="stub"><span class="idx">03</span><span class="code">NZL</span><span class="place">New Zealand</span></div>
+            <div class="stub"><span class="idx">04</span><span class="code">THA</span><span class="place">Thailand</span></div>
+            <div class="stub"><span class="idx">05</span><span class="code">VNM</span><span class="place">Vietnam</span></div>
+            <div class="stub"><span class="idx">06</span><span class="code">KHM</span><span class="place">Cambodia</span></div>
+            <div class="stub"><span class="idx">07</span><span class="code">IDN</span><span class="place">Indonesia</span></div>
+            <div class="stub"><span class="idx">08</span><span class="code">JPN</span><span class="place">Japan</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="now" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="now-box">
+        <div class="section-head">
+          <span class="section-num">06</span>
+          <h2 class="section-title">Now &amp; contact</h2>
+        </div>
+        <p>Back from six months of travelling and job hunting for Commercial Analysis and Club Operations roles in football. Building projects like this one in the meantime, with more on the way.</p>
+        <div class="contact-row">
+          <a class="btn primary" href="mailto:awdowney1@gmail.com">Email me</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/andrew-downey-74a78a338/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn ghost" href="CV.pdf">Download CV</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">Andrew Downey — built with Claude</div>
+</footer>
+
+<script>
+  var toggle = document.getElementById('menuToggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function () {
+    var isOpen = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  links.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  document.querySelectorAll('.project.collapsed .project-top').forEach(function (top) {
+    var project = top.parentElement;
+    top.style.cursor = 'pointer';
+    var btn = document.createElement('span');
+    btn.className = 'project-toggle';
+    btn.textContent = 'Read more';
+    btn.style.display = 'inline-block';
+    btn.style.marginTop = '0.6rem';
+    top.querySelector('.project-heading').appendChild(btn);
+    top.addEventListener('click', function () {
+      var collapsed = project.classList.toggle('collapsed');
+      btn.textContent = collapsed ? 'Read more' : 'Show less';
+    });
+  });
+</script>
+
+</body>
+</html>
