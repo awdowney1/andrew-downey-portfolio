@@ -343,18 +343,47 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
-  .stub {
-    border: 1px dashed var(--border);
-    background: var(--bg-panel);
+  .tile {
+    position: relative;
+    border: 1px solid var(--border);
+    background: var(--navy);
     aspect-ratio: 4 / 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0.8rem;
+    overflow: hidden;
   }
-  .stub .code { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; color: var(--navy); }
-  .stub .place { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0.03em; }
-  .stub .idx { font-family: var(--font-mono); font-size: 0.68rem; color: var(--gold); align-self: flex-end; }
+  .tile img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.4s ease-in-out;
+  }
+  .tile img.active { opacity: 1; }
+  .tile .idx {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.7rem;
+    z-index: 2;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+  }
+  .tile .cap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 1.5rem 0.8rem 0.65rem;
+    background: linear-gradient(to top, rgba(18, 22, 28, 0.82), rgba(18, 22, 28, 0));
+  }
+  .tile .code { font-family: var(--font-mono); font-weight: 600; font-size: 1.05rem; color: #fff; }
+  .tile .place { font-family: var(--font-mono); font-size: 0.7rem; color: rgba(255, 255, 255, 0.82); letter-spacing: 0.03em; }
   .photo-note { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-soft); margin-top: 0.75rem; }
 
   /* ---------- Now / Contact ---------- */
@@ -570,14 +599,48 @@
         </div>
         <div>
           <div class="stub-grid">
-            <div class="stub"><span class="idx">01</span><span class="code">AUS</span><span class="place">Australia</span></div>
-            <div class="stub"><span class="idx">02</span><span class="code">FJI</span><span class="place">Fiji</span></div>
-            <div class="stub"><span class="idx">03</span><span class="code">NZL</span><span class="place">New Zealand</span></div>
-            <div class="stub"><span class="idx">04</span><span class="code">THA</span><span class="place">Thailand</span></div>
-            <div class="stub"><span class="idx">05</span><span class="code">VNM</span><span class="place">Vietnam</span></div>
-            <div class="stub"><span class="idx">06</span><span class="code">KHM</span><span class="place">Cambodia</span></div>
-            <div class="stub"><span class="idx">07</span><span class="code">IDN</span><span class="place">Indonesia</span></div>
-            <div class="stub"><span class="idx">08</span><span class="code">JPN</span><span class="place">Japan</span></div>
+            <div class="tile">
+              <img src="australia-1.jpg" alt="Australia" class="active" loading="lazy">
+              <img src="australia-2.jpg" alt="Australia" loading="lazy">
+              <span class="idx">01</span>
+              <span class="cap"><span class="code">AUS</span><span class="place">Australia</span></span>
+            </div>
+            <div class="tile">
+              <img src="fiji.jpg" alt="Fiji" class="active" loading="lazy">
+              <span class="idx">02</span>
+              <span class="cap"><span class="code">FJI</span><span class="place">Fiji</span></span>
+            </div>
+            <div class="tile">
+              <img src="new-zealand.jpg" alt="New Zealand" class="active" loading="lazy">
+              <span class="idx">03</span>
+              <span class="cap"><span class="code">NZL</span><span class="place">New Zealand</span></span>
+            </div>
+            <div class="tile">
+              <img src="thailand.jpg" alt="Thailand" class="active" loading="lazy">
+              <span class="idx">04</span>
+              <span class="cap"><span class="code">THA</span><span class="place">Thailand</span></span>
+            </div>
+            <div class="tile">
+              <img src="vietnam.jpg" alt="Vietnam" class="active" loading="lazy">
+              <span class="idx">05</span>
+              <span class="cap"><span class="code">VNM</span><span class="place">Vietnam</span></span>
+            </div>
+            <div class="tile">
+              <img src="cambodia.jpg" alt="Cambodia" class="active" loading="lazy">
+              <span class="idx">06</span>
+              <span class="cap"><span class="code">KHM</span><span class="place">Cambodia</span></span>
+            </div>
+            <div class="tile">
+              <img src="indonesia.jpg" alt="Indonesia" class="active" loading="lazy">
+              <span class="idx">07</span>
+              <span class="cap"><span class="code">IDN</span><span class="place">Indonesia</span></span>
+            </div>
+            <div class="tile">
+              <img src="japan-1.jpg" alt="Japan" class="active" loading="lazy">
+              <img src="japan-2.jpg" alt="Japan" loading="lazy">
+              <span class="idx">08</span>
+              <span class="cap"><span class="code">JPN</span><span class="place">Japan</span></span>
+            </div>
           </div>
         </div>
       </div>
@@ -634,6 +697,25 @@
       var collapsed = project.classList.toggle('collapsed');
       btn.textContent = collapsed ? 'Read more' : 'Show less';
     });
+  });
+
+  // Travel tiles: gentle auto cross-fade through each country's photos
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.tile').forEach(function (tile, i) {
+    var imgs = tile.querySelectorAll('img');
+    if (imgs.length < 2 || reduceMotion) return;
+    var idx = 0;
+    var paused = false;
+    tile.addEventListener('mouseenter', function () { paused = true; });
+    tile.addEventListener('mouseleave', function () { paused = false; });
+    setTimeout(function () {
+      setInterval(function () {
+        if (paused) return;
+        imgs[idx].classList.remove('active');
+        idx = (idx + 1) % imgs.length;
+        imgs[idx].classList.add('active');
+      }, 4200);
+    }, i * 900);
   });
 </script>
 
