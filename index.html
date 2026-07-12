@@ -308,6 +308,7 @@
     color: var(--ink-soft);
   }
   .project.collapsed .project-body { display: none; }
+  .project.flagship .project-top { padding-bottom: 0.4rem; }
   .project-toggle {
     background: none;
     border: none;
@@ -359,7 +360,7 @@
     opacity: 0;
     transition: opacity 1.4s ease-in-out;
   }
-  .tile img.active, .tile video { opacity: 1; }
+  .tile img.active, .tile video.active { opacity: 1; }
   .tile .idx {
     position: absolute;
     top: 0.6rem;
@@ -449,8 +450,8 @@
       </div>
       <div class="about-grid">
         <div>
-          <p>I'm an MSc Sports Business &amp; Management graduate (University of Liverpool) working towards Commercial Analysis and Club Operations roles in football. Throughout my degree I kept applying quantitative analysis to football specifically, from modelling how competitive imbalance affects a dominant club's commercial performance to building forecasting models for live sporting events.</p>
-          <p>I'm now taking that same approach outside the classroom. I'm directing the build of financial decision-support tools using AI-assisted development, with the aim of bringing structure to parts of the football industry that interest me, that still run mostly on intuition.</p>
+          <p>I am a motivated and analytical MSc Sports Business and Management graduate from the University of Liverpool with a strong background in economics and data analysis. I'm passionate about combining strategic insight with quantitative research to support growth and innovation in the sports industry. Skilled in market analysis, data modelling, and project leadership, with hands-on experience in sports event management through a university-led NFL hosting simulation.</p>
+          <p>In my spare time since returning from six months travelling I have spent time learning skills that will elevate my ability and understanding for future roles. I'm seeking to contribute to a dynamic graduate program in sports business where I can apply my analytical mindset, teamwork, and enthusiasm for the global sports market.</p>
         </div>
         <div class="side-card">
           <h3>At a glance</h3>
@@ -458,7 +459,6 @@
             <li><span>MSc Sports Business &amp; Mgmt</span><span>Merit</span></li>
             <li><span>BA Economics &amp; History</span><span>2:1</span></li>
             <li><span>University</span><span>Liverpool</span></li>
-            <li><span>Self-directed project</span><span>Transfer Utility Model</span></li>
           </ul>
         </div>
       </div>
@@ -479,7 +479,7 @@
         </div>
         <span class="edu-grade">Merit</span>
         <ul>
-          <li>Focus areas: Sports Marketing, Event Management, Business in Practice, Finance</li>
+          <li>Focus areas: Sports Marketing, Event Management, Business in Practice, Finance, Sports Economics</li>
           <li><strong>Dissertation:</strong> how the absence of competitive rivalry affects a structurally dominant club's commercial performance, using Celtic FC during Rangers' relegation as the case study</li>
           <li><strong>Group project:</strong> led the data analysis workstream on an NFL UK event simulation, building a regression model to forecast UK viewership by matchup and demographics and inform host-city selection strategy. Presented the findings to an academic panel</li>
         </ul>
@@ -490,7 +490,7 @@
           <h3>BA (Hons) Economics &amp; History</h3>
           <span class="edu-meta">University of Liverpool · 2021–2024</span>
         </div>
-        <span class="edu-grade" style="background: var(--navy);">2:1</span>
+        <span class="edu-grade">2:1</span>
         <ul>
           <li>Key modules: Microeconomics, Macroeconomics, Sports Economics, Global Nuclear Culture, Modern History</li>
           <li><strong>Final project:</strong> a review of economist Walt Rostow and his involvement in Operation Rolling Thunder</li>
@@ -505,20 +505,18 @@
         <span class="section-num">03</span>
         <h2 class="section-title">Work</h2>
       </div>
-      <p class="lede">Projects in rough order of how much they say about how I think, not necessarily when I made them.</p>
-
-      <div class="project">
+      <div class="project flagship">
         <div class="project-top">
           <span class="project-num">01</span>
           <div class="project-heading">
             <span class="project-tag">Self-directed</span>
-            <h3>Transfer Target Utility Optimisation Model</h3>
-            <p class="project-summary">A budget-constrained optimisation model for transfer window decisions, built by directing AI tools rather than writing code by hand.</p>
+            <h3>Transfer Target Optimisation Model</h3>
+            <p class="project-summary">A budget-constrained optimisation model for transfer window decisions, built by directing AI tools.</p>
           </div>
         </div>
         <div class="project-body">
-          <p>Deciding who to sign in a transfer window usually comes down to a scouting judgement call. I wanted to reframe it as a proper optimisation problem instead: given a fixed budget and a pool of scouted targets, which combination of signings gets the most value without breaking the budget?</p>
-          <p>I built this because I'm genuinely interested in the finance side of football, not because it was set as an exercise. I don't code myself, but I've learned to direct AI tools like Claude to turn my own logic and assumptions into a working model on Excel.</p>
+          <p>Deciding who to sign in a transfer window usually comes down to a scouting judgement call. I wanted to reframe it as an optimisation problem instead: given financial constraints and a pool of scouted targets, which combination of signings gets the most value without breaking the budget?</p>
+          <p>I built this because I'm genuinely interested in the finance side of football. I don't code myself, but I've learned to direct AI tools like Claude to turn my own logic and assumptions into a working model on Excel.</p>
           <p>The model scores targets on utility, weighs them against cost and positional need, and solves for the best combination given the budget. It's the same logic that sits behind real transfer committee decisions, just made explicit and testable instead of left to gut feel.</p>
           <p>Football's transfer market still runs largely on scouting relationships and valuation by feel, with financial discipline applied loosely at best. This is a small attempt at bringing some of that decision-making into a structured, repeatable framework, the sort of thing that could genuinely sit inside a recruitment or finance department rather than staying an academic exercise.</p>
         </div>
@@ -548,7 +546,7 @@
           </div>
         </div>
         <div class="project-body">
-          <p>I put together independent research proposing a technology-driven, sustainability-focused activation: using AI to cut the environmental impact of fast fashion while giving fans a more immersive experience.</p>
+          <p>I put together an activation proposal for a technology-driven, sustainability-focused activation. It looked to use AI to cut the environmental impact of fast fashion by allowing fans to virtually try on clothes for fit and style while also giving them an immersive experience by allowing them to visualise themselves next to their favourite players.</p>
         </div>
       </div>
 
@@ -593,9 +591,10 @@
       </div>
       <div class="me-grid">
         <div>
-          <p>Outside football and finance, I'm into travelling, the gym, and music.</p>
-          <p>In December, I packed my life into a 40L backpack and flew to Australia. I spent the next six months travelling: Australia, Fiji, New Zealand, Thailand, Vietnam, Cambodia, Indonesia and Japan, with family, friends, and people I met along the way. I hadn't taken a proper break from education since starting reception at four years old, so it was well overdue.</p>
-          <p>Now I'm back. I'm job hunting and building projects I'm genuinely passionate about, like this portfolio, to show the dedication and work ethic I hope to bring to a future employer.</p>
+          <p>In December, I packed my life into a 40L backpack and flew to Australia. I spent the next six months travelling: Australia, Fiji, New Zealand, Thailand, Vietnam, Cambodia, Indonesia and Japan, with family, friends, and people I met along the way. I hadn't taken a proper break from education since starting reception at four years old, so it was well overdue!</p>
+          <p>I am a life long sports fan, spending time following my team Huddersfield Town and playing in local football leagues. I play Padel and Golf and am a keen runner, taking part in Half Marathons and shorter distance races.</p>
+          <p>At university I was the captain of the Economics Football Team and the Treasurer of the Economics Society. Both positions were earned by winning an election voted for by my peers. I managed the financial side of major events as well as organised sponsorship deals, social events and game day antics for the football team (while putting in a shift at right back).</p>
+          <p>I'm now spending my time job hunting and building projects I'm passionate about, like this portfolio, to show the dedication and work ethic I hope to bring to a future employer.</p>
         </div>
         <div>
           <div class="stub-grid">
@@ -617,7 +616,8 @@
               <span class="cap"><span class="code">NZL</span><span class="place">New Zealand</span></span>
             </div>
             <div class="tile">
-              <video src="thailand.mp4" poster="thailand.jpg" autoplay muted loop playsinline></video>
+              <video src="thailand.mp4" poster="thailand.jpg" muted loop playsinline class="active"></video>
+              <img src="thailand.jpg" alt="Thailand" loading="lazy">
               <span class="idx">04</span>
               <span class="cap"><span class="code">THA</span><span class="place">Thailand</span></span>
             </div>
@@ -662,7 +662,7 @@
           <span class="section-num">06</span>
           <h2 class="section-title">Contact</h2>
         </div>
-        <p>Back from six months of travelling, I am looking for roles in Commercial Analysis and Operations in Sport and Business roles while building projects just like this one in the meantime.</p>
+        <p>I am looking for roles in the Sports Business industry, whether that be internship and shadowing opportunities to gain experience, or graduate or entry level jobs that I could apply my growing skill set to.</p>
         <div class="contact-row">
           <a class="btn primary" href="mailto:awdowney1@gmail.com">Email me</a>
           <a class="btn ghost" href="https://www.linkedin.com/in/andrew-downey-74a78a338/" target="_blank" rel="noopener">LinkedIn</a>
@@ -707,11 +707,15 @@
     });
   });
 
-  // Travel tiles: gentle auto cross-fade through each country's photos
+  // Travel tiles: gentle auto cross-fade through each country's photos and video
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var startVideo = function (el) {
+    if (el && el.tagName === 'VIDEO') { try { el.currentTime = 0; } catch (e) {} el.play().catch(function () {}); }
+  };
   document.querySelectorAll('.tile').forEach(function (tile, i) {
-    var imgs = tile.querySelectorAll('img');
-    if (imgs.length < 2 || reduceMotion) return;
+    var media = tile.querySelectorAll('img, video');
+    if (media.length < 2 || reduceMotion) return;
+    startVideo(media[0]);
     var idx = 0;
     var paused = false;
     tile.addEventListener('mouseenter', function () { paused = true; });
@@ -719,9 +723,13 @@
     setTimeout(function () {
       setInterval(function () {
         if (paused) return;
-        imgs[idx].classList.remove('active');
-        idx = (idx + 1) % imgs.length;
-        imgs[idx].classList.add('active');
+        var cur = media[idx];
+        cur.classList.remove('active');
+        if (cur.tagName === 'VIDEO') cur.pause();
+        idx = (idx + 1) % media.length;
+        var next = media[idx];
+        next.classList.add('active');
+        startVideo(next);
       }, 4200);
     }, i * 900);
   });
