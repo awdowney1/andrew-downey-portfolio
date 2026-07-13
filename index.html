@@ -214,6 +214,7 @@
     display: grid;
     grid-template-columns: 1.4fr 1fr;
     gap: 3rem;
+    align-items: start;
   }
   @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
   .about-grid p { max-width: 58ch; }
@@ -359,6 +360,8 @@
     border: 1px solid var(--border);
   }
   .about-figure.portrait img { aspect-ratio: 4 / 5; }
+  .about-figure.me-photo { max-width: 100%; margin-top: 0.75rem; }
+  .about-figure.me-photo img { aspect-ratio: 1 / 1; }
   .about-figure figcaption {
     font-family: var(--font-mono);
     font-size: 0.72rem;
@@ -472,12 +475,12 @@
 
   <section class="section" id="about">
     <div class="wrap">
-      <div class="section-head">
-        <span class="section-num">01</span>
-        <h2 class="section-title">About</h2>
-      </div>
       <div class="about-grid">
         <div>
+          <div class="section-head">
+            <span class="section-num">01</span>
+            <h2 class="section-title">About</h2>
+          </div>
           <p>I am a motivated and analytical MSc Sports Business and Management graduate from the University of Liverpool with a strong background in economics and data analysis. I'm passionate about combining strategic insight with quantitative research to support growth and innovation in the sports industry. Skilled in market analysis, data modelling, and project leadership, with hands-on experience in sports event management through a university-led NFL hosting simulation.</p>
           <p>Since returning from six months travelling I have spent time learning skills that will elevate my ability and understanding for future roles. I'm seeking to contribute to a dynamic graduate program in sports business where I can apply my analytical mindset, teamwork, and enthusiasm for the global sports market.</p>
         </div>
@@ -633,14 +636,10 @@
       <div class="me-grid">
         <div>
           <p>In December, I packed my life into a 40L backpack and flew to Australia. I spent the next six months travelling: Australia, Fiji, New Zealand, Thailand, Vietnam, Cambodia, Indonesia and Japan, with family, friends, and people I met along the way. I hadn't taken a proper break from education since starting reception at four years old, so it was well overdue!</p>
-          <figure class="about-figure portrait">
-            <img src="half-marathon.jpg" alt="Andrew running a half marathon" loading="lazy">
-            <figcaption>Race day at a half marathon</figcaption>
-          </figure>
           <p>I am a life long sports fan, spending time following my team Huddersfield Town and playing in local football leagues. I play Padel, Golf and am a keen runner, taking part in Half Marathons and shorter distance races as well as spending my winter holiday's skiing in France or Austria.</p>
           <figure class="about-figure">
-            <img src="skiing.jpg" alt="Skiing in the mountains of France and Austria" loading="lazy">
-            <figcaption>Skiing in France and Austria</figcaption>
+            <img src="skiing.jpg" alt="Skiing in the mountains of France" loading="lazy">
+            <figcaption>Skiing in France</figcaption>
           </figure>
           <p>At university I was the captain of the Economics Football Team and the Treasurer of the Economics Society. Both positions were earned by winning an election voted for by my peers. I managed the financial side of major events as well as organised sponsorship deals, social events and game day antics for the football team (while putting in a shift at right back).</p>
           <figure class="about-figure">
@@ -720,6 +719,10 @@
               <span class="cap"><span class="code">JPN</span><span class="place">Japan</span></span>
             </div>
           </div>
+          <figure class="about-figure me-photo">
+            <img src="half-marathon.jpg" alt="Andrew running the Liverpool Half Marathon" loading="lazy">
+            <figcaption>Liverpool Half Marathon 2025</figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -736,7 +739,7 @@
         <div class="contact-row">
           <a class="btn primary" href="mailto:awdowney1@gmail.com">Email me</a>
           <a class="btn ghost" href="https://www.linkedin.com/in/andrew-downey-74a78a338/" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="btn ghost" href="CV.pdf">Download CV</a>
+          <a class="btn ghost" href="Sports_Graduate_CV.pdf">Download CV</a>
         </div>
       </div>
     </div>
