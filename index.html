@@ -302,6 +302,11 @@
     margin-right: 0.4rem;
   }
   .project-summary { color: var(--ink-soft); margin-top: 0.6rem; max-width: 68ch; }
+  .project-meta { margin-top: 0.85rem; display: grid; gap: 0.5rem; max-width: 68ch; }
+  .project-meta .pm-row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; align-items: baseline; }
+  .project-meta .pm-k { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+  .project-meta .pm-v { font-size: 0.92rem; color: var(--ink-soft); }
+  @media (max-width: 640px) { .project-meta .pm-row { grid-template-columns: 1fr; gap: 0.15rem; } }
 
   .project-body {
     padding: 0 1.75rem 1.75rem 4.15rem;
@@ -586,11 +591,18 @@
           <div class="project-heading">
             <span class="project-tag">Independent research</span>
             <h3>Manchester United × Adidas Activation Concept</h3>
-            <p class="project-summary">A sustainability-focused activation concept using AI to reduce fast fashion's environmental impact.</p>
+            <div class="project-meta">
+              <div class="pm-row"><span class="pm-k">Client</span><span class="pm-v">Adidas (Concept Proposal)</span></div>
+              <div class="pm-row"><span class="pm-k">Project Type</span><span class="pm-v">Strategic Marketing &amp; Innovation</span></div>
+              <div class="pm-row"><span class="pm-k">Focus Areas</span><span class="pm-v">AI, E-commerce, Fan Engagement, Commercial Strategy</span></div>
+              <div class="pm-row"><span class="pm-k">Key Skills</span><span class="pm-v">Market Research, Strategic Planning, Innovation, Business Case Development, Consumer Insight</span></div>
+            </div>
           </div>
         </div>
         <div class="project-body">
-          <p>I put together an activation proposal for a technology-driven, sustainability-focused activation. It looked to use AI to cut the environmental impact of fast fashion by allowing fans to virtually try on clothes for fit and style while also giving them an immersive experience by allowing them to visualise themselves next to their favourite players.</p>
+          <p>I looked at how emerging technology could reshape the online sports retail experience, built around a commercial activation for Adidas in partnership with Manchester United. The idea I centred it on was an AI-powered virtual fitting room, where supporters build a personalised 3D avatar from their body measurements and a facial scan. That lets them see how kit and clothing would actually fit them, while they explore interactive experiences featuring current and former players.</p>
+          <p>The aim was to tackle one of the biggest problems in e-commerce, getting people to feel confident about sizing and fit, and to do it in a way that made the whole journey more immersive, strengthened fan engagement and encouraged more online purchases. Beyond the customer experience, I explored how the same technology could cut product returns, feed into Adidas' sustainability goals, bring in more first-party consumer data, and build a longer-term advantage by licensing the concept to other sports organisations down the line.</p>
+          <p>I backed the whole thing up with a good amount of market research, competitor analysis and consumer insight, digging into global e-commerce trends, how fans engage digitally, brand positioning and where the technology in sports retail is heading. I also set out a phased rollout, a stakeholder communications plan, a commercial roadmap and a clear set of KPIs, so there was a proper picture of how the activation could be delivered and measured over time.</p>
         </div>
       </div>
 
