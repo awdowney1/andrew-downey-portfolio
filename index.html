@@ -222,8 +222,18 @@
   .side-card {
     border: 1px solid var(--border);
     background: var(--bg-panel);
-    padding: 1.5rem;
+    padding: 0;
+    overflow: hidden;
   }
+  .side-card .glance-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 25%;
+    border-bottom: 1px solid var(--border);
+  }
+  .side-card-body { padding: 1.5rem; }
   .side-card h3 {
     font-family: var(--font-mono);
     font-size: 0.75rem;
@@ -338,6 +348,22 @@
   /* ---------- Me / Travel ---------- */
   .me-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
   @media (max-width: 800px) { .me-grid { grid-template-columns: 1fr; } }
+
+  .about-figure { margin: 1.4rem 0 0.4rem; }
+  .about-figure img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+  .about-figure figcaption {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    margin-top: 0.5rem;
+  }
 
   .stub-grid {
     display: grid;
@@ -454,12 +480,15 @@
           <p>In my spare time since returning from six months travelling I have spent time learning skills that will elevate my ability and understanding for future roles. I'm seeking to contribute to a dynamic graduate program in sports business where I can apply my analytical mindset, teamwork, and enthusiasm for the global sports market.</p>
         </div>
         <div class="side-card">
-          <h3>At a glance</h3>
-          <ul>
-            <li><span>MSc Sports Business &amp; Mgmt</span><span>Merit</span></li>
-            <li><span>BA Economics &amp; History</span><span>2:1</span></li>
-            <li><span>University</span><span>Liverpool</span></li>
-          </ul>
+          <img class="glance-photo" src="graduation.jpg" alt="Andrew Downey at his University of Liverpool graduation" loading="lazy">
+          <div class="side-card-body">
+            <h3>At a glance</h3>
+            <ul>
+              <li><span>MSc Sports Business &amp; Mgmt</span><span>Merit</span></li>
+              <li><span>BA Economics &amp; History</span><span>2:1</span></li>
+              <li><span>University</span><span>Liverpool</span></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -494,6 +523,16 @@
         <ul>
           <li>Key modules: Microeconomics, Macroeconomics, Sports Economics, Global Nuclear Culture, Modern History</li>
           <li><strong>Final project:</strong> a review of economist Walt Rostow and his involvement in Operation Rolling Thunder</li>
+        </ul>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-top">
+          <h3>A-Levels</h3>
+          <span class="edu-meta">QEH Bristol · 2019–2021</span>
+        </div>
+        <ul>
+          <li>Mathematics (A), History (A), Economics (B)</li>
         </ul>
       </div>
     </div>
@@ -592,8 +631,16 @@
       <div class="me-grid">
         <div>
           <p>In December, I packed my life into a 40L backpack and flew to Australia. I spent the next six months travelling: Australia, Fiji, New Zealand, Thailand, Vietnam, Cambodia, Indonesia and Japan, with family, friends, and people I met along the way. I hadn't taken a proper break from education since starting reception at four years old, so it was well overdue!</p>
-          <p>I am a life long sports fan, spending time following my team Huddersfield Town and playing in local football leagues. I play Padel and Golf and am a keen runner, taking part in Half Marathons and shorter distance races.</p>
+          <p>I am a life long sports fan, spending time following my team Huddersfield Town and playing in local football leagues. I play Padel, Golf and am a keen runner, taking part in Half Marathons and shorter distance races as well as spending my winter holiday's skiing in France or Austria.</p>
+          <figure class="about-figure">
+            <img src="skiing.jpg" alt="Skiing in the mountains of France and Austria" loading="lazy">
+            <figcaption>Skiing in France and Austria</figcaption>
+          </figure>
           <p>At university I was the captain of the Economics Football Team and the Treasurer of the Economics Society. Both positions were earned by winning an election voted for by my peers. I managed the financial side of major events as well as organised sponsorship deals, social events and game day antics for the football team (while putting in a shift at right back).</p>
+          <figure class="about-figure">
+            <img src="football.jpg" alt="Andrew with the University of Liverpool Economics football team" loading="lazy">
+            <figcaption>Captaining the Economics football team</figcaption>
+          </figure>
           <p>I'm now spending my time job hunting and building projects I'm passionate about, like this portfolio, to show the dedication and work ethic I hope to bring to a future employer.</p>
         </div>
         <div>
@@ -601,29 +648,43 @@
             <div class="tile">
               <img src="australia-1.jpg" alt="Australia" class="active" loading="lazy">
               <img src="australia-2.jpg" alt="Australia" loading="lazy">
+              <img src="australia-3.jpg" alt="Australia" loading="lazy">
+              <img src="australia-4.jpg" alt="Australia" loading="lazy">
+              <img src="australia-5.jpg" alt="Australia" loading="lazy">
               <span class="idx">01</span>
               <span class="cap"><span class="code">AUS</span><span class="place">Australia</span></span>
             </div>
             <div class="tile">
               <img src="fiji.jpg" alt="Fiji" class="active" loading="lazy">
+              <img src="fiji-2.jpg" alt="Fiji" loading="lazy">
+              <img src="fiji-3.jpg" alt="Fiji" loading="lazy">
               <span class="idx">02</span>
               <span class="cap"><span class="code">FJI</span><span class="place">Fiji</span></span>
             </div>
             <div class="tile">
               <img src="new-zealand.jpg" alt="New Zealand" class="active" loading="lazy">
               <img src="new-zealand-2.jpg" alt="New Zealand" loading="lazy">
+              <img src="new-zealand-3.jpg" alt="New Zealand" loading="lazy">
+              <img src="new-zealand-4.jpg" alt="New Zealand" loading="lazy">
+              <img src="new-zealand-5.jpg" alt="New Zealand" loading="lazy">
+              <img src="new-zealand-6.jpg" alt="New Zealand" loading="lazy">
+              <img src="new-zealand-7.jpg" alt="New Zealand" loading="lazy">
               <span class="idx">03</span>
               <span class="cap"><span class="code">NZL</span><span class="place">New Zealand</span></span>
             </div>
             <div class="tile">
               <video src="thailand.mp4" poster="thailand.jpg" muted loop playsinline class="active"></video>
               <img src="thailand.jpg" alt="Thailand" loading="lazy">
+              <img src="thailand-3.jpg" alt="Thailand" loading="lazy">
+              <img src="thailand-4.jpg" alt="Thailand" loading="lazy">
               <span class="idx">04</span>
               <span class="cap"><span class="code">THA</span><span class="place">Thailand</span></span>
             </div>
             <div class="tile">
               <img src="vietnam.jpg" alt="Vietnam" class="active" loading="lazy">
               <img src="vietnam-2.jpg" alt="Vietnam" loading="lazy">
+              <img src="vietnam-3.jpg" alt="Vietnam" loading="lazy">
+              <img src="vietnam-4.jpg" alt="Vietnam" loading="lazy">
               <span class="idx">05</span>
               <span class="cap"><span class="code">VNM</span><span class="place">Vietnam</span></span>
             </div>
@@ -638,6 +699,7 @@
               <img src="indonesia.jpg" alt="Indonesia" class="active" loading="lazy">
               <img src="indonesia-2.jpg" alt="Indonesia" loading="lazy">
               <img src="indonesia-3.jpg" alt="Indonesia" loading="lazy">
+              <img src="indonesia-4.jpg" alt="Indonesia" loading="lazy">
               <span class="idx">07</span>
               <span class="cap"><span class="code">IDN</span><span class="place">Indonesia</span></span>
             </div>
@@ -646,6 +708,8 @@
               <img src="japan-2.jpg" alt="Japan" loading="lazy">
               <img src="japan-3.jpg" alt="Japan" loading="lazy">
               <img src="japan-4.jpg" alt="Japan" loading="lazy">
+              <img src="japan-5.jpg" alt="Japan" loading="lazy">
+              <img src="japan-6.jpg" alt="Japan" loading="lazy">
               <span class="idx">08</span>
               <span class="cap"><span class="code">JPN</span><span class="place">Japan</span></span>
             </div>
