@@ -228,9 +228,9 @@
   .side-card .glance-photo {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 6 / 5;
     object-fit: cover;
-    object-position: center 25%;
+    object-position: center 18%;
     border-bottom: 1px solid var(--border);
   }
   .side-card-body { padding: 1.5rem; }
@@ -349,7 +349,8 @@
   .me-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
   @media (max-width: 800px) { .me-grid { grid-template-columns: 1fr; } }
 
-  .about-figure { margin: 1.4rem 0 0.4rem; }
+  .about-figure { margin: 1.4rem 0 0.4rem; max-width: 76%; }
+  @media (max-width: 800px) { .about-figure { max-width: 100%; } }
   .about-figure img {
     display: block;
     width: 100%;
@@ -357,6 +358,7 @@
     object-fit: cover;
     border: 1px solid var(--border);
   }
+  .about-figure.portrait img { aspect-ratio: 4 / 5; }
   .about-figure figcaption {
     font-family: var(--font-mono);
     font-size: 0.72rem;
@@ -477,7 +479,7 @@
       <div class="about-grid">
         <div>
           <p>I am a motivated and analytical MSc Sports Business and Management graduate from the University of Liverpool with a strong background in economics and data analysis. I'm passionate about combining strategic insight with quantitative research to support growth and innovation in the sports industry. Skilled in market analysis, data modelling, and project leadership, with hands-on experience in sports event management through a university-led NFL hosting simulation.</p>
-          <p>In my spare time since returning from six months travelling I have spent time learning skills that will elevate my ability and understanding for future roles. I'm seeking to contribute to a dynamic graduate program in sports business where I can apply my analytical mindset, teamwork, and enthusiasm for the global sports market.</p>
+          <p>Since returning from six months travelling I have spent time learning skills that will elevate my ability and understanding for future roles. I'm seeking to contribute to a dynamic graduate program in sports business where I can apply my analytical mindset, teamwork, and enthusiasm for the global sports market.</p>
         </div>
         <div class="side-card">
           <img class="glance-photo" src="graduation.jpg" alt="Andrew Downey at his University of Liverpool graduation" loading="lazy">
@@ -631,6 +633,10 @@
       <div class="me-grid">
         <div>
           <p>In December, I packed my life into a 40L backpack and flew to Australia. I spent the next six months travelling: Australia, Fiji, New Zealand, Thailand, Vietnam, Cambodia, Indonesia and Japan, with family, friends, and people I met along the way. I hadn't taken a proper break from education since starting reception at four years old, so it was well overdue!</p>
+          <figure class="about-figure portrait">
+            <img src="half-marathon.jpg" alt="Andrew running a half marathon" loading="lazy">
+            <figcaption>Race day at a half marathon</figcaption>
+          </figure>
           <p>I am a life long sports fan, spending time following my team Huddersfield Town and playing in local football leagues. I play Padel, Golf and am a keen runner, taking part in Half Marathons and shorter distance races as well as spending my winter holiday's skiing in France or Austria.</p>
           <figure class="about-figure">
             <img src="skiing.jpg" alt="Skiing in the mountains of France and Austria" loading="lazy">
