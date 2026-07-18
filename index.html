@@ -7,21 +7,22 @@
 <meta name="description" content="Portfolio of Andrew Downey — Commercial Analysis & Club Operations in football. MSc Sports Business & Management, University of Liverpool.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F7F6F3;
-    --bg-panel: #FFFFFF;
-    --ink: #12161C;
-    --ink-soft: #4B5563;
-    --navy: #1B2634;
-    --gold: #A9762F;
-    --gold-soft: #C9962F;
-    --green: #3B7A57;
-    --border: #DFE0DA;
+    --bg: #14171B;
+    --bg-panel: rgba(255, 255, 255, 0.05);
+    --ink: #F1ECE3;
+    --ink-soft: rgba(255, 255, 255, 0.68);
+    --navy: #0E1114;
+    --gold: #D2A24C;
+    --gold-soft: #D2A24C;
+    --green: #356F4F;
+    --border: rgba(255, 255, 255, 0.14);
     --font-head: 'Outfit', sans-serif;
     --font-body: 'Work Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+    --font-display: 'Fraunces', Georgia, serif;
     --max: 1120px;
   }
 
@@ -394,7 +395,7 @@
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 1.4s ease-in-out;
+    transition: opacity 1.6s ease-in-out;
   }
   .tile img.active, .tile video.active { opacity: 1; }
   .tile .idx {
@@ -446,10 +447,86 @@
     font-size: 0.78rem;
     color: var(--ink-soft);
   }
+
+  /* ============ MATTE COLOUR-BLOCKED REDESIGN ============ */
+  body { background: var(--bg); }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @media (prefers-reduced-motion: reduce) { .grain { display: none; } }
+
+  header.site { background: rgba(15, 17, 20, 0.72); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .brand { color: var(--ink); }
+  nav.links a { color: rgba(255, 255, 255, 0.62); }
+  nav.links a:hover, nav.links a.active { color: var(--ink); border-color: var(--gold); }
+  .menu-toggle { color: var(--ink); border-color: rgba(255, 255, 255, 0.22); }
+  @media (max-width: 720px) { nav.links { background: rgba(15, 17, 20, 0.97); } }
+
+  .hero, .section { border-bottom: none; }
+  .section, .hero { position: relative; isolation: isolate; }
+  .section > .wrap, .hero > .wrap { position: relative; z-index: 1; }
+  .section::before {
+    content: '';
+    position: absolute; left: 0; right: 0; top: 0; height: 175px;
+    background: linear-gradient(to bottom, var(--prev, transparent), transparent);
+    z-index: 0; pointer-events: none;
+  }
+
+  .hero { min-height: 90vh; display: flex; align-items: center; padding: 7rem 0 5rem; }
+  .hero .wrap { width: 100%; }
+  h1.name { font-family: var(--font-display); font-weight: 600; font-size: clamp(3rem, 9vw, 6rem); line-height: 0.98; letter-spacing: -0.02em; }
+  h1.name::after { content: ''; display: block; width: 68px; height: 3px; background: var(--gold); margin-top: 1.4rem; }
+  .role { color: rgba(255, 255, 255, 0.82); margin-top: 1.6rem; }
+  .contact-line a { color: var(--ink); border-bottom: 1px solid var(--gold); }
+  .contact-line a:hover { color: var(--gold); }
+  .contact-line .dot { color: rgba(255, 255, 255, 0.28); }
+  .scroll-cue { margin-top: 3.5rem; display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+  .scroll-cue svg { width: 15px; height: 15px; animation: cue 1.8s ease-in-out infinite; }
+  @keyframes cue { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+  @media (prefers-reduced-motion: reduce) { .scroll-cue svg { animation: none; } }
+
+  .btn { color: var(--ink); border-color: rgba(255, 255, 255, 0.5); }
+  .btn.primary { background: var(--gold); border-color: var(--gold); color: #16130C; }
+  .btn.primary:hover { background: #fff; border-color: #fff; color: #16130C; }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: #14171B; }
+
+  .now-box { background: transparent; border: none; padding: 0; }
+  .now-box h2, .now-box .section-title { color: var(--ink); }
+  .now-box p { color: rgba(255, 255, 255, 0.85); }
+  .now-box .section-num { color: var(--gold); }
+  .now-box .btn.primary { background: var(--gold); border-color: var(--gold); color: #16130C; }
+  .now-box .btn.primary:hover { background: #fff; border-color: #fff; }
+  .now-box .btn.ghost { border-color: rgba(255, 255, 255, 0.6); color: var(--ink); }
+  .now-box .btn.ghost:hover { background: var(--ink); color: #33231B; }
+
+  footer.site { position: relative; background: #14171B; color: rgba(255, 255, 255, 0.5); isolation: isolate; }
+  footer.site::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 150px; background: linear-gradient(to bottom, #33231B, transparent); z-index: 0; pointer-events: none; }
+  footer.site .wrap { position: relative; z-index: 1; }
+
+  .reveal-init { opacity: 0; transform: translateY(24px); transition: opacity 640ms cubic-bezier(.2, .7, .2, 1), transform 640ms cubic-bezier(.2, .7, .2, 1); }
+  .reveal-init.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal-init { opacity: 1 !important; transform: none !important; } }
+
+  #home { background: #14171B; --ink: #F3EFE7; --gold: #D2A24C; --gold-soft: #D2A24C; }
+  #about { background: #1B2A23; --prev: #14171B; --ink: #EAE6DA; --gold: #DB9163; --gold-soft: #DB9163; }
+  #education { background: #16202E; --prev: #1B2A23; --ink: #E8ECF2; --gold: #D6A64E; --gold-soft: #D6A64E; }
+  #work { background: #271A1B; --prev: #16202E; --ink: #EFE1DF; --gold: #E0997A; --gold-soft: #E0997A; }
+  #skills { background: #232A33; --prev: #271A1B; --ink: #E6E9EE; --gold: #D2A24C; --gold-soft: #D2A24C; }
+  #me { background: #142726; --prev: #232A33; --ink: #E3EDEB; --gold: #D9A46E; --gold-soft: #D9A46E; }
+  #now { background: #33231B; --prev: #142726; --ink: #F1E7DA; --gold: #E0AE57; --gold-soft: #E0AE57; }
 </style>
 </head>
 <body>
 
+<div class="grain" aria-hidden="true"></div>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site">
@@ -475,6 +552,7 @@
       <h1 class="name">Andrew Downey</h1>
       <p class="role">Commercial Analysis and Operations in Sport and Business</p>
       <p class="contact-line"><a href="mailto:awdowney1@gmail.com">awdowney1@gmail.com</a> <span class="dot">·</span> <a href="https://www.linkedin.com/in/andrew-downey-74a78a338/" target="_blank" rel="noopener">LinkedIn</a></p>
+      <div class="scroll-cue"><span>Scroll</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></div>
     </div>
   </section>
 
@@ -837,27 +915,79 @@
   var startVideo = function (el) {
     if (el && el.tagName === 'VIDEO') { try { el.currentTime = 0; } catch (e) {} el.play().catch(function () {}); }
   };
+  var PHOTO_DWELL = 4700;
   document.querySelectorAll('.tile').forEach(function (tile, i) {
     var media = tile.querySelectorAll('img, video');
-    if (media.length < 2 || reduceMotion) return;
-    startVideo(media[0]);
-    var idx = 0;
-    var paused = false;
+    if (reduceMotion) return;
+    if (media.length < 2) {
+      var solo = tile.querySelector('video');
+      if (solo) { solo.loop = true; startVideo(solo); }
+      return;
+    }
+    var idx = 0, paused = false, timer = null;
+    function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
+    function onEnded() { advance(); }
+    function advance() {
+      var cur = media[idx];
+      cur.classList.remove('active');
+      if (cur.tagName === 'VIDEO') { cur.removeEventListener('ended', onEnded); cur.pause(); }
+      idx = (idx + 1) % media.length;
+      media[idx].classList.add('active');
+      play();
+    }
+    function schedule() { clearTimer(); timer = setTimeout(function () { if (paused) return; advance(); }, PHOTO_DWELL); }
+    function play() {
+      var cur = media[idx];
+      if (cur.tagName === 'VIDEO') {
+        clearTimer();
+        cur.loop = false;
+        try { cur.currentTime = 0; } catch (e) {}
+        cur.addEventListener('ended', onEnded);
+        cur.play().catch(function () {});
+      } else {
+        schedule();
+      }
+    }
     tile.addEventListener('mouseenter', function () { paused = true; });
-    tile.addEventListener('mouseleave', function () { paused = false; });
-    setTimeout(function () {
-      setInterval(function () {
-        if (paused) return;
-        var cur = media[idx];
-        cur.classList.remove('active');
-        if (cur.tagName === 'VIDEO') cur.pause();
-        idx = (idx + 1) % media.length;
-        var next = media[idx];
-        next.classList.add('active');
-        startVideo(next);
-      }, 4200);
-    }, i * 900);
+    tile.addEventListener('mouseleave', function () {
+      if (paused) { paused = false; if (media[idx].tagName !== 'VIDEO') schedule(); }
+    });
+    setTimeout(play, i * 900);
   });
+
+  // Scroll-reveal: fade + rise section content into view
+  var revealTargets = [];
+  document.querySelectorAll('.hero .wrap, main > section .wrap').forEach(function (wrap) {
+    Array.prototype.slice.call(wrap.children).forEach(function (el, i) {
+      el.classList.add('reveal-init');
+      el.style.transitionDelay = (i * 70) + 'ms';
+      revealTargets.push(el);
+    });
+  });
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    var revObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealTargets.forEach(function (el) { revObs.observe(el); });
+  } else {
+    revealTargets.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Scroll-spy: highlight the nav link for the section in view
+  var spyLinks = document.querySelectorAll('nav.links a');
+  if ('IntersectionObserver' in window) {
+    var linkFor = {};
+    spyLinks.forEach(function (a) { var h = a.getAttribute('href'); if (h && h.charAt(0) === '#') linkFor[h.slice(1)] = a; });
+    var spyObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && linkFor[e.target.id]) {
+          spyLinks.forEach(function (x) { x.classList.remove('active'); });
+          linkFor[e.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(linkFor).forEach(function (id) { var s = document.getElementById(id); if (s) spyObs.observe(s); });
+  }
 </script>
 
 </body>
