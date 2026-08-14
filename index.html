@@ -624,7 +624,7 @@
   /* Compact one-line-per-player table with a labelled header */
   .tt-tscroll { overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:10px; }
   .tt-table { min-width:640px; }
-  .tt-thead, .tt-trow { display:grid; grid-template-columns:minmax(8rem,1.6fr) 2.9rem 2.4rem 3.7rem 3.4rem 5rem 3.2rem 3.1rem 4.2rem 3rem 1.6rem; align-items:center; column-gap:0.5rem; padding:0.45rem 0.85rem; }
+  .tt-thead, .tt-trow { display:grid; grid-template-columns:minmax(8rem,1.6fr) 2.9rem 2.4rem 3.7rem 3.4rem 5rem 3.2rem 3.1rem 4.2rem 3rem 3.4rem; align-items:center; column-gap:0.5rem; padding:0.45rem 0.85rem; }
   .tt-thead { background:rgba(255,255,255,0.05); border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:0.62rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold); }
   .tt-thead .tt-num { text-align:right; }
   .tt-trow { border-top:1px solid var(--border); transition:background 140ms ease, opacity 140ms ease; }
@@ -636,8 +636,11 @@
   .tt-num { font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-soft); text-align:right; }
   .tt-num.tt-gold { color:var(--gold); }
   .tt-you { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(210,162,76,0.5); border-radius:3px; padding:0.05rem 0.28rem; flex:0 0 auto; }
-  .tt-row-x { background:none; border:none; color:var(--ink-soft); font-size:1.15rem; line-height:1; cursor:pointer; padding:0; border-radius:4px; justify-self:end; transition:color 150ms ease, background 150ms ease; }
+  .tt-row-actions { display:flex; align-items:center; justify-content:flex-end; gap:0.1rem; justify-self:end; }
+  .tt-row-x { background:none; border:none; color:var(--ink-soft); font-size:1.15rem; line-height:1; cursor:pointer; padding:0 0.2rem; border-radius:4px; transition:color 150ms ease, background 150ms ease; }
   .tt-row-x:hover { color:#E27C7C; background:rgba(226,124,124,0.12); }
+  .tt-row-edit { background:none; border:none; color:var(--ink-soft); font-size:0.85rem; line-height:1; cursor:pointer; padding:0.15rem 0.25rem; border-radius:4px; transition:color 150ms ease, background 150ms ease; }
+  .tt-row-edit:hover { color:var(--gold); background:rgba(210,162,76,0.14); }
   .tt-need-tag { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.02em; padding:0.05rem 0.32rem; border-radius:4px; flex:0 0 auto; }
   .tt-need-tag.tt-need-low { background:rgba(255,255,255,0.06); color:var(--ink-soft); }
   .tt-need-tag.tt-need-high { background:rgba(210,162,76,0.16); color:#E4B65C; }
@@ -677,6 +680,22 @@
   .tt-add-grid input:focus, .tt-add-grid select:focus { outline:none; border-color:var(--gold); }
   .tt-add-actions { display:flex; align-items:center; gap:0.75rem; margin-top:0.85rem; }
   .tt-add-err { font-family:var(--font-mono); font-size:0.72rem; color:#E8A0A0; min-height:1em; }
+  .tt-add-cancel { display:none; }
+  /* Moderator (authoring) mode — only shown when unlocked via the secret URL. */
+  .tt-mod { border:1px solid var(--gold); border-radius:10px; padding:0.9rem 1rem; margin-bottom:0.85rem; background:rgba(210,162,76,0.08); }
+  .tt-mod-head { display:flex; align-items:flex-start; gap:0.55rem; font-family:var(--font-mono); font-size:0.72rem; line-height:1.5; color:var(--ink); }
+  .tt-mod-badge { flex:0 0 auto; font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.08em; text-transform:uppercase; color:#12100B; background:var(--gold); border-radius:4px; padding:0.12rem 0.4rem; }
+  .tt-mod-actions { display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap; margin-top:0.75rem; }
+  .tt-mod-note { font-family:var(--font-mono); font-size:0.66rem; color:var(--ink-soft); }
+  .tt-export { position:fixed; inset:0; z-index:60; display:none; align-items:center; justify-content:center; padding:1.2rem; background:rgba(6,5,3,0.72); }
+  .tt-export.tt-show { display:flex; }
+  .tt-export-card { width:min(720px,100%); max-height:88vh; overflow:auto; background:var(--panel,#17130C); border:1px solid var(--gold); border-radius:12px; padding:1.4rem 1.5rem; }
+  .tt-export-card h3 { font-family:var(--font-head); font-size:1.1rem; color:var(--ink); margin:0 0 0.4rem; }
+  .tt-export-card p { font-family:var(--font-mono); font-size:0.72rem; line-height:1.55; color:var(--ink-soft); margin:0 0 0.9rem; }
+  .tt-export-card label { display:block; font-family:var(--font-mono); font-size:0.62rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold); margin:0.6rem 0 0.3rem; }
+  .tt-export-card textarea { width:100%; min-height:9rem; background:rgba(0,0,0,0.35); border:1px solid var(--border); border-radius:8px; color:var(--ink); font-family:var(--font-mono); font-size:0.72rem; line-height:1.5; padding:0.6rem 0.7rem; resize:vertical; }
+  .tt-export-actions { display:flex; align-items:center; gap:0.7rem; margin:0.9rem 0 0.2rem; }
+  .tt-export-msg { font-family:var(--font-mono); font-size:0.68rem; color:var(--gold); }
 
   /* Buttons local to the tool */
   .tt-btn { font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; padding:0.55rem 0.95rem; border-radius:6px; cursor:pointer; border:1px solid var(--gold); background:var(--gold); color:#16130C; transition:background 150ms ease, color 150ms ease; }
@@ -1433,15 +1452,23 @@
         <section class="tt-step">
           <p class="tt-eyebrow"><span class="tt-dot">2</span> Targets</p>
           <h2 class="tt-h">The scouted pool <span class="tt-count" id="ttPoolCount"></span></h2>
-          <p class="tt-lead">Each card is a target: what they cost, what they earn, and a scouting priority from 1&ndash;10. The model turns fees and wages into an annual squad-cost hit, then discounts priority by an age-fit curve that peaks around 23. Remove any target with its <span aria-hidden="true">×</span>, or add your own below.</p>
+          <p class="tt-lead">Each card is a target: what they cost, what they earn, and a scouting priority from 1&ndash;10. The model turns fees and wages into an annual squad-cost hit, then discounts priority by an age-fit curve that peaks around 23. Edit any target with its <span aria-hidden="true">✎</span>, remove one with its <span aria-hidden="true">×</span>, or add your own below.</p>
+          <div class="tt-mod" id="ttMod" hidden>
+            <div class="tt-mod-head"><span class="tt-mod-badge">Moderator</span> <span>You're editing the master pool every visitor sees. Add, edit and remove targets here, then export the list and republish — changes only reach visitors once the site is republished.</span></div>
+            <div class="tt-mod-actions">
+              <button class="tt-btn" type="button" id="ttModExport">Export for publishing</button>
+              <button class="tt-btn tt-ghost" type="button" id="ttModRevert">Revert to published</button>
+              <span class="tt-mod-note" id="ttModState"></span>
+            </div>
+          </div>
           <div class="tt-pool-head">
-            <span class="tt-store-note"><span class="tt-lock">●</span> Saved in this browser only — never shared, never synced to another device.</span>
+            <span class="tt-store-note" id="ttStoreNoteInline"><span class="tt-lock">●</span> Saved in this browser only — never shared, never synced to another device.</span>
             <button class="tt-btn tt-ghost" type="button" id="ttReset">Reset all</button>
           </div>
           <div class="tt-cards" id="ttCards"></div>
 
           <details class="tt-add" id="ttAdd" style="margin-top:0.75rem;">
-            <summary><span class="tt-plus">+</span> Add your own target</summary>
+            <summary id="ttAddSummary"><span class="tt-plus">+</span> Add your own target</summary>
             <form id="ttAddForm">
               <div class="tt-add-grid">
                 <div class="tt-af tt-wide"><label for="ttfName">Name</label><input id="ttfName" type="text" placeholder="e.g. Rodri" autocomplete="off"></div>
@@ -1460,7 +1487,8 @@
                 <div class="tt-af"><label for="ttfPrio">Scouting priority (1&ndash;10)</label><input id="ttfPrio" type="text" inputmode="numeric" placeholder="7"></div>
               </div>
               <div class="tt-add-actions">
-                <button class="tt-btn" type="submit">Add to pool</button>
+                <button class="tt-btn" type="submit" id="ttAddSubmit">Add to pool</button>
+                <button class="tt-btn tt-ghost tt-add-cancel" type="button" id="ttAddCancel">Cancel</button>
                 <span class="tt-add-err" id="ttAddErr"></span>
               </div>
             </form>
@@ -1485,6 +1513,23 @@
         </section>
 
         <p class="tt-caveat">Illustrative planning tool. Squad-cost ratio uses straight-line amortisation of fees over the shorter of the contract or five years, added to wages, against the caps used from 2025/26 (UEFA 70%, Premier League 85%). Figures are mock inputs for demonstration, not club data or financial advice.</p>
+      </div>
+    </div>
+
+    <!-- Moderator export (only reachable in authoring mode) -->
+    <div class="tt-export" id="ttExport" role="dialog" aria-modal="true" aria-label="Export master pool">
+      <div class="tt-export-card">
+        <h3>Export the master pool</h3>
+        <p>Replace the <code>SEED_PLAYERS</code> list in <code>index.html</code> with the code below, then republish the site. Every visitor sees the new pool once the republished page goes live. The JSON underneath is a plain-data backup of the same list.</p>
+        <label for="ttExportCode">Code for SEED_PLAYERS</label>
+        <textarea id="ttExportCode" readonly spellcheck="false"></textarea>
+        <div class="tt-export-actions">
+          <button class="tt-btn" type="button" id="ttExportCopy">Copy code</button>
+          <button class="tt-btn tt-ghost" type="button" id="ttExportClose">Close</button>
+          <span class="tt-export-msg" id="ttExportMsg"></span>
+        </div>
+        <label for="ttExportJson">JSON backup</label>
+        <textarea id="ttExportJson" readonly spellcheck="false"></textarea>
       </div>
     </div>
 
@@ -1515,11 +1560,27 @@
   var root = document.getElementById('transferTool');
   if (!root) return;
 
+  // ---- moderator (authoring) mode ----
+  // A private way to edit the master pool that every visitor sees. Because this
+  // is a static site with no backend, nothing here is truly secret — the guard
+  // just keeps the panel out of sight for normal visitors, and the real control
+  // is that only the site owner can republish. Unlock by visiting the page with
+  // ?admin=<the word below>. Change ADMIN_WORD to rotate the link.
+  var ADMIN_WORD = 'gaffer';
+  var ADMIN = (function () {
+    try {
+      var q = new URLSearchParams(window.location.search).get('admin');
+      return q != null && q === ADMIN_WORD;
+    } catch (e) { return false; }
+  })();
+
   // ---- storage (degrades gracefully in private browsing) ----
   var PLAYERS_KEY = 'ttum.players.v1';
   var REMOVED_KEY = 'ttum.removed.v1';
   var POS_KEY = 'ttum.positions.v1';
   var SEEN_KEY = 'ttum.walkthrough.seen.v1';
+  var OVERRIDES_KEY = 'ttum.overrides.v1';   // per-visitor edits to seed players
+  var ADMIN_KEY = 'ttum.admin.master.v1';    // moderator's working draft of the pool
   var storageOK = (function () {
     try { var k = '__ttum_test__'; localStorage.setItem(k, '1'); localStorage.removeItem(k); return true; }
     catch (e) { return false; }
@@ -1700,6 +1761,34 @@
   })();
   function saveRemoved() { storeSet(REMOVED_KEY, JSON.stringify(removedSeed)); }
 
+  // Per-visitor edits to seed players, keyed by id. Editing a baked-in target
+  // stores only the changed fields here, so "Reset" brings the originals back.
+  var seedOverrides = (function () {
+    var raw = storeGet(OVERRIDES_KEY);
+    try { var o = JSON.parse(raw); return (o && typeof o === 'object') ? o : {}; } catch (e) { return {}; }
+  })();
+  function saveOverrides() { storeSet(OVERRIDES_KEY, JSON.stringify(seedOverrides)); }
+  function applyOverride(p) {
+    var ov = seedOverrides[p.id];
+    if (!ov) return p;
+    var merged = {}; for (var k in p) merged[k] = p[k];
+    for (var j in ov) merged[j] = ov[j];
+    return merged;
+  }
+
+  // Moderator's working copy of the master pool. Only used in authoring mode;
+  // it is a deep copy of the published SEED_PLAYERS, kept as a browser draft so
+  // a refresh doesn't lose in-progress edits. "Revert to published" clears it.
+  function clonePool(src) { return src.map(function (p) { var c = {}; for (var k in p) c[k] = p[k]; return c; }); }
+  var masterPool = (function () {
+    if (!ADMIN) return null;
+    var raw = storeGet(ADMIN_KEY);
+    if (raw) { try { var a = JSON.parse(raw); if (Array.isArray(a) && a.length) return a; } catch (e) {} }
+    return clonePool(SEED_PLAYERS);
+  })();
+  function saveMaster() { if (ADMIN) storeSet(ADMIN_KEY, JSON.stringify(masterPool)); }
+  function masterDirty() { return ADMIN && storeGet(ADMIN_KEY) != null; }
+
   // Per-position recruitment: is the club chasing this position, and how badly.
   // Rebuilt to cover whatever positions currently exist in the pool.
   var positionConfig = (function () {
@@ -1715,8 +1804,17 @@
   }
 
   function allPlayers() {
-    return SEED_PLAYERS.filter(function (p) { return removedSeed.indexOf(p.id) === -1; }).concat(userPlayers);
+    // Authoring mode shows the master pool exactly as it will be published —
+    // the per-visitor localStorage layers (removed / overrides / added) are for
+    // ordinary visitors only.
+    if (ADMIN) return masterPool.slice();
+    return SEED_PLAYERS
+      .filter(function (p) { return removedSeed.indexOf(p.id) === -1; })
+      .map(applyOverride)
+      .concat(userPlayers);
   }
+  // A given id belongs to the baked-in pool (vs. a visitor's own addition).
+  function isSeedId(id) { return SEED_PLAYERS.some(function (p) { return p.id === id; }); }
   // Distinct positions present in the current pool, in a stable football order.
   var POS_ORDER = ['GK', 'RB', 'CB', 'LB', 'CDM', 'CM', 'CAM', 'RW', 'LW', 'ST'];
   function poolPositions() {
@@ -1739,8 +1837,13 @@
     return n;
   }
   function removePlayer(id) {
-    var seed = SEED_PLAYERS.some(function (p) { return p.id === id; });
-    if (seed) { if (removedSeed.indexOf(id) === -1) { removedSeed.push(id); saveRemoved(); } }
+    if (ADMIN) {
+      // Editing the master pool directly — this drops the target for everyone
+      // (once republished), not just this browser.
+      masterPool = masterPool.filter(function (p) { return p.id !== id; });
+      saveMaster(); renderAll(); return;
+    }
+    if (isSeedId(id)) { if (removedSeed.indexOf(id) === -1) { removedSeed.push(id); saveRemoved(); } }
     else { userPlayers = userPlayers.filter(function (p) { return p.id !== id; }); saveUserPlayers(); }
     renderAll();
   }
@@ -1797,13 +1900,19 @@
         '<span class="tt-num">' + p.priority + '/10</span>' +
         '<span class="tt-num tt-gold">' + fmtM(capHit(p)) + '</span>' +
         '<span class="tt-num tt-gold">' + num2(effPriority(p)) + '</span>' +
-        '<button class="tt-row-x" data-remove="' + esc(p.id) + '" type="button" aria-label="Remove ' + esc(p.name) + ' from the pool" title="Remove ' + esc(p.name) + '">&times;</button>' +
+        '<span class="tt-row-actions">' +
+          '<button class="tt-row-edit" data-edit="' + esc(p.id) + '" type="button" aria-label="Edit ' + esc(p.name) + '" title="Edit ' + esc(p.name) + '">&#9998;</button>' +
+          '<button class="tt-row-x" data-remove="' + esc(p.id) + '" type="button" aria-label="Remove ' + esc(p.name) + ' from the pool" title="Remove ' + esc(p.name) + '">&times;</button>' +
+        '</span>' +
       '</div>';
     }).join('');
 
     cards.innerHTML = '<div class="tt-tscroll"><div class="tt-table">' + head + rows + '</div></div>';
     cards.querySelectorAll('[data-remove]').forEach(function (btn) {
       btn.addEventListener('click', function () { removePlayer(btn.getAttribute('data-remove')); });
+    });
+    cards.querySelectorAll('[data-edit]').forEach(function (btn) {
+      btn.addEventListener('click', function () { startEdit(btn.getAttribute('data-edit')); });
     });
   }
 
@@ -1940,39 +2049,121 @@
   function weightLabel(v) { return v <= 15 ? 'Scouting fit first' : (v >= 85 ? 'Value for money first' : (v > 55 ? 'Leaning to value' : (v < 45 ? 'Leaning to scouting' : 'Even split'))); }
   weightEl.addEventListener('input', function () { weightVal.textContent = weightLabel(+weightEl.value); renderCombos(); });
 
-  // ---- add target ----
+  // ---- add / edit target ----
+  // One form serves both: with no target being edited it adds; while editing a
+  // row it saves that target's changes. Ordinary visitors keep their edits in
+  // this browser (seed targets via an override, so Reset restores them); in
+  // authoring mode the same actions edit the master pool for everyone.
   var addForm = document.getElementById('ttAddForm'), addErr = document.getElementById('ttAddErr');
-  addForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name = document.getElementById('ttfName').value.trim();
-    if (!name) { addErr.textContent = 'Give the player a name.'; return; }
-    function pnum(id, def, min, max) {
-      var v = parseFloat(String(document.getElementById(id).value).replace(/[^0-9.\-]/g, ''));
-      if (!isFinite(v)) v = def;
-      if (min != null) v = Math.max(min, v);
-      if (max != null) v = Math.min(max, v);
-      return v;
-    }
-    var player = {
-      id: 'mine-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-      name: name,
+  var addSubmit = document.getElementById('ttAddSubmit'), addCancel = document.getElementById('ttAddCancel');
+  var addSummary = document.getElementById('ttAddSummary'), addDetails = document.getElementById('ttAdd');
+  var editingId = null;
+
+  function pnum(id, def, min, max) {
+    var v = parseFloat(String(document.getElementById(id).value).replace(/[^0-9.\-]/g, ''));
+    if (!isFinite(v)) v = def;
+    if (min != null) v = Math.max(min, v);
+    if (max != null) v = Math.min(max, v);
+    return v;
+  }
+  // Read the form into the player fields the model uses. Wage is entered per
+  // week in £k but stored annually in £m for the cap-hit maths.
+  function readForm() {
+    return {
+      name: document.getElementById('ttfName').value.trim(),
       pos: document.getElementById('ttfPos').value,
       age: pnum('ttfAge', 24, 15, 45),
       ask: pnum('ttfAsk', 0, 0),
       fees: pnum('ttfFees', 0, 0),
-      // Entered per week in £k; stored annually in £m for the cap-hit maths.
       wage: pnum('ttfWage', 100, 0) * 52 / 1000,
       contract: pnum('ttfContract', 4, 1, 8),
-      priority: pnum('ttfPrio', 5, 1, 10),
-      mine: true
+      priority: pnum('ttfPrio', 5, 1, 10)
     };
-    userPlayers.push(player);
-    saveUserPlayers();
+  }
+  // Turn a name into a stable, seed-style id, kept unique within the pool so the
+  // exported code reads like the originals.
+  function seedIdFor(name, pool) {
+    var base = 'seed-' + String(name).toLowerCase().replace(/[^a-z]/g, '');
+    if (!base || base === 'seed-') base = 'seed-target';
+    var id = base, n = 2, taken = function (x) { return pool.some(function (p) { return p.id === x; }); };
+    while (taken(id)) { id = base + n; n++; }
+    return id;
+  }
+
+  function activatePosition(pos) {
+    if (!positionConfig[pos]) positionConfig[pos] = { active: true, need: 'normal' };
+    else positionConfig[pos].active = true;
+    savePositionConfig();
+  }
+
+  function startEdit(id) {
+    var p = allPlayers().filter(function (x) { return x.id === id; })[0];
+    if (!p) return;
+    editingId = id;
+    document.getElementById('ttfName').value = p.name;
+    document.getElementById('ttfPos').value = p.pos;
+    document.getElementById('ttfAge').value = p.age;
+    document.getElementById('ttfAsk').value = p.ask;
+    document.getElementById('ttfFees').value = p.fees;
+    // Annual £m back to a weekly £k figure for the input.
+    document.getElementById('ttfWage').value = Math.round(p.wage * 1000 / 52);
+    document.getElementById('ttfContract').value = p.contract;
+    document.getElementById('ttfPrio').value = p.priority;
+    addErr.textContent = '';
+    addSubmit.textContent = 'Save changes';
+    addCancel.style.display = '';
+    addSummary.innerHTML = '<span class="tt-plus">✎</span> Editing ' + esc(p.name);
+    addDetails.open = true;
+    addDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    document.getElementById('ttfName').focus();
+  }
+  function exitEdit() {
+    editingId = null;
+    addForm.reset();
+    addErr.textContent = '';
+    addSubmit.textContent = 'Add to pool';
+    addCancel.style.display = 'none';
+    addSummary.innerHTML = '<span class="tt-plus">+</span> Add your own target';
+  }
+  addCancel.addEventListener('click', function () { exitEdit(); });
+
+  addForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = readForm();
+    if (!v.name) { addErr.textContent = 'Give the player a name.'; return; }
+
+    if (editingId) {
+      // Save changes to the target being edited.
+      if (ADMIN) {
+        masterPool.forEach(function (p) { if (p.id === editingId) { for (var k in v) p[k] = v[k]; } });
+        saveMaster();
+      } else if (isSeedId(editingId)) {
+        seedOverrides[editingId] = v; saveOverrides();
+      } else {
+        userPlayers.forEach(function (p) { if (p.id === editingId) { for (var k in v) p[k] = v[k]; } });
+        saveUserPlayers();
+      }
+      activatePosition(v.pos);
+      exitEdit();
+      renderAll();
+      return;
+    }
+
+    // Otherwise add a new target.
+    if (ADMIN) {
+      var mp = { id: seedIdFor(v.name, masterPool), mine: false };
+      for (var k1 in v) mp[k1] = v[k1];
+      masterPool.push(mp);
+      saveMaster();
+    } else {
+      var up = { id: 'mine-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), mine: true };
+      for (var k2 in v) up[k2] = v[k2];
+      userPlayers.push(up);
+      saveUserPlayers();
+    }
     // Switch the new player's position on so it joins the combinations straight
     // away — otherwise a target added in an idle position appears to do nothing.
-    if (!positionConfig[player.pos]) positionConfig[player.pos] = { active: true, need: 'normal' };
-    else positionConfig[player.pos].active = true;
-    savePositionConfig();
+    activatePosition(v.pos);
     addForm.reset();
     addErr.textContent = '';
     renderAll();
@@ -1980,15 +2171,84 @@
 
   // ---- reset ----
   document.getElementById('ttReset').addEventListener('click', function () {
-    if (!window.confirm('Reset everything — bring back the full starting pool, drop the players you added, and restore the default positions?')) return;
+    if (!window.confirm('Reset everything — bring back the full starting pool, drop the players you added, undo your edits, and restore the default positions?')) return;
     userPlayers = [];
     removedSeed = [];
+    seedOverrides = {};
     positionConfig = {};
     storeDel(PLAYERS_KEY);
     storeDel(REMOVED_KEY);
+    storeDel(OVERRIDES_KEY);
     storeDel(POS_KEY);
+    exitEdit();
     renderAll();
   });
+
+  // ---- moderator (authoring) mode wiring ----
+  if (ADMIN) {
+    var modPanel = document.getElementById('ttMod');
+    var modState = document.getElementById('ttModState');
+    var storeNote = document.getElementById('ttStoreNoteInline');
+    var resetBtn = document.getElementById('ttReset');
+    if (modPanel) modPanel.hidden = false;
+    if (resetBtn) resetBtn.style.display = 'none'; // Revert plays this role here.
+    if (storeNote) storeNote.innerHTML = '<span class="tt-lock">●</span> Moderator draft — kept in this browser until you export and republish.';
+    function refreshModState() {
+      if (modState) modState.textContent = masterDirty()
+        ? 'Unpublished draft — ' + masterPool.length + ' targets.'
+        : 'Matches the published pool — ' + masterPool.length + ' targets.';
+    }
+    // Export the current master pool as ready-to-paste code plus a JSON backup.
+    var exportOverlay = document.getElementById('ttExport');
+    var round = function (n, d) { var f = Math.pow(10, d); return Math.round(n * f) / f; };
+    function poolToCode(pool) {
+      var order = ['GK', 'RB', 'CB', 'LB', 'CDM', 'CM', 'CAM', 'RW', 'LW', 'ST'];
+      var q = function (s) { return "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'"; };
+      var line = function (p) {
+        return '    P(' + [q(p.name), q(p.pos), p.age, round(p.ask, 2), round(p.fees, 2),
+          round(p.wage, 2), p.contract, p.priority].join(', ') + '),';
+      };
+      var buckets = {}, extras = [];
+      pool.forEach(function (p) { if (order.indexOf(p.pos) === -1) extras.push(p); else (buckets[p.pos] = buckets[p.pos] || []).push(p); });
+      var out = ['  var SEED_PLAYERS = ['];
+      order.forEach(function (pos) {
+        if (!buckets[pos]) return;
+        out.push('    // ' + pos);
+        buckets[pos].forEach(function (p) { out.push(line(p)); });
+      });
+      extras.forEach(function (p) { out.push(line(p)); });
+      out.push('  ];');
+      return out.join('\n');
+    }
+    function openExport() {
+      document.getElementById('ttExportCode').value = poolToCode(masterPool);
+      document.getElementById('ttExportJson').value = JSON.stringify(masterPool, null, 2);
+      document.getElementById('ttExportMsg').textContent = '';
+      exportOverlay.classList.add('tt-show');
+    }
+    function closeExport() { exportOverlay.classList.remove('tt-show'); }
+    document.getElementById('ttModExport').addEventListener('click', openExport);
+    document.getElementById('ttExportClose').addEventListener('click', closeExport);
+    document.getElementById('ttExportCopy').addEventListener('click', function () {
+      var ta = document.getElementById('ttExportCode');
+      var done = function () { document.getElementById('ttExportMsg').textContent = 'Copied.'; };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(ta.value).then(done, function () { ta.select(); document.execCommand('copy'); done(); }); }
+        else { ta.select(); document.execCommand('copy'); done(); }
+      } catch (e) { ta.select(); }
+    });
+    exportOverlay.addEventListener('click', function (e) { if (e.target === exportOverlay) closeExport(); });
+    document.getElementById('ttModRevert').addEventListener('click', function () {
+      if (!window.confirm('Discard this draft and revert to the currently published pool?')) return;
+      storeDel(ADMIN_KEY);
+      masterPool = clonePool(SEED_PLAYERS);
+      exitEdit();
+      renderAll();
+    });
+    // Keep the draft-state note current after every render.
+    var _renderAllBase = renderAll;
+    renderAll = function () { _renderAllBase(); refreshModState(); };
+  }
 
   // ---- walkthrough ----
   var WALK = [
@@ -2038,6 +2298,8 @@
   root.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', closeTool); });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape' || !root.classList.contains('open')) return;
+    var exp = document.getElementById('ttExport');
+    if (exp && exp.classList.contains('tt-show')) { exp.classList.remove('tt-show'); return; }
     if (walk.classList.contains('tt-show')) closeWalk(); else closeTool();
   });
 
