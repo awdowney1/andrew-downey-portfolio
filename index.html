@@ -663,6 +663,26 @@
   .tt-pos-need { background:rgba(0,0,0,0.22); border:none; color:var(--ink); font-family:var(--font-mono); font-size:0.72rem; padding:0 0.5rem; cursor:pointer; }
   .tt-pos-need:disabled { color:var(--ink-soft); opacity:0.5; cursor:default; }
   .tt-pos-need:focus { outline:none; }
+  .tt-pos-must { background:rgba(255,255,255,0.04); border:none; border-left:1px solid var(--border); color:var(--ink-soft); font-family:var(--font-mono); font-size:0.64rem; letter-spacing:0.05em; text-transform:uppercase; padding:0 0.6rem; cursor:pointer; white-space:nowrap; }
+  .tt-pos-must:focus { outline:none; }
+  .tt-pos-must:hover { color:var(--ink); }
+  .tt-pos-ctrl.tt-req { border-color:var(--gold); opacity:1; }
+  .tt-pos-ctrl.tt-req .tt-pos-must { background:rgba(210,162,76,0.24); color:#F5F0E7; }
+  /* Age-priority editor */
+  .tt-age { margin-top:0.85rem; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1rem; }
+  .tt-age summary { font-family:var(--font-head); font-weight:600; font-size:0.9rem; color:var(--ink); cursor:pointer; list-style:none; display:flex; align-items:center; gap:0.5rem; }
+  .tt-age summary::-webkit-details-marker { display:none; }
+  .tt-age summary .tt-plus { color:var(--gold); font-size:1.1rem; line-height:1; }
+  .tt-age[open] summary { margin-bottom:0.7rem; }
+  .tt-age-note { font-family:var(--font-body); font-size:0.74rem; line-height:1.5; color:var(--ink-soft); margin:0 0 0.85rem; }
+  .tt-age-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:0.5rem; }
+  @media (max-width:760px){ .tt-age-grid { grid-template-columns:repeat(4,1fr); } }
+  @media (max-width:420px){ .tt-age-grid { grid-template-columns:repeat(2,1fr); } }
+  .tt-age-cell { display:flex; flex-direction:column; gap:0.28rem; align-items:center; }
+  .tt-age-cell label { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--gold); }
+  .tt-age-cell input { width:100%; text-align:center; background:rgba(0,0,0,0.22); border:1px solid var(--border); border-radius:6px; color:var(--ink); font-family:var(--font-mono); font-size:0.9rem; padding:0.35rem 0.2rem; }
+  .tt-age-cell input:focus { outline:none; border-color:var(--gold); }
+  .tt-age-actions { margin-top:0.85rem; }
   .tt-pos { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:#fff; background:var(--navy); padding:0.16rem 0.42rem; border-radius:4px; white-space:nowrap; }
   .tt-mine-tag { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); }
 
@@ -1446,6 +1466,13 @@
               <div class="tt-weight-ends"><span>Scouting fit</span><span>Financial efficiency</span></div>
             </div>
           </div>
+
+          <details class="tt-age" id="ttAge">
+            <summary><span class="tt-plus">±</span> Age priority — set your own multipliers</summary>
+            <p class="tt-age-note">Every target's scouting priority is scaled by an age multiplier, interpolated between the anchor ages below (it peaks at 23 by default). Raise the ages you want to prioritise and lower the rest — the player table's Eff column and the combinations update as you type.</p>
+            <div class="tt-age-grid" id="ttAgeGrid"></div>
+            <div class="tt-age-actions"><button class="tt-btn tt-ghost" type="button" id="ttAgeReset">Reset to default</button></div>
+          </details>
         </section>
 
         <!-- 2 · Targets -->
@@ -1506,7 +1533,7 @@
           <h2 class="tt-h">The best combinations</h2>
           <p class="tt-lead">Choose the positions you're recruiting for and how badly you need each — a higher need lifts the value of that position's targets. The model then tries every combination of one signing per chosen position, keeps the ones inside budget, and ranks them by the balance you set below.</p>
           <div class="tt-pos-block">
-            <div class="tt-pos-lead">Positions you're recruiting for <span class="tt-pos-hint">click to toggle · set the need level</span></div>
+            <div class="tt-pos-lead">Positions you're recruiting for <span class="tt-pos-hint">click to toggle · set the need level · mark a must-sign</span></div>
             <div class="tt-pos-row" id="ttPositions"></div>
           </div>
           <div id="ttCombos"></div>
@@ -1581,6 +1608,7 @@
   var SEEN_KEY = 'ttum.walkthrough.seen.v1';
   var OVERRIDES_KEY = 'ttum.overrides.v1';   // per-visitor edits to seed players
   var ADMIN_KEY = 'ttum.admin.master.v1';    // moderator's working draft of the pool
+  var AGE_KEY = 'ttum.agecurve.v1';          // per-visitor age-priority multipliers
   var storageOK = (function () {
     try { var k = '__ttum_test__'; localStorage.setItem(k, '1'); localStorage.removeItem(k); return true; }
     catch (e) { return false; }
@@ -1650,18 +1678,42 @@
   // switched off so the first view is a sensible, bounded set of combinations.
   var DEFAULT_ACTIVE_POS = { CDM: 1, CAM: 1, CM: 1, CB: 1 };
   // How a position's "need" scales the effective priority of its targets.
-  var NEED_MULT = { low: 0.7, normal: 1.0, high: 1.3, critical: 1.6 };
+  var NEED_MULT = { low: 0.75, normal: 1.0, high: 1.5, critical: 2.0 };
   var NEED_ORDER = ['low', 'normal', 'high', 'critical'];
   var NEED_LABEL = { low: 'Low', normal: 'Normal', high: 'High', critical: 'Critical' };
+  // Compact multiplier text: 0.75 -> "0.75", 1.5 -> "1.5", 2 -> "2".
+  var multStr = function (n) { return String(Math.round(n * 100) / 100); };
   // Most candidates the model will weigh per position, keeping enumeration fast.
   var TOP_PER_POS = 5;
 
   // ---- pure model maths (mirrors the project's model) ----
   var AMORT_CAP = 5;
   var CAP_UEFA = 70, CAP_PL = 85;
-  var AGE_CURVE = [[17, 0.35], [18, 0.45], [19, 0.55], [20, 0.65], [23, 1.0], [28, 0.8], [33, 0.5], [37, 0.1]];
+  // Age-fit anchors. The ages are fixed reference points; the multiplier at each
+  // is what the visitor can tune (see the "Age priority" editor). Priority is
+  // interpolated linearly between anchors, so raising one age lifts the band
+  // around it. Defaults peak at 23.
+  var DEFAULT_AGE_CURVE = [[17, 0.35], [18, 0.45], [19, 0.55], [20, 0.65], [23, 1.0], [28, 0.8], [33, 0.5], [37, 0.1]];
+  function cloneCurve(c) { return c.map(function (p) { return [p[0], p[1]]; }); }
+  var ageCurve = (function () {
+    var raw = storeGet(AGE_KEY);
+    if (raw) {
+      try {
+        var a = JSON.parse(raw);
+        if (Array.isArray(a) && a.length === DEFAULT_AGE_CURVE.length) {
+          // Keep the anchor ages fixed; only accept saved multipliers.
+          return DEFAULT_AGE_CURVE.map(function (p, i) {
+            var m = a[i] && a[i][1];
+            return [p[0], (isFinite(m) ? m : p[1])];
+          });
+        }
+      } catch (e) {}
+    }
+    return cloneCurve(DEFAULT_AGE_CURVE);
+  })();
+  function saveAgeCurve() { storeSet(AGE_KEY, JSON.stringify(ageCurve)); }
   function ageFit(age) {
-    var pts = AGE_CURVE;
+    var pts = ageCurve;
     if (age <= pts[0][0]) return pts[0][1];
     if (age >= pts[pts.length - 1][0]) return pts[pts.length - 1][1];
     for (var i = 0; i < pts.length - 1; i++) {
@@ -1691,16 +1743,21 @@
   // Candidates are already scoped to the active positions and their top targets,
   // so this stays small in practice; the cap is a safety valve.
   var MAX_PLANS = 60000;
-  function enumeratePlans(players, budget) {
+  function enumeratePlans(players, budget, requiredSet) {
+    requiredSet = requiredSet || {};
     var groups = {};
     players.forEach(function (p) { (groups[p.pos] = groups[p.pos] || []).push(p); });
     var positions = Object.keys(groups);
     var plans = [[]];
     for (var g = 0; g < positions.length; g++) {
-      var options = groups[positions[g]];
+      var pos = positions[g];
+      var options = groups[pos];
+      var required = !!requiredSet[pos];
       var next = [];
       for (var i = 0; i < plans.length; i++) {
-        next.push(plans[i]); // "sign nobody in this position"
+        // A must-sign position drops the "sign nobody" branch, so every surviving
+        // plan is forced to include one of its targets.
+        if (!required) next.push(plans[i]);
         for (var j = 0; j < options.length; j++) next.push(plans[i].concat([options[j]]));
         if (next.length > MAX_PLANS) break;
       }
@@ -1798,7 +1855,7 @@
   function savePositionConfig() { storeSet(POS_KEY, JSON.stringify(positionConfig)); }
   function syncPositionConfig() {
     selectorPositions().forEach(function (pos) {
-      if (!positionConfig[pos]) positionConfig[pos] = { active: !!DEFAULT_ACTIVE_POS[pos], need: 'normal' };
+      if (!positionConfig[pos]) positionConfig[pos] = { active: !!DEFAULT_ACTIVE_POS[pos], need: 'normal', required: false };
     });
     savePositionConfig();
   }
@@ -1888,7 +1945,7 @@
     var rows = list.map(function (p) {
       var cfg = positionConfig[p.pos] || { active: false, need: 'normal' };
       var needTag = cfg.need !== 'normal'
-        ? ' <span class="tt-need-tag tt-need-' + cfg.need + '" title="' + NEED_LABEL[cfg.need] + ' need">×' + NEED_MULT[cfg.need].toFixed(1) + '</span>' : '';
+        ? ' <span class="tt-need-tag tt-need-' + cfg.need + '" title="' + NEED_LABEL[cfg.need] + ' need">×' + multStr(NEED_MULT[cfg.need]) + '</span>' : '';
       return '<div class="tt-trow' + (p.mine ? ' tt-mine' : '') + (cfg.active ? '' : ' tt-idle') + '">' +
         '<span class="tt-td-name">' + esc(p.name) + (p.mine ? '<span class="tt-you">you</span>' : '') + needTag + '</span>' +
         '<span><span class="tt-pos">' + esc(p.pos) + '</span></span>' +
@@ -1925,20 +1982,23 @@
       var cfg = positionConfig[pos];
       var count = posCount(pos);
       var opts = NEED_ORDER.map(function (n) {
-        return '<option value="' + n + '"' + (cfg.need === n ? ' selected' : '') + '>' + NEED_LABEL[n] + (n === 'normal' ? '' : ' ×' + NEED_MULT[n].toFixed(1)) + '</option>';
+        return '<option value="' + n + '"' + (cfg.need === n ? ' selected' : '') + '>' + NEED_LABEL[n] + (n === 'normal' ? '' : ' ×' + multStr(NEED_MULT[n])) + '</option>';
       }).join('');
-      return '<div class="tt-pos-ctrl' + (cfg.active ? ' tt-on' : '') + (count === 0 ? ' tt-pos-empty' : '') + '">' +
+      return '<div class="tt-pos-ctrl' + (cfg.active ? ' tt-on' : '') + (cfg.required ? ' tt-req' : '') + (count === 0 ? ' tt-pos-empty' : '') + '">' +
         '<button class="tt-pos-toggle" type="button" data-pos="' + pos + '" aria-pressed="' + cfg.active + '"' +
           (count === 0 ? ' title="No ' + pos + ' scouted yet — add one below"' : '') + '>' +
           '<span class="tt-pos-check">' + (cfg.active ? '✓' : '') + '</span>' + pos +
           '<span class="tt-pos-n">' + count + '</span></button>' +
         '<select class="tt-pos-need" data-pos="' + pos + '" aria-label="Need level for ' + pos + '"' + (cfg.active ? '' : ' disabled') + '>' + opts + '</select>' +
+        '<button class="tt-pos-must" type="button" data-pos="' + pos + '" aria-pressed="' + (!!cfg.required) +
+          '" title="Force the recommendation to include a ' + pos + '">' + (cfg.required ? '★ Must' : 'Must') + '</button>' +
       '</div>';
     }).join('');
     host.querySelectorAll('.tt-pos-toggle').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var pos = btn.getAttribute('data-pos');
-        positionConfig[pos].active = !positionConfig[pos].active;
+        var pos = btn.getAttribute('data-pos'), c = positionConfig[pos];
+        c.active = !c.active;
+        if (!c.active) c.required = false; // a switched-off position can't be a must-sign
         savePositionConfig(); renderPositions(); renderCards(); renderCombos();
       });
     });
@@ -1947,6 +2007,37 @@
         var pos = sel.getAttribute('data-pos');
         positionConfig[pos].need = sel.value;
         savePositionConfig(); renderCards(); renderCombos();
+      });
+    });
+    host.querySelectorAll('.tt-pos-must').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var pos = btn.getAttribute('data-pos'), c = positionConfig[pos];
+        c.required = !c.required;
+        if (c.required) c.active = true; // requiring a position switches it on
+        savePositionConfig(); renderPositions(); renderCards(); renderCombos();
+      });
+    });
+  }
+
+  // ---- age-priority editor ----
+  // Lets the visitor set the multiplier at each age anchor. Ages stay fixed;
+  // only the multipliers are editable. Typing recomputes the model live without
+  // re-rendering the inputs (so the caret is never lost mid-edit).
+  function renderAgeEditor() {
+    var host = document.getElementById('ttAgeGrid');
+    if (!host) return;
+    host.innerHTML = ageCurve.map(function (pt, i) {
+      return '<div class="tt-age-cell"><label for="ttAgeM' + i + '">Age ' + pt[0] + '</label>' +
+        '<input id="ttAgeM' + i + '" type="text" inputmode="decimal" data-agei="' + i + '" value="' + pt[1] + '"></div>';
+    }).join('');
+    host.querySelectorAll('[data-agei]').forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        var i = +inp.getAttribute('data-agei');
+        var v = parseFloat(String(inp.value).replace(/[^0-9.\-]/g, ''));
+        if (!isFinite(v)) return;
+        ageCurve[i][1] = Math.max(0, Math.min(3, v));
+        saveAgeCurve();
+        renderCards(); renderCombos();
       });
     });
   }
@@ -1984,12 +2075,27 @@
       host.innerHTML = '<div class="tt-empty">The positions you’ve switched on have no scouted players yet. Add one below, or switch on a position that does.</div>';
       return;
     }
-    var feasible = enumeratePlans(candidates, budget);
+    // Positions the visitor has marked as a must-sign — every plan must include one.
+    var requiredPositions = selectorPositions().filter(function (pos) {
+      var c = positionConfig[pos]; return c && c.active && c.required;
+    });
+    var missing = requiredPositions.filter(function (pos) {
+      return !candidates.some(function (p) { return p.pos === pos; });
+    });
+    if (missing.length) {
+      host.innerHTML = '<div class="tt-empty">You’ve set ' + missing.join(', ') +
+        ' as a must-sign, but there are no scouted players there. Add one below, or clear the requirement above.</div>';
+      return;
+    }
+    var requiredSet = {};
+    requiredPositions.forEach(function (pos) { requiredSet[pos] = true; });
+    var feasible = enumeratePlans(candidates, budget, requiredSet);
     var ranked = rankPlans(feasible, weighting);
 
     if (!ranked.length) {
       host.innerHTML = '<div class="tt-empty">No combination across your chosen positions fits inside ' + fmtM(budget) +
-        '. Raise the budget in step 1, lower an asking price, or switch on a cheaper position, and the best plans will appear here.</div>';
+        (requiredPositions.length ? ' with every must-sign included' : '') +
+        '. Raise the budget in step 1, lower an asking price, relax a must-sign, or switch on a cheaper position, and the best plans will appear here.</div>';
       return;
     }
 
@@ -2012,7 +2118,7 @@
       '<div class="tt-metrics">' +
         metric('Spend', fmtM(best.combinedSpend), 'of ' + fmtM(budget)) +
         metric('Budget left', fmtM(headroom), headroom >= 0 ? 'within budget' : 'over budget') +
-        metric('Squad-cost hit', fmtM(best.combinedCapHit) + '/yr', 'added to the wage bill') +
+        metric('Squad-cost hit', fmtM(best.combinedCapHit) + '/yr', 'added to the budget') +
         metric('Utility', num2(best.utility), 'best of ' + ranked.length + ' options') +
       '</div>' +
       '<div class="tt-scr">' +
@@ -2169,18 +2275,29 @@
     renderAll();
   });
 
+  // ---- age-priority editor wiring ----
+  renderAgeEditor();
+  document.getElementById('ttAgeReset').addEventListener('click', function () {
+    ageCurve = cloneCurve(DEFAULT_AGE_CURVE);
+    storeDel(AGE_KEY);
+    renderAgeEditor(); renderCards(); renderCombos();
+  });
+
   // ---- reset ----
   document.getElementById('ttReset').addEventListener('click', function () {
-    if (!window.confirm('Reset everything — bring back the full starting pool, drop the players you added, undo your edits, and restore the default positions?')) return;
+    if (!window.confirm('Reset everything — bring back the full starting pool, drop the players you added, undo your edits, and restore the default positions and age priority?')) return;
     userPlayers = [];
     removedSeed = [];
     seedOverrides = {};
     positionConfig = {};
+    ageCurve = cloneCurve(DEFAULT_AGE_CURVE);
     storeDel(PLAYERS_KEY);
     storeDel(REMOVED_KEY);
     storeDel(OVERRIDES_KEY);
     storeDel(POS_KEY);
+    storeDel(AGE_KEY);
     exitEdit();
+    renderAgeEditor();
     renderAll();
   });
 
