@@ -556,6 +556,161 @@
   .reader-body .dr-h2::before { content:''; display:block; width:44px; height:3px; background:#D9A46E; margin-bottom:1rem; }
   .reader-body .dr-h3 { font-family:var(--font-head); font-weight:600; font-size:1.15rem; margin:2rem 0 0.55rem; color:#EDE7DA; }
   @media (max-width:600px){ .reader-panel { inset:0; border-radius:0; } .reader-scroll { padding:2rem 1.2rem 4rem; } }
+
+  /* ===================================================================
+     Transfer Target Optimisation Model — interactive tool
+     Self-contained, prefixed `tt-`. Reuses the site's fonts, palette
+     and modal conventions (see .reader above). No external libraries.
+     =================================================================== */
+
+  /* Launcher inside the project body — mirrors .diss-open */
+  .tt-open { display:block; width:100%; text-align:left; margin-top:1.4rem; background:rgba(255,255,255,0.05); border:1px solid var(--gold); padding:1rem 1.2rem; cursor:pointer; transition:background 180ms ease; }
+  .tt-open:hover { background:rgba(255,255,255,0.1); }
+  .tt-open-label { display:block; font-family:var(--font-head); font-weight:600; font-size:1.05rem; color:var(--ink); }
+  .tt-open-label::after { content:' \2192'; color:var(--gold); }
+  .tt-open-sub { display:block; font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-top:0.3rem; }
+
+  /* Modal shell — mirrors .reader */
+  .tt { position:fixed; inset:0; z-index:1000; display:none; }
+  .tt.open { display:block; }
+  .tt-scrim { position:absolute; inset:0; background:rgba(8,10,12,0.74); backdrop-filter:blur(6px); }
+  .tt-panel { position:absolute; inset:3vh 0 0 0; margin:0 auto; max-width:1000px; background:#20242A; border:1px solid rgba(255,255,255,0.12); border-bottom:none; border-radius:14px 14px 0 0; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 -12px 60px rgba(0,0,0,0.55); animation:readerin 380ms cubic-bezier(.2,.7,.2,1); }
+  @media (prefers-reduced-motion:reduce){ .tt-panel { animation:none; } }
+  .tt-bar { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0.9rem 1.4rem; border-bottom:1px solid rgba(255,255,255,0.1); background:#20242A; }
+  .tt-bar-left { display:flex; align-items:baseline; gap:0.8rem; min-width:0; }
+  .tt-kicker { font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); white-space:nowrap; }
+  .tt-bar-right { display:flex; align-items:center; gap:0.6rem; }
+  .tt-help { background:none; border:1px solid rgba(255,255,255,0.28); color:var(--ink); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.04em; text-transform:uppercase; padding:0.45rem 0.7rem; border-radius:6px; cursor:pointer; transition:background 150ms ease; white-space:nowrap; }
+  .tt-help:hover { background:rgba(255,255,255,0.1); }
+  .tt-close { background:none; border:1px solid rgba(255,255,255,0.28); color:#F1ECE3; width:38px; height:38px; border-radius:50%; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; flex:none; }
+  .tt-close:hover { background:rgba(255,255,255,0.1); }
+  .tt-scroll { overflow-y:auto; -webkit-overflow-scrolling:touch; padding:1.8rem 1.5rem 4rem; }
+  .tt-doc { max-width:920px; margin:0 auto; color:#E9E4DA; }
+
+  /* Section blocks */
+  .tt-step { margin:0 0 2.4rem; }
+  .tt-step:last-child { margin-bottom:0; }
+  .tt-eyebrow { display:flex; align-items:center; gap:0.6rem; font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin:0 0 0.35rem; }
+  .tt-eyebrow .tt-dot { width:1.5rem; height:1.5rem; border:1px solid var(--gold); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.72rem; color:var(--gold); }
+  .tt-h { font-family:var(--font-head); font-weight:700; font-size:1.3rem; letter-spacing:-0.01em; color:#F5F0E7; margin:0 0 0.3rem; }
+  .tt-lead { font-family:var(--font-body); font-size:0.95rem; color:var(--ink-soft); margin:0 0 1.1rem; max-width:70ch; }
+
+  /* Inputs — cards, not a form grid */
+  .tt-inputs { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; }
+  @media (max-width:760px){ .tt-inputs { grid-template-columns:1fr 1fr; } }
+  @media (max-width:460px){ .tt-inputs { grid-template-columns:1fr; } }
+  .tt-field { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:0.85rem 0.95rem; }
+  .tt-field label { display:block; font-family:var(--font-mono); font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-bottom:0.4rem; }
+  .tt-field .tt-inputline { display:flex; align-items:baseline; gap:0.35rem; }
+  .tt-field .tt-prefix { font-family:var(--font-head); font-weight:600; color:var(--ink-soft); font-size:1.05rem; }
+  .tt-field input[type=text], .tt-field input[type=number] { width:100%; background:transparent; border:none; border-bottom:1px solid var(--border); color:var(--ink); font-family:var(--font-mono); font-size:1.15rem; padding:0.15rem 0; }
+  .tt-field input:focus { outline:none; border-bottom-color:var(--gold); }
+  .tt-field .tt-hint { font-family:var(--font-body); font-size:0.72rem; color:var(--ink-soft); margin-top:0.45rem; }
+  .tt-field.tt-weight { grid-column:1 / -1; }
+  .tt-weight-head { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; }
+  .tt-weight-val { font-family:var(--font-mono); font-size:0.85rem; color:var(--ink); }
+  .tt-range { width:100%; margin:0.7rem 0 0.3rem; accent-color:var(--gold); cursor:pointer; }
+  .tt-weight-ends { display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.66rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-soft); }
+
+  /* Targets — player cards */
+  .tt-pool-head { display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.85rem; }
+  .tt-store-note { font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.03em; color:var(--ink-soft); display:inline-flex; align-items:center; gap:0.45rem; }
+  .tt-store-note .tt-lock { color:var(--gold); }
+  .tt-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:0.75rem; }
+  .tt-card { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:0.9rem 1rem; display:flex; flex-direction:column; gap:0.6rem; }
+  .tt-card.tt-mine { border-color:rgba(210,162,76,0.5); }
+  .tt-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:0.5rem; }
+  .tt-card-name { font-family:var(--font-head); font-weight:700; font-size:1.02rem; color:#F5F0E7; line-height:1.2; }
+  .tt-pos { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:#fff; background:var(--navy); padding:0.16rem 0.42rem; border-radius:4px; white-space:nowrap; }
+  .tt-card-stats { display:grid; grid-template-columns:1fr 1fr; gap:0.3rem 0.8rem; }
+  .tt-stat { display:flex; flex-direction:column; }
+  .tt-stat .tt-k { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft); }
+  .tt-stat .tt-v { font-family:var(--font-mono); font-size:0.9rem; color:var(--ink); }
+  .tt-card-calc { border-top:1px solid var(--border); padding-top:0.55rem; display:flex; justify-content:space-between; gap:0.5rem; font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-soft); }
+  .tt-card-calc b { color:var(--gold); font-weight:600; }
+  .tt-mine-tag { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); }
+  .tt-card-remove { align-self:flex-start; background:none; border:none; color:var(--ink-soft); font-family:var(--font-mono); font-size:0.68rem; cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:2px; }
+  .tt-card-remove:hover { color:#E27C7C; }
+
+  /* Add-target card */
+  .tt-add { background:rgba(210,162,76,0.06); border:1px dashed var(--gold); border-radius:10px; padding:0.9rem 1rem; }
+  .tt-add summary { font-family:var(--font-head); font-weight:600; font-size:0.95rem; color:var(--ink); cursor:pointer; list-style:none; display:flex; align-items:center; gap:0.5rem; }
+  .tt-add summary::-webkit-details-marker { display:none; }
+  .tt-add summary .tt-plus { color:var(--gold); font-size:1.15rem; line-height:1; }
+  .tt-add[open] summary { margin-bottom:0.8rem; }
+  .tt-add-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem 0.75rem; }
+  .tt-add-grid .tt-af { display:flex; flex-direction:column; gap:0.2rem; }
+  .tt-add-grid .tt-af.tt-wide { grid-column:1 / -1; }
+  .tt-add-grid label { font-family:var(--font-mono); font-size:0.62rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft); }
+  .tt-add-grid input, .tt-add-grid select { background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; color:var(--ink); font-family:var(--font-mono); font-size:0.88rem; padding:0.4rem 0.5rem; }
+  .tt-add-grid input:focus, .tt-add-grid select:focus { outline:none; border-color:var(--gold); }
+  .tt-add-actions { display:flex; align-items:center; gap:0.75rem; margin-top:0.85rem; }
+  .tt-add-err { font-family:var(--font-mono); font-size:0.72rem; color:#E8A0A0; min-height:1em; }
+
+  /* Buttons local to the tool */
+  .tt-btn { font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; padding:0.55rem 0.95rem; border-radius:6px; cursor:pointer; border:1px solid var(--gold); background:var(--gold); color:#16130C; transition:background 150ms ease, color 150ms ease; }
+  .tt-btn:hover { background:#fff; border-color:#fff; }
+  .tt-btn.tt-ghost { background:transparent; color:var(--ink); border-color:rgba(255,255,255,0.4); }
+  .tt-btn.tt-ghost:hover { background:var(--ink); color:#20242A; }
+
+  /* Storage-unavailable inline notice */
+  .tt-inline-note { display:none; align-items:flex-start; gap:0.5rem; margin-top:0.85rem; padding:0.7rem 0.9rem; border:1px solid rgba(210,162,76,0.4); background:rgba(210,162,76,0.08); border-radius:8px; font-family:var(--font-body); font-size:0.82rem; color:var(--ink-soft); }
+  .tt-inline-note.tt-show { display:flex; }
+
+  /* Combinations */
+  .tt-plan { background:rgba(255,255,255,0.05); border:1px solid var(--gold); border-radius:12px; padding:1.1rem 1.2rem; }
+  .tt-plan-head { display:flex; align-items:baseline; justify-content:space-between; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.9rem; }
+  .tt-plan-title { font-family:var(--font-head); font-weight:700; font-size:1.05rem; color:#F5F0E7; }
+  .tt-plan-badge { font-family:var(--font-mono); font-size:0.66rem; letter-spacing:0.06em; text-transform:uppercase; padding:0.2rem 0.5rem; border-radius:4px; }
+  .tt-plan-signings { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem; }
+  .tt-chip { display:inline-flex; align-items:baseline; gap:0.4rem; background:rgba(0,0,0,0.25); border:1px solid var(--border); border-radius:999px; padding:0.3rem 0.7rem; }
+  .tt-chip .tt-chip-pos { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold); }
+  .tt-chip .tt-chip-name { font-family:var(--font-head); font-weight:600; font-size:0.9rem; color:var(--ink); }
+  .tt-metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:0.6rem; }
+  @media (max-width:640px){ .tt-metrics { grid-template-columns:1fr 1fr; } }
+  .tt-metric { background:rgba(0,0,0,0.22); border:1px solid var(--border); border-radius:8px; padding:0.6rem 0.7rem; }
+  .tt-metric .tt-mk { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft); }
+  .tt-metric .tt-mv { font-family:var(--font-mono); font-size:1.05rem; color:var(--ink); margin-top:0.15rem; }
+  .tt-metric .tt-ms { font-family:var(--font-body); font-size:0.68rem; color:var(--ink-soft); margin-top:0.1rem; }
+
+  /* Squad-cost ratio bar */
+  .tt-scr { margin-top:1rem; }
+  .tt-scr-track { position:relative; height:12px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:999px; overflow:hidden; }
+  .tt-scr-fill { position:absolute; left:0; top:0; bottom:0; border-radius:999px; transition:width 260ms ease, background 260ms ease; }
+  .tt-scr-caps { position:relative; height:1.1rem; margin-top:0.3rem; font-family:var(--font-mono); font-size:0.6rem; color:var(--ink-soft); }
+  .tt-scr-cap { position:absolute; transform:translateX(-50%); white-space:nowrap; }
+  .tt-scr-cap::before { content:''; position:absolute; left:50%; top:-0.5rem; width:1px; height:0.35rem; background:var(--ink-soft); }
+  .tt-scr-legend { font-family:var(--font-body); font-size:0.78rem; color:var(--ink-soft); margin-top:0.65rem; }
+  .tt-ok { color:#7FC59B; } .tt-warn { color:#E4B65C; } .tt-bad { color:#E58C8C; }
+  .tt-badge-ok { background:rgba(53,111,79,0.25); color:#93D6AE; } .tt-badge-warn { background:rgba(210,162,76,0.2); color:#E4B65C; } .tt-badge-bad { background:rgba(180,70,70,0.22); color:#E99; }
+
+  .tt-alts { margin-top:1.1rem; display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+  @media (max-width:640px){ .tt-alts { grid-template-columns:1fr; } }
+  .tt-alt { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:0.8rem 0.9rem; }
+  .tt-alt-top { display:flex; justify-content:space-between; align-items:baseline; gap:0.5rem; margin-bottom:0.5rem; }
+  .tt-alt-rank { font-family:var(--font-mono); font-size:0.66rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft); }
+  .tt-alt-util { font-family:var(--font-mono); font-size:0.8rem; color:var(--gold); }
+  .tt-alt-names { font-family:var(--font-body); font-size:0.85rem; color:var(--ink); line-height:1.4; }
+  .tt-alt-line { font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-soft); margin-top:0.4rem; }
+  .tt-empty { background:rgba(255,255,255,0.03); border:1px dashed var(--border); border-radius:10px; padding:1.4rem; text-align:center; font-family:var(--font-body); font-size:0.9rem; color:var(--ink-soft); }
+
+  .tt-caveat { margin-top:2rem; padding-top:1.2rem; border-top:1px solid var(--border); font-family:var(--font-mono); font-size:0.72rem; line-height:1.7; color:var(--ink-soft); }
+
+  /* Onboarding walkthrough overlay */
+  .tt-walk { position:absolute; inset:0; z-index:5; display:none; align-items:center; justify-content:center; padding:1.5rem; background:rgba(8,10,12,0.55); backdrop-filter:blur(3px); }
+  .tt-walk.tt-show { display:flex; }
+  .tt-walk-card { background:#262B31; border:1px solid var(--gold); border-radius:14px; max-width:440px; width:100%; padding:1.5rem 1.6rem; box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+  .tt-walk-step { font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); }
+  .tt-walk-h { font-family:var(--font-head); font-weight:700; font-size:1.25rem; color:#F5F0E7; margin:0.5rem 0 0.5rem; letter-spacing:-0.01em; }
+  .tt-walk-p { font-family:var(--font-body); font-size:0.92rem; color:var(--ink-soft); margin:0; line-height:1.6; }
+  .tt-walk-foot { display:flex; align-items:center; justify-content:space-between; margin-top:1.4rem; gap:1rem; }
+  .tt-dots { display:flex; gap:0.4rem; }
+  .tt-dots span { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.25); }
+  .tt-dots span.on { background:var(--gold); }
+  .tt-walk-btns { display:flex; gap:0.5rem; }
+  .tt-skip { background:none; border:none; color:var(--ink-soft); font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+  .tt-skip:hover { color:var(--ink); }
+  @media (max-width:600px){ .tt-panel { inset:0; border-radius:0; } .tt-scroll { padding:1.5rem 1.1rem 3.5rem; } }
 </style>
 </head>
 <body>
@@ -685,6 +840,7 @@
           <p>I built this because I'm genuinely interested in the finance side of football. I don't code myself, but I've learned to direct AI tools like Claude to turn my own logic and assumptions into a working model on Excel.</p>
           <p>The model scores targets on utility, weighs them against cost and positional need, and solves for the best combination given the budget. It's the same logic that sits behind real transfer committee decisions, just made explicit and testable instead of left to gut feel.</p>
           <p>Football's transfer market still runs largely on scouting relationships and valuation by feel, with financial discipline applied loosely at best. This is a small attempt at bringing some of that decision-making into a structured, repeatable framework, the sort of thing that could genuinely sit inside a recruitment or finance department rather than staying an academic exercise.</p>
+          <button class="tt-open" type="button" aria-haspopup="dialog" aria-controls="transferTool"><span class="tt-open-label">Try the interactive model</span><span class="tt-open-sub">Add targets · set a budget · see the best combinations</span></button>
         </div>
       </div>
 
@@ -1183,6 +1339,460 @@
     reader.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', closeReader); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && reader.classList.contains('open')) closeReader(); });
   })();
+</script>
+
+<!-- ===================================================================
+     Transfer Target Optimisation Model — interactive tool (modal)
+     Client-side only. Mock starting data; visitor additions are kept in
+     this browser via localStorage. No backend, no external libraries.
+     =================================================================== -->
+<div class="tt" id="transferTool" role="dialog" aria-modal="true" aria-label="Transfer Target Optimisation Model — interactive tool" aria-hidden="true">
+  <div class="tt-scrim" data-close></div>
+  <div class="tt-panel">
+    <div class="tt-bar">
+      <div class="tt-bar-left">
+        <span class="tt-kicker">Transfer Model · Interactive</span>
+      </div>
+      <div class="tt-bar-right">
+        <button class="tt-help" type="button" id="ttHelp">How this works</button>
+        <button class="tt-close" data-close type="button" aria-label="Close the interactive model">×</button>
+      </div>
+    </div>
+
+    <div class="tt-scroll">
+      <div class="tt-doc">
+
+        <!-- 1 · Inputs -->
+        <section class="tt-step">
+          <p class="tt-eyebrow"><span class="tt-dot">1</span> Inputs</p>
+          <h2 class="tt-h">Set the financial picture</h2>
+          <p class="tt-lead">The budget you have to spend, the revenue the club earns, and the wage-and-fee bill already on the books. Together these decide what a signing does to the squad-cost ratio the leagues watch.</p>
+          <div class="tt-inputs">
+            <div class="tt-field">
+              <label for="ttBudget">Budget remaining (£m)</label>
+              <div class="tt-inputline"><span class="tt-prefix">£</span><input id="ttBudget" type="text" inputmode="decimal" value="130"></div>
+              <p class="tt-hint">The most you can spend on fees and add-ons.</p>
+            </div>
+            <div class="tt-field">
+              <label for="ttRevenue">Relevant revenue (£m)</label>
+              <div class="tt-inputline"><span class="tt-prefix">£</span><input id="ttRevenue" type="text" inputmode="decimal" value="600"></div>
+              <p class="tt-hint">What the squad-cost ratio is measured against.</p>
+            </div>
+            <div class="tt-field">
+              <label for="ttBaseline">Existing squad cost (£m)</label>
+              <div class="tt-inputline"><span class="tt-prefix">£</span><input id="ttBaseline" type="text" inputmode="decimal" value="400"></div>
+              <p class="tt-hint">Wages plus fee amortisation already committed.</p>
+            </div>
+            <div class="tt-field tt-weight">
+              <div class="tt-weight-head">
+                <label for="ttWeight" style="margin:0;">Priority balance</label>
+                <span class="tt-weight-val" id="ttWeightVal">Even split</span>
+              </div>
+              <input id="ttWeight" class="tt-range" type="range" min="0" max="100" value="50">
+              <div class="tt-weight-ends"><span>Scouting fit</span><span>Financial efficiency</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 · Targets -->
+        <section class="tt-step">
+          <p class="tt-eyebrow"><span class="tt-dot">2</span> Targets</p>
+          <h2 class="tt-h">The scouted pool</h2>
+          <p class="tt-lead">Each card is a target: what they cost, what they earn, and a scouting priority from 1&ndash;10. The model turns fees and wages into an annual squad-cost hit, then discounts priority by an age-fit curve that peaks around 23.</p>
+          <div class="tt-pool-head">
+            <span class="tt-store-note"><span class="tt-lock">●</span> Saved in this browser only — never shared, never synced to another device.</span>
+            <button class="tt-btn tt-ghost" type="button" id="ttReset">Reset my players</button>
+          </div>
+          <div class="tt-cards" id="ttCards"></div>
+
+          <details class="tt-add" id="ttAdd" style="margin-top:0.75rem;">
+            <summary><span class="tt-plus">+</span> Add your own target</summary>
+            <form id="ttAddForm">
+              <div class="tt-add-grid">
+                <div class="tt-af tt-wide"><label for="ttfName">Name</label><input id="ttfName" type="text" placeholder="e.g. Rodri" autocomplete="off"></div>
+                <div class="tt-af"><label for="ttfPos">Position</label>
+                  <select id="ttfPos">
+                    <option>GK</option><option>RB</option><option>CB</option><option>LB</option>
+                    <option>CDM</option><option selected>CM</option><option>CAM</option>
+                    <option>RW</option><option>LW</option><option>ST</option>
+                  </select>
+                </div>
+                <div class="tt-af"><label for="ttfAge">Age</label><input id="ttfAge" type="text" inputmode="numeric" placeholder="24"></div>
+                <div class="tt-af"><label for="ttfAsk">Asking price (£m)</label><input id="ttfAsk" type="text" inputmode="decimal" placeholder="45"></div>
+                <div class="tt-af"><label for="ttfFees">Agent &amp; add-on fees (£m)</label><input id="ttfFees" type="text" inputmode="decimal" placeholder="3"></div>
+                <div class="tt-af"><label for="ttfWage">Annual wage (£m)</label><input id="ttfWage" type="text" inputmode="decimal" placeholder="6"></div>
+                <div class="tt-af"><label for="ttfContract">Contract (years)</label><input id="ttfContract" type="text" inputmode="numeric" placeholder="4"></div>
+                <div class="tt-af"><label for="ttfPrio">Scouting priority (1&ndash;10)</label><input id="ttfPrio" type="text" inputmode="numeric" placeholder="7"></div>
+              </div>
+              <div class="tt-add-actions">
+                <button class="tt-btn" type="submit">Add to pool</button>
+                <span class="tt-add-err" id="ttAddErr"></span>
+              </div>
+            </form>
+          </details>
+
+          <div class="tt-inline-note" id="ttStorageNote">
+            <span class="tt-lock" style="color:var(--gold);">●</span>
+            <span>This browser isn't letting the page save anything (you may be in private browsing). The tool still works — anything you add just won't be here after you close the tab.</span>
+          </div>
+        </section>
+
+        <!-- 3 · Combinations -->
+        <section class="tt-step">
+          <p class="tt-eyebrow"><span class="tt-dot">3</span> Combinations</p>
+          <h2 class="tt-h">The best combinations</h2>
+          <p class="tt-lead">The model tries every combination of one signing per position, keeps the ones inside budget, and ranks them. The balance slider decides whether it leans towards raw scouting priority or value for money.</p>
+          <div id="ttCombos"></div>
+        </section>
+
+        <p class="tt-caveat">Illustrative planning tool. Squad-cost ratio uses straight-line amortisation of fees over the shorter of the contract or five years, added to wages, against the caps used from 2025/26 (UEFA 70%, Premier League 85%). Figures are mock inputs for demonstration, not club data or financial advice.</p>
+      </div>
+    </div>
+
+    <!-- Onboarding walkthrough -->
+    <div class="tt-walk" id="ttWalk" role="dialog" aria-modal="true" aria-label="How to use the model">
+      <div class="tt-walk-card">
+        <p class="tt-walk-step" id="ttWalkStep">Step 1 of 5</p>
+        <h3 class="tt-walk-h" id="ttWalkH"></h3>
+        <p class="tt-walk-p" id="ttWalkP"></p>
+        <div class="tt-walk-foot">
+          <div class="tt-dots" id="ttWalkDots"></div>
+          <div class="tt-walk-btns">
+            <button class="tt-skip" type="button" id="ttWalkSkip">Skip</button>
+            <button class="tt-btn tt-ghost" type="button" id="ttWalkBack" style="display:none;">Back</button>
+            <button class="tt-btn" type="button" id="ttWalkNext">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Transfer Target Optimisation Model — interactive logic.
+   Ported from the tested model behind this project. Pure functions for the
+   maths; the rest is state, rendering and events. Vanilla JS, no libraries. */
+(function () {
+  var root = document.getElementById('transferTool');
+  if (!root) return;
+
+  // ---- storage (degrades gracefully in private browsing) ----
+  var PLAYERS_KEY = 'ttum.players.v1';
+  var SEEN_KEY = 'ttum.walkthrough.seen.v1';
+  var storageOK = (function () {
+    try { var k = '__ttum_test__'; localStorage.setItem(k, '1'); localStorage.removeItem(k); return true; }
+    catch (e) { return false; }
+  })();
+  function storeGet(key) { try { return storageOK ? localStorage.getItem(key) : null; } catch (e) { return null; } }
+  function storeSet(key, val) { try { if (storageOK) localStorage.setItem(key, val); } catch (e) {} }
+  function storeDel(key) { try { if (storageOK) localStorage.removeItem(key); } catch (e) {} }
+
+  // ---- mock starting pool ----
+  //        name,          pos,   age, ask,  fees, wage, contract, priority
+  function P(name, pos, age, ask, fees, wage, contract, priority) {
+    return { id: 'seed-' + name.toLowerCase().replace(/[^a-z]/g, ''), name: name, pos: pos, age: age, ask: ask, fees: fees, wage: wage, contract: contract, priority: priority, mine: false };
+  }
+  var SEED_PLAYERS = [
+    P('Baleba', 'CDM', 22, 80, 5, 7.8, 4, 3),
+    P('Sano', 'CDM', 24, 40, 3, 4.0, 4, 6),
+    P('Santos', 'CM', 24, 45, 5, 5.2, 3, 9),
+    P('Thuram', 'CM', 25, 50, 3.5, 7.8, 4, 7),
+    P('Lukeba', 'CB', 23, 55, 2, 5.2, 5, 8),
+    P('Kalulu', 'CB', 26, 35, 1.5, 3.9, 5, 7)
+  ];
+
+  // ---- pure model maths (mirrors the project's model) ----
+  var AMORT_CAP = 5;
+  var CAP_UEFA = 70, CAP_PL = 85;
+  var AGE_CURVE = [[17, 0.35], [18, 0.45], [19, 0.55], [20, 0.65], [23, 1.0], [28, 0.8], [33, 0.5], [37, 0.1]];
+  function ageFit(age) {
+    var pts = AGE_CURVE;
+    if (age <= pts[0][0]) return pts[0][1];
+    if (age >= pts[pts.length - 1][0]) return pts[pts.length - 1][1];
+    for (var i = 0; i < pts.length - 1; i++) {
+      var a0 = pts[i][0], f0 = pts[i][1], a1 = pts[i + 1][0], f1 = pts[i + 1][1];
+      if (age >= a0 && age <= a1) return f0 + ((age - a0) / (a1 - a0)) * (f1 - f0);
+    }
+    return pts[pts.length - 1][1];
+  }
+  function amortYears(c) { return Math.min(c, AMORT_CAP); }
+  function annualAmort(p) { var y = amortYears(p.contract); return y > 0 ? (p.ask + p.fees) / y : 0; }
+  function capHit(p) { return annualAmort(p) + p.wage; }
+  function spend(p) { return p.ask + p.fees; }
+  function effPriority(p) { return p.priority * ageFit(p.age); }
+
+  function normalise(values) {
+    if (!values.length) return [];
+    var min = Math.min.apply(null, values), max = Math.max.apply(null, values);
+    if (max === min) return values.map(function () { return 1; });
+    return values.map(function (v) { return (v - min) / (max - min); });
+  }
+
+  // Enumerate plans: at most one signing per position, non-empty, within budget.
+  var MAX_PLANS = 20000;
+  function enumeratePlans(players, budget) {
+    var groups = {};
+    players.forEach(function (p) { (groups[p.pos] = groups[p.pos] || []).push(p); });
+    var positions = Object.keys(groups);
+    var plans = [[]];
+    for (var g = 0; g < positions.length; g++) {
+      var options = groups[positions[g]];
+      var next = [];
+      for (var i = 0; i < plans.length; i++) {
+        next.push(plans[i]); // "sign nobody in this position"
+        for (var j = 0; j < options.length; j++) next.push(plans[i].concat([options[j]]));
+        if (next.length > MAX_PLANS) break;
+      }
+      plans = next;
+      if (plans.length > MAX_PLANS) { plans = plans.slice(0, MAX_PLANS); break; }
+    }
+    var out = [];
+    for (var k = 0; k < plans.length; k++) {
+      var picks = plans[k];
+      if (!picks.length) continue; // signing nobody is not a plan
+      var combinedSpend = 0, combinedCapHit = 0, combinedPriority = 0;
+      for (var m = 0; m < picks.length; m++) {
+        combinedSpend += spend(picks[m]);
+        combinedCapHit += capHit(picks[m]);
+        combinedPriority += effPriority(picks[m]);
+      }
+      if (combinedSpend > budget + 1e-9) continue; // budget is the hard filter
+      out.push({
+        picks: picks, combinedSpend: combinedSpend, combinedCapHit: combinedCapHit,
+        combinedPriority: combinedPriority, efficiency: combinedCapHit > 0 ? combinedPriority / combinedCapHit : 0
+      });
+    }
+    return out;
+  }
+
+  function rankPlans(feasible, weightingPct) {
+    if (!feasible.length) return [];
+    var w = Math.max(0, Math.min(100, weightingPct)) / 100;
+    var np = normalise(feasible.map(function (p) { return p.combinedPriority; }));
+    var ne = normalise(feasible.map(function (p) { return p.efficiency; }));
+    feasible.forEach(function (p, i) { p.utility = w * ne[i] + (1 - w) * np[i]; });
+    return feasible.slice().sort(function (a, b) { return b.utility - a.utility; });
+  }
+
+  function squadCostRatio(baseline, combinedCapHit, revenue) {
+    return revenue > 0 ? ((baseline + combinedCapHit) / revenue) * 100 : 0;
+  }
+  function capBand(ratio) { return ratio <= CAP_UEFA ? 'ok' : (ratio <= CAP_PL ? 'warn' : 'bad'); }
+
+  // ---- state ----
+  var userPlayers = loadUserPlayers();
+  function loadUserPlayers() {
+    var raw = storeGet(PLAYERS_KEY);
+    if (!raw) return [];
+    try {
+      var arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) return [];
+      return arr.filter(function (p) { return p && typeof p.name === 'string'; });
+    } catch (e) { return []; }
+  }
+  function saveUserPlayers() { storeSet(PLAYERS_KEY, JSON.stringify(userPlayers)); }
+  function allPlayers() { return SEED_PLAYERS.concat(userPlayers); }
+
+  function readNum(id, fallback) {
+    var el = document.getElementById(id);
+    if (!el) return fallback;
+    var v = parseFloat(String(el.value).replace(/[^0-9.\-]/g, ''));
+    return isFinite(v) ? v : fallback;
+  }
+
+  // ---- rendering ----
+  var fmtM = function (n) { return '£' + (Math.round(n * 10) / 10).toFixed(1) + 'm'; };
+  var num1 = function (n) { return (Math.round(n * 10) / 10).toFixed(1); };
+  var num2 = function (n) { return (Math.round(n * 100) / 100).toFixed(2); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); };
+
+  function renderCards() {
+    var cards = document.getElementById('ttCards');
+    cards.innerHTML = allPlayers().map(function (p) {
+      return '<div class="tt-card' + (p.mine ? ' tt-mine' : '') + '">' +
+        '<div class="tt-card-top"><span class="tt-card-name">' + esc(p.name) + '</span><span class="tt-pos">' + esc(p.pos) + '</span></div>' +
+        '<div class="tt-card-stats">' +
+          stat('Age', p.age) + stat('Priority', p.priority + '/10') +
+          stat('Asking', fmtM(p.ask)) + stat('Fees', fmtM(p.fees)) +
+          stat('Wage', fmtM(p.wage) + '/yr') + stat('Contract', p.contract + ' yr') +
+        '</div>' +
+        '<div class="tt-card-calc"><span>Cap hit <b>' + fmtM(capHit(p)) + '/yr</b></span><span>Effective priority <b>' + num2(effPriority(p)) + '</b></span></div>' +
+        (p.mine ? '<div style="display:flex;justify-content:space-between;align-items:center;"><span class="tt-mine-tag">Added by you</span><button class="tt-card-remove" data-remove="' + esc(p.id) + '" type="button">Remove</button></div>' : '') +
+      '</div>';
+    }).join('');
+    cards.querySelectorAll('[data-remove]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-remove');
+        userPlayers = userPlayers.filter(function (p) { return p.id !== id; });
+        saveUserPlayers(); renderCards(); renderCombos();
+      });
+    });
+  }
+  function stat(k, v) { return '<div class="tt-stat"><span class="tt-k">' + k + '</span><span class="tt-v">' + v + '</span></div>'; }
+
+  function renderCombos() {
+    var host = document.getElementById('ttCombos');
+    var budget = readNum('ttBudget', 0), revenue = readNum('ttRevenue', 0), baseline = readNum('ttBaseline', 0);
+    var weighting = readNum('ttWeight', 50);
+    var feasible = enumeratePlans(allPlayers(), budget);
+    var ranked = rankPlans(feasible, weighting);
+
+    if (!ranked.length) {
+      host.innerHTML = '<div class="tt-empty">No combination fits inside ' + fmtM(budget) +
+        '. Raise the budget in step 1, or lower an asking price, and the best plans will appear here.</div>';
+      return;
+    }
+
+    var best = ranked[0];
+    var ratio = squadCostRatio(baseline, best.combinedCapHit, revenue);
+    var band = capBand(ratio);
+    var bandLabel = band === 'ok' ? 'Within the UEFA cap' : (band === 'warn' ? 'Over UEFA, within Premier League' : 'Over both caps');
+    var badgeClass = band === 'ok' ? 'tt-badge-ok' : (band === 'warn' ? 'tt-badge-warn' : 'tt-badge-bad');
+    var headroom = budget - best.combinedSpend;
+    var scaleMax = 130; // % of revenue shown on the bar
+    var fillPct = Math.max(0, Math.min(100, (ratio / scaleMax) * 100));
+    var fillColor = band === 'ok' ? '#4E9E76' : (band === 'warn' ? '#D2A24C' : '#C56A6A');
+
+    var html = '<div class="tt-plan">' +
+      '<div class="tt-plan-head"><span class="tt-plan-title">Recommended combination</span>' +
+        '<span class="tt-plan-badge ' + badgeClass + '">' + bandLabel + '</span></div>' +
+      '<div class="tt-plan-signings">' + best.picks.map(function (p) {
+        return '<span class="tt-chip"><span class="tt-chip-pos">' + esc(p.pos) + '</span><span class="tt-chip-name">' + esc(p.name) + '</span></span>';
+      }).join('') + '</div>' +
+      '<div class="tt-metrics">' +
+        metric('Spend', fmtM(best.combinedSpend), 'of ' + fmtM(budget)) +
+        metric('Budget left', fmtM(headroom), headroom >= 0 ? 'within budget' : 'over budget') +
+        metric('Squad-cost hit', fmtM(best.combinedCapHit) + '/yr', 'added to the wage bill') +
+        metric('Utility', num2(best.utility), 'best of ' + ranked.length + ' options') +
+      '</div>' +
+      '<div class="tt-scr">' +
+        '<div class="tt-scr-track"><div class="tt-scr-fill" style="width:' + fillPct + '%;background:' + fillColor + ';"></div></div>' +
+        '<div class="tt-scr-caps">' +
+          '<span class="tt-scr-cap" style="left:' + (CAP_UEFA / scaleMax * 100) + '%;">UEFA 70%</span>' +
+          '<span class="tt-scr-cap" style="left:' + (CAP_PL / scaleMax * 100) + '%;">PL 85%</span>' +
+        '</div>' +
+        '<p class="tt-scr-legend">Squad-cost ratio with these signings: <span class="tt-' + band + '">' + num1(ratio) + '% of revenue</span>. ' +
+          (band === 'ok' ? 'Comfortably inside the caps.' : (band === 'warn' ? 'Allowed in the Premier League, but over the stricter UEFA limit.' : 'Beyond both caps — this plan would need sales to offset it.')) +
+        '</p>' +
+      '</div>';
+
+    if (ranked.length > 1) {
+      html += '<div class="tt-alts">' + ranked.slice(1, 5).map(function (p, i) {
+        var r = squadCostRatio(baseline, p.combinedCapHit, revenue);
+        return '<div class="tt-alt"><div class="tt-alt-top"><span class="tt-alt-rank">Option ' + (i + 2) + '</span><span class="tt-alt-util">utility ' + num2(p.utility) + '</span></div>' +
+          '<div class="tt-alt-names">' + p.picks.map(function (x) { return esc(x.name); }).join(' · ') + '</div>' +
+          '<div class="tt-alt-line">' + fmtM(p.combinedSpend) + ' spend · ' + num1(r) + '% squad cost</div></div>';
+      }).join('') + '</div>';
+    }
+    html += '</div>';
+    host.innerHTML = html;
+  }
+  function metric(k, v, s) { return '<div class="tt-metric"><div class="tt-mk">' + k + '</div><div class="tt-mv">' + v + '</div><div class="tt-ms">' + s + '</div></div>'; }
+
+  function renderAll() { renderCards(); renderCombos(); }
+
+  // ---- inputs ----
+  ['ttBudget', 'ttRevenue', 'ttBaseline'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', renderCombos);
+  });
+  var weightEl = document.getElementById('ttWeight'), weightVal = document.getElementById('ttWeightVal');
+  function weightLabel(v) { return v <= 15 ? 'Scouting fit first' : (v >= 85 ? 'Value for money first' : (v > 55 ? 'Leaning to value' : (v < 45 ? 'Leaning to scouting' : 'Even split'))); }
+  weightEl.addEventListener('input', function () { weightVal.textContent = weightLabel(+weightEl.value); renderCombos(); });
+
+  // ---- add target ----
+  var addForm = document.getElementById('ttAddForm'), addErr = document.getElementById('ttAddErr');
+  addForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('ttfName').value.trim();
+    if (!name) { addErr.textContent = 'Give the player a name.'; return; }
+    function pnum(id, def, min, max) {
+      var v = parseFloat(String(document.getElementById(id).value).replace(/[^0-9.\-]/g, ''));
+      if (!isFinite(v)) v = def;
+      if (min != null) v = Math.max(min, v);
+      if (max != null) v = Math.min(max, v);
+      return v;
+    }
+    var player = {
+      id: 'mine-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      name: name,
+      pos: document.getElementById('ttfPos').value,
+      age: pnum('ttfAge', 24, 15, 45),
+      ask: pnum('ttfAsk', 0, 0),
+      fees: pnum('ttfFees', 0, 0),
+      wage: pnum('ttfWage', 0, 0),
+      contract: pnum('ttfContract', 4, 1, 8),
+      priority: pnum('ttfPrio', 5, 1, 10),
+      mine: true
+    };
+    userPlayers.push(player);
+    saveUserPlayers();
+    addForm.reset();
+    addErr.textContent = '';
+    renderAll();
+  });
+
+  // ---- reset ----
+  document.getElementById('ttReset').addEventListener('click', function () {
+    if (userPlayers.length && !window.confirm('Remove the players you have added and go back to the starting pool?')) return;
+    userPlayers = [];
+    storeDel(PLAYERS_KEY);
+    renderAll();
+  });
+
+  // ---- walkthrough ----
+  var WALK = [
+    { h: 'A structured way to choose signings', p: 'This is the transfer model as a live tool. Five quick steps and you can drive it yourself — nothing is saved to any account.' },
+    { h: 'Start with the scouted pool', p: 'Step 2 lists the targets already scouted, shown as cards with their cost, wages and a scouting priority.' },
+    { h: 'Add your own targets', p: 'Use “Add your own target” to drop a player into the pool. They appear instantly and are kept in this browser for next time.' },
+    { h: 'Set the financial picture', p: 'In step 1, set the budget, the revenue and the wage bill already committed. This is what the squad-cost caps are measured against.' },
+    { h: 'Read the best combinations', p: 'Step 3 ranks every affordable combination. Slide the balance between scouting fit and value for money and watch the recommendation change.' }
+  ];
+  var walk = document.getElementById('ttWalk'), walkStep = document.getElementById('ttWalkStep'),
+      walkH = document.getElementById('ttWalkH'), walkP = document.getElementById('ttWalkP'),
+      walkDots = document.getElementById('ttWalkDots'), walkBack = document.getElementById('ttWalkBack'),
+      walkNext = document.getElementById('ttWalkNext');
+  var walkIdx = 0;
+  walkDots.innerHTML = WALK.map(function () { return '<span></span>'; }).join('');
+  function renderWalk() {
+    var s = WALK[walkIdx];
+    walkStep.textContent = 'Step ' + (walkIdx + 1) + ' of ' + WALK.length;
+    walkH.textContent = s.h; walkP.textContent = s.p;
+    walkBack.style.display = walkIdx === 0 ? 'none' : '';
+    walkNext.textContent = walkIdx === WALK.length - 1 ? 'Start exploring' : 'Next';
+    Array.prototype.forEach.call(walkDots.children, function (d, i) { d.className = i === walkIdx ? 'on' : ''; });
+  }
+  function openWalk() { walkIdx = 0; renderWalk(); walk.classList.add('tt-show'); walkNext.focus(); }
+  function closeWalk() { walk.classList.remove('tt-show'); storeSet(SEEN_KEY, '1'); }
+  walkNext.addEventListener('click', function () { if (walkIdx < WALK.length - 1) { walkIdx++; renderWalk(); } else closeWalk(); });
+  walkBack.addEventListener('click', function () { if (walkIdx > 0) { walkIdx--; renderWalk(); } });
+  document.getElementById('ttWalkSkip').addEventListener('click', closeWalk);
+  document.getElementById('ttHelp').addEventListener('click', openWalk);
+
+  // ---- modal open / close (mirrors the site's reader modal) ----
+  var opener = document.querySelector('.tt-open');
+  function openTool() {
+    root.classList.add('open'); root.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (!storageOK) document.getElementById('ttStorageNote').classList.add('tt-show');
+    renderAll();
+    if (storeGet(SEEN_KEY) !== '1') openWalk();
+    else document.querySelector('.tt-close').focus();
+  }
+  function closeTool() {
+    root.classList.remove('open'); root.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (opener) opener.focus();
+  }
+  if (opener) opener.addEventListener('click', openTool);
+  root.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', closeTool); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !root.classList.contains('open')) return;
+    if (walk.classList.contains('tt-show')) closeWalk(); else closeTool();
+  });
+
+  // Initial paint so the tool is ready the instant it opens.
+  renderAll();
+})();
 </script>
 
 </body>
