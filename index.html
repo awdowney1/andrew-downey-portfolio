@@ -613,12 +613,36 @@
   .tt-weight-ends { display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.66rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-soft); }
 
   /* Targets — player cards */
+  .tt-count { font-family:var(--font-mono); font-size:0.8rem; font-weight:400; color:var(--gold); letter-spacing:0.03em; }
   .tt-pool-head { display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.85rem; }
   .tt-store-note { font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.03em; color:var(--ink-soft); display:inline-flex; align-items:center; gap:0.45rem; }
   .tt-store-note .tt-lock { color:var(--gold); }
   .tt-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:0.75rem; }
-  .tt-card { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:0.9rem 1rem; display:flex; flex-direction:column; gap:0.6rem; }
+  .tt-card { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:0.9rem 1rem; display:flex; flex-direction:column; gap:0.6rem; transition:opacity 160ms ease, border-color 160ms ease; }
   .tt-card.tt-mine { border-color:rgba(210,162,76,0.5); }
+  .tt-card.tt-idle { opacity:0.62; }
+  .tt-card-top-right { display:inline-flex; align-items:center; gap:0.45rem; }
+  .tt-card-x { background:none; border:none; color:var(--ink-soft); font-size:1.15rem; line-height:1; cursor:pointer; padding:0 0.15rem; border-radius:4px; transition:color 150ms ease, background 150ms ease; }
+  .tt-card-x:hover { color:#E27C7C; background:rgba(226,124,124,0.12); }
+  .tt-card-foot { display:flex; align-items:center; justify-content:space-between; gap:0.5rem; flex-wrap:wrap; }
+  .tt-need-tag { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.04em; text-transform:uppercase; padding:0.14rem 0.4rem; border-radius:4px; }
+  .tt-need-tag.tt-need-low { background:rgba(255,255,255,0.06); color:var(--ink-soft); }
+  .tt-need-tag.tt-need-high { background:rgba(210,162,76,0.16); color:#E4B65C; }
+  .tt-need-tag.tt-need-critical { background:rgba(210,162,76,0.26); color:#EAC077; }
+
+  /* Position selector */
+  .tt-pos-block { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:0.9rem 1rem; margin-bottom:1.1rem; }
+  .tt-pos-lead { font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-bottom:0.75rem; display:flex; align-items:baseline; gap:0.6rem; flex-wrap:wrap; }
+  .tt-pos-hint { font-size:0.62rem; letter-spacing:0.03em; text-transform:none; color:var(--ink-soft); }
+  .tt-pos-row { display:flex; flex-wrap:wrap; gap:0.5rem; }
+  .tt-pos-ctrl { display:inline-flex; align-items:stretch; border:1px solid var(--border); border-radius:8px; overflow:hidden; opacity:0.7; transition:opacity 150ms ease, border-color 150ms ease; }
+  .tt-pos-ctrl.tt-on { opacity:1; border-color:var(--gold); }
+  .tt-pos-toggle { background:rgba(255,255,255,0.04); border:none; border-right:1px solid var(--border); color:var(--ink); font-family:var(--font-head); font-weight:600; font-size:0.82rem; padding:0.4rem 0.7rem; cursor:pointer; display:inline-flex; align-items:center; gap:0.35rem; }
+  .tt-pos-ctrl.tt-on .tt-pos-toggle { background:rgba(210,162,76,0.16); color:#F5F0E7; }
+  .tt-pos-check { font-size:0.7rem; color:var(--gold); width:0.7rem; display:inline-block; }
+  .tt-pos-need { background:rgba(0,0,0,0.22); border:none; color:var(--ink); font-family:var(--font-mono); font-size:0.72rem; padding:0 0.5rem; cursor:pointer; }
+  .tt-pos-need:disabled { color:var(--ink-soft); opacity:0.5; cursor:default; }
+  .tt-pos-need:focus { outline:none; }
   .tt-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:0.5rem; }
   .tt-card-name { font-family:var(--font-head); font-weight:700; font-size:1.02rem; color:#F5F0E7; line-height:1.2; }
   .tt-pos { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:#fff; background:var(--navy); padding:0.16rem 0.42rem; border-radius:4px; white-space:nowrap; }
@@ -1397,11 +1421,11 @@
         <!-- 2 · Targets -->
         <section class="tt-step">
           <p class="tt-eyebrow"><span class="tt-dot">2</span> Targets</p>
-          <h2 class="tt-h">The scouted pool</h2>
-          <p class="tt-lead">Each card is a target: what they cost, what they earn, and a scouting priority from 1&ndash;10. The model turns fees and wages into an annual squad-cost hit, then discounts priority by an age-fit curve that peaks around 23.</p>
+          <h2 class="tt-h">The scouted pool <span class="tt-count" id="ttPoolCount"></span></h2>
+          <p class="tt-lead">Each card is a target: what they cost, what they earn, and a scouting priority from 1&ndash;10. The model turns fees and wages into an annual squad-cost hit, then discounts priority by an age-fit curve that peaks around 23. Remove any target with its <span aria-hidden="true">×</span>, or add your own below.</p>
           <div class="tt-pool-head">
             <span class="tt-store-note"><span class="tt-lock">●</span> Saved in this browser only — never shared, never synced to another device.</span>
-            <button class="tt-btn tt-ghost" type="button" id="ttReset">Reset my players</button>
+            <button class="tt-btn tt-ghost" type="button" id="ttReset">Reset all</button>
           </div>
           <div class="tt-cards" id="ttCards"></div>
 
@@ -1441,7 +1465,11 @@
         <section class="tt-step">
           <p class="tt-eyebrow"><span class="tt-dot">3</span> Combinations</p>
           <h2 class="tt-h">The best combinations</h2>
-          <p class="tt-lead">The model tries every combination of one signing per position, keeps the ones inside budget, and ranks them. The balance slider decides whether it leans towards raw scouting priority or value for money.</p>
+          <p class="tt-lead">Choose the positions you're recruiting for and how badly you need each — a higher need lifts the value of that position's targets. The model then tries every combination of one signing per chosen position, keeps the ones inside budget, and ranks them by the balance you set below.</p>
+          <div class="tt-pos-block">
+            <div class="tt-pos-lead">Positions you're recruiting for <span class="tt-pos-hint">click to toggle · set the need level</span></div>
+            <div class="tt-pos-row" id="ttPositions"></div>
+          </div>
           <div id="ttCombos"></div>
         </section>
 
@@ -1478,6 +1506,8 @@
 
   // ---- storage (degrades gracefully in private browsing) ----
   var PLAYERS_KEY = 'ttum.players.v1';
+  var REMOVED_KEY = 'ttum.removed.v1';
+  var POS_KEY = 'ttum.positions.v1';
   var SEEN_KEY = 'ttum.walkthrough.seen.v1';
   var storageOK = (function () {
     try { var k = '__ttum_test__'; localStorage.setItem(k, '1'); localStorage.removeItem(k); return true; }
@@ -1493,13 +1523,64 @@
     return { id: 'seed-' + name.toLowerCase().replace(/[^a-z]/g, ''), name: name, pos: pos, age: age, ask: ask, fees: fees, wage: wage, contract: contract, priority: priority, mine: false };
   }
   var SEED_PLAYERS = [
-    P('Baleba', 'CDM', 22, 80, 5, 7.8, 4, 3),
-    P('Sano', 'CDM', 24, 40, 3, 4.0, 4, 6),
-    P('Santos', 'CM', 24, 45, 5, 5.2, 3, 9),
-    P('Thuram', 'CM', 25, 50, 3.5, 7.8, 4, 7),
+    // GK
+    P('Restrepo', 'GK', 25, 22, 1, 3.2, 4, 6),
+    P('Novak', 'GK', 29, 14, 0.5, 2.6, 3, 5),
+    P('Halvorsen', 'GK', 21, 18, 1, 2.2, 5, 7),
+    // RB
+    P('Okafor', 'RB', 23, 30, 2, 4.1, 4, 7),
+    P('Bianchi', 'RB', 27, 24, 1.5, 4.6, 4, 6),
+    P('Soro', 'RB', 20, 20, 1, 2.8, 5, 8),
+    // CB
     P('Lukeba', 'CB', 23, 55, 2, 5.2, 5, 8),
-    P('Kalulu', 'CB', 26, 35, 1.5, 3.9, 5, 7)
+    P('Kalulu', 'CB', 26, 35, 1.5, 3.9, 5, 7),
+    P('Romero', 'CB', 28, 50, 5, 10.4, 4, 7),
+    P('Kim Min Jae', 'CB', 29, 30, 1.5, 7.8, 3, 6),
+    P('Anton', 'CB', 29, 20, 1, 3.1, 3, 5),
+    // LB
+    P('Mendes', 'LB', 22, 34, 2.5, 4.4, 5, 8),
+    P('Karlsson', 'LB', 26, 26, 1.5, 4.0, 4, 6),
+    P('Duarte', 'LB', 24, 21, 1, 3.4, 4, 5),
+    // CDM
+    P('Baleba', 'CDM', 22, 80, 5, 7.8, 4, 3),
+    P('Tchouameni', 'CDM', 26, 70, 7, 10.4, 5, 4),
+    P('Sano', 'CDM', 24, 40, 3, 4.0, 4, 6),
+    P('Sangare', 'CDM', 28, 50, 2, 3.6, 4, 5),
+    P('Varela', 'CDM', 24, 40, 2, 5.2, 4, 4),
+    // CM
+    P('Santos', 'CM', 24, 45, 5, 5.2, 3, 9),
+    P('Nmecha', 'CM', 25, 60, 5, 6.2, 4, 6),
+    P('Thuram', 'CM', 25, 50, 3.5, 7.8, 4, 7),
+    P('Scott', 'CM', 23, 85, 5, 6.5, 5, 7),
+    // CAM
+    P('Alvarez', 'CAM', 26, 100, 10, 10.4, 4, 7),
+    P('Baturina', 'CAM', 23, 45, 2.5, 3.6, 4, 6),
+    P('Kroupi', 'CAM', 20, 100, 5, 6.5, 6, 8),
+    P('Mora', 'CAM', 17, 20, 0.5, 2.5, 5, 5),
+    // RW
+    P('Rogers', 'RW', 24, 120, 10, 13.0, 6, 6),
+    P('Potulski', 'RW', 21, 25, 1, 2.5, 5, 6),
+    P('Deng', 'RW', 22, 44, 3, 4.8, 5, 7),
+    // LW
+    P('Ferreira', 'LW', 23, 58, 4, 6.0, 5, 8),
+    P('Ilic', 'LW', 25, 36, 2, 5.4, 4, 6),
+    P('Abara', 'LW', 19, 30, 1.5, 3.0, 6, 7),
+    // ST
+    P('Gudmundsson', 'ST', 24, 70, 5, 8.5, 5, 8),
+    P('Ekwueme', 'ST', 21, 55, 3, 5.5, 5, 9),
+    P('Carbone', 'ST', 28, 40, 3, 7.0, 3, 6),
+    P('Vlasenko', 'ST', 26, 48, 4, 6.8, 4, 7)
   ];
+
+  // Which positions are recruited for by default (need = normal). Others start
+  // switched off so the first view is a sensible, bounded set of combinations.
+  var DEFAULT_ACTIVE_POS = { CDM: 1, CM: 1, CB: 1, ST: 1 };
+  // How a position's "need" scales the effective priority of its targets.
+  var NEED_MULT = { low: 0.7, normal: 1.0, high: 1.3, critical: 1.6 };
+  var NEED_ORDER = ['low', 'normal', 'high', 'critical'];
+  var NEED_LABEL = { low: 'Low', normal: 'Normal', high: 'High', critical: 'Critical' };
+  // Most candidates the model will weigh per position, keeping enumeration fast.
+  var TOP_PER_POS = 5;
 
   // ---- pure model maths (mirrors the project's model) ----
   var AMORT_CAP = 5;
@@ -1519,7 +1600,11 @@
   function annualAmort(p) { var y = amortYears(p.contract); return y > 0 ? (p.ask + p.fees) / y : 0; }
   function capHit(p) { return annualAmort(p) + p.wage; }
   function spend(p) { return p.ask + p.fees; }
-  function effPriority(p) { return p.priority * ageFit(p.age); }
+  // How badly this player's position is needed scales their priority — the club
+  // will pay more for a position it is chasing harder. (positionConfig is set up
+  // in the state section below; this only runs during render, by when it exists.)
+  function needMult(pos) { var c = positionConfig[pos]; return NEED_MULT[(c && c.need) || 'normal']; }
+  function effPriority(p) { return p.priority * ageFit(p.age) * needMult(p.pos); }
 
   function normalise(values) {
     if (!values.length) return [];
@@ -1529,7 +1614,9 @@
   }
 
   // Enumerate plans: at most one signing per position, non-empty, within budget.
-  var MAX_PLANS = 20000;
+  // Candidates are already scoped to the active positions and their top targets,
+  // so this stays small in practice; the cap is a safety valve.
+  var MAX_PLANS = 60000;
   function enumeratePlans(players, budget) {
     var groups = {};
     players.forEach(function (p) { (groups[p.pos] = groups[p.pos] || []).push(p); });
@@ -1591,7 +1678,49 @@
     } catch (e) { return []; }
   }
   function saveUserPlayers() { storeSet(PLAYERS_KEY, JSON.stringify(userPlayers)); }
-  function allPlayers() { return SEED_PLAYERS.concat(userPlayers); }
+
+  // Seed players the visitor has removed (by id). Kept so removals survive a
+  // reload; "Reset" clears this and brings them all back.
+  var removedSeed = (function () {
+    var raw = storeGet(REMOVED_KEY);
+    try { var a = JSON.parse(raw); return Array.isArray(a) ? a : []; } catch (e) { return []; }
+  })();
+  function saveRemoved() { storeSet(REMOVED_KEY, JSON.stringify(removedSeed)); }
+
+  // Per-position recruitment: is the club chasing this position, and how badly.
+  // Rebuilt to cover whatever positions currently exist in the pool.
+  var positionConfig = (function () {
+    var raw = storeGet(POS_KEY);
+    try { var o = JSON.parse(raw); return (o && typeof o === 'object') ? o : {}; } catch (e) { return {}; }
+  })();
+  function savePositionConfig() { storeSet(POS_KEY, JSON.stringify(positionConfig)); }
+  function syncPositionConfig() {
+    var seen = {};
+    poolPositions().forEach(function (pos) {
+      seen[pos] = true;
+      if (!positionConfig[pos]) positionConfig[pos] = { active: !!DEFAULT_ACTIVE_POS[pos], need: 'normal' };
+    });
+    savePositionConfig();
+  }
+
+  function allPlayers() {
+    return SEED_PLAYERS.filter(function (p) { return removedSeed.indexOf(p.id) === -1; }).concat(userPlayers);
+  }
+  // Distinct positions present in the current pool, in a stable football order.
+  var POS_ORDER = ['GK', 'RB', 'CB', 'LB', 'CDM', 'CM', 'CAM', 'RW', 'LW', 'ST'];
+  function poolPositions() {
+    var present = {};
+    allPlayers().forEach(function (p) { present[p.pos] = true; });
+    var ordered = POS_ORDER.filter(function (pos) { return present[pos]; });
+    Object.keys(present).forEach(function (pos) { if (ordered.indexOf(pos) === -1) ordered.push(pos); });
+    return ordered;
+  }
+  function removePlayer(id) {
+    var seed = SEED_PLAYERS.some(function (p) { return p.id === id; });
+    if (seed) { if (removedSeed.indexOf(id) === -1) { removedSeed.push(id); saveRemoved(); } }
+    else { userPlayers = userPlayers.filter(function (p) { return p.id !== id; }); saveUserPlayers(); }
+    renderAll();
+  }
 
   function readNum(id, fallback) {
     var el = document.getElementById(id);
@@ -1608,38 +1737,99 @@
 
   function renderCards() {
     var cards = document.getElementById('ttCards');
-    cards.innerHTML = allPlayers().map(function (p) {
-      return '<div class="tt-card' + (p.mine ? ' tt-mine' : '') + '">' +
-        '<div class="tt-card-top"><span class="tt-card-name">' + esc(p.name) + '</span><span class="tt-pos">' + esc(p.pos) + '</span></div>' +
+    var list = allPlayers();
+    var countEl = document.getElementById('ttPoolCount');
+    if (countEl) countEl.textContent = list.length + (list.length === 1 ? ' target' : ' targets');
+    cards.innerHTML = list.map(function (p) {
+      var cfg = positionConfig[p.pos] || { active: false, need: 'normal' };
+      var needTag = cfg.need !== 'normal'
+        ? '<span class="tt-need-tag tt-need-' + cfg.need + '">' + NEED_LABEL[cfg.need] + ' need ×' + NEED_MULT[cfg.need].toFixed(1) + '</span>' : '';
+      return '<div class="tt-card' + (p.mine ? ' tt-mine' : '') + (cfg.active ? '' : ' tt-idle') + '">' +
+        '<div class="tt-card-top"><span class="tt-card-name">' + esc(p.name) + '</span>' +
+          '<span class="tt-card-top-right"><span class="tt-pos">' + esc(p.pos) + '</span>' +
+          '<button class="tt-card-x" data-remove="' + esc(p.id) + '" type="button" aria-label="Remove ' + esc(p.name) + ' from the pool" title="Remove ' + esc(p.name) + '">&times;</button></span></div>' +
         '<div class="tt-card-stats">' +
           stat('Age', p.age) + stat('Priority', p.priority + '/10') +
           stat('Asking', fmtM(p.ask)) + stat('Fees', fmtM(p.fees)) +
           stat('Wage', fmtM(p.wage) + '/yr') + stat('Contract', p.contract + ' yr') +
         '</div>' +
         '<div class="tt-card-calc"><span>Cap hit <b>' + fmtM(capHit(p)) + '/yr</b></span><span>Effective priority <b>' + num2(effPriority(p)) + '</b></span></div>' +
-        (p.mine ? '<div style="display:flex;justify-content:space-between;align-items:center;"><span class="tt-mine-tag">Added by you</span><button class="tt-card-remove" data-remove="' + esc(p.id) + '" type="button">Remove</button></div>' : '') +
+        (p.mine || needTag ? '<div class="tt-card-foot">' + (p.mine ? '<span class="tt-mine-tag">Added by you</span>' : '<span></span>') + needTag + '</div>' : '') +
       '</div>';
     }).join('');
     cards.querySelectorAll('[data-remove]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var id = btn.getAttribute('data-remove');
-        userPlayers = userPlayers.filter(function (p) { return p.id !== id; });
-        saveUserPlayers(); renderCards(); renderCombos();
-      });
+      btn.addEventListener('click', function () { removePlayer(btn.getAttribute('data-remove')); });
     });
   }
   function stat(k, v) { return '<div class="tt-stat"><span class="tt-k">' + k + '</span><span class="tt-v">' + v + '</span></div>'; }
+
+  // ---- position selector ----
+  function renderPositions() {
+    syncPositionConfig();
+    var host = document.getElementById('ttPositions');
+    if (!host) return;
+    host.innerHTML = poolPositions().map(function (pos) {
+      var cfg = positionConfig[pos];
+      var opts = NEED_ORDER.map(function (n) {
+        return '<option value="' + n + '"' + (cfg.need === n ? ' selected' : '') + '>' + NEED_LABEL[n] + (n === 'normal' ? '' : ' ×' + NEED_MULT[n].toFixed(1)) + '</option>';
+      }).join('');
+      return '<div class="tt-pos-ctrl' + (cfg.active ? ' tt-on' : '') + '">' +
+        '<button class="tt-pos-toggle" type="button" data-pos="' + pos + '" aria-pressed="' + cfg.active + '">' +
+          '<span class="tt-pos-check">' + (cfg.active ? '✓' : '') + '</span>' + pos + '</button>' +
+        '<select class="tt-pos-need" data-pos="' + pos + '" aria-label="Need level for ' + pos + '"' + (cfg.active ? '' : ' disabled') + '>' + opts + '</select>' +
+      '</div>';
+    }).join('');
+    host.querySelectorAll('.tt-pos-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var pos = btn.getAttribute('data-pos');
+        positionConfig[pos].active = !positionConfig[pos].active;
+        savePositionConfig(); renderPositions(); renderCards(); renderCombos();
+      });
+    });
+    host.querySelectorAll('.tt-pos-need').forEach(function (sel) {
+      sel.addEventListener('change', function () {
+        var pos = sel.getAttribute('data-pos');
+        positionConfig[pos].need = sel.value;
+        savePositionConfig(); renderCards(); renderCombos();
+      });
+    });
+  }
+
+  // Only active positions feed the combinations, and only each position's
+  // strongest targets — so a 30-plus pool stays fast and the plans stay sensible.
+  function candidatePool() {
+    var byPos = {};
+    allPlayers().forEach(function (p) {
+      var cfg = positionConfig[p.pos];
+      if (!cfg || !cfg.active) return;
+      (byPos[p.pos] = byPos[p.pos] || []).push(p);
+    });
+    var out = [];
+    Object.keys(byPos).forEach(function (pos) {
+      byPos[pos].sort(function (a, b) { return effPriority(b) - effPriority(a); });
+      out = out.concat(byPos[pos].slice(0, TOP_PER_POS));
+    });
+    return out;
+  }
 
   function renderCombos() {
     var host = document.getElementById('ttCombos');
     var budget = readNum('ttBudget', 0), revenue = readNum('ttRevenue', 0), baseline = readNum('ttBaseline', 0);
     var weighting = readNum('ttWeight', 50);
-    var feasible = enumeratePlans(allPlayers(), budget);
+
+    var activeCount = poolPositions().filter(function (pos) { return positionConfig[pos] && positionConfig[pos].active; }).length;
+    if (!activeCount) {
+      host.innerHTML = '<div class="tt-empty">Switch on at least one position above to build combinations from it.</div>';
+      return;
+    }
+
+    var candidates = candidatePool();
+    var feasible = enumeratePlans(candidates, budget);
     var ranked = rankPlans(feasible, weighting);
 
     if (!ranked.length) {
-      host.innerHTML = '<div class="tt-empty">No combination fits inside ' + fmtM(budget) +
-        '. Raise the budget in step 1, or lower an asking price, and the best plans will appear here.</div>';
+      host.innerHTML = '<div class="tt-empty">No combination across your chosen positions fits inside ' + fmtM(budget) +
+        '. Raise the budget in step 1, lower an asking price, or switch on a cheaper position, and the best plans will appear here.</div>';
       return;
     }
 
@@ -1689,7 +1879,7 @@
   }
   function metric(k, v, s) { return '<div class="tt-metric"><div class="tt-mk">' + k + '</div><div class="tt-mv">' + v + '</div><div class="tt-ms">' + s + '</div></div>'; }
 
-  function renderAll() { renderCards(); renderCombos(); }
+  function renderAll() { renderPositions(); renderCards(); renderCombos(); }
 
   // ---- inputs ----
   ['ttBudget', 'ttRevenue', 'ttBaseline'].forEach(function (id) {
@@ -1726,6 +1916,11 @@
     };
     userPlayers.push(player);
     saveUserPlayers();
+    // Switch the new player's position on so it joins the combinations straight
+    // away — otherwise a target added in an idle position appears to do nothing.
+    if (!positionConfig[player.pos]) positionConfig[player.pos] = { active: true, need: 'normal' };
+    else positionConfig[player.pos].active = true;
+    savePositionConfig();
     addForm.reset();
     addErr.textContent = '';
     renderAll();
@@ -1733,19 +1928,23 @@
 
   // ---- reset ----
   document.getElementById('ttReset').addEventListener('click', function () {
-    if (userPlayers.length && !window.confirm('Remove the players you have added and go back to the starting pool?')) return;
+    if (!window.confirm('Reset everything — bring back the full starting pool, drop the players you added, and restore the default positions?')) return;
     userPlayers = [];
+    removedSeed = [];
+    positionConfig = {};
     storeDel(PLAYERS_KEY);
+    storeDel(REMOVED_KEY);
+    storeDel(POS_KEY);
     renderAll();
   });
 
   // ---- walkthrough ----
   var WALK = [
-    { h: 'A structured way to choose signings', p: 'This is the transfer model as a live tool. Five quick steps and you can drive it yourself — nothing is saved to any account.' },
-    { h: 'Start with the scouted pool', p: 'Step 2 lists the targets already scouted, shown as cards with their cost, wages and a scouting priority.' },
-    { h: 'Add your own targets', p: 'Use “Add your own target” to drop a player into the pool. They appear instantly and are kept in this browser for next time.' },
+    { h: 'A structured way to choose signings', p: 'This is the transfer model as a live tool. A few quick steps and you can drive it yourself — nothing is saved to any account.' },
+    { h: 'Start with the scouted pool', p: 'Step 2 lists the scouted targets as cards — cost, wages and a scouting priority. Remove any with its × or add your own; changes are kept in this browser for next time.' },
     { h: 'Set the financial picture', p: 'In step 1, set the budget, the revenue and the wage bill already committed. This is what the squad-cost caps are measured against.' },
-    { h: 'Read the best combinations', p: 'Step 3 ranks every affordable combination. Slide the balance between scouting fit and value for money and watch the recommendation change.' }
+    { h: 'Choose the positions you need', p: 'In step 3, switch on the positions you are recruiting for and set how badly you need each. A higher need lifts the value of that position’s targets, so the club will pay more for it.' },
+    { h: 'Read the best combinations', p: 'The model ranks every affordable combination across your chosen positions. Slide the balance between scouting fit and value for money and watch the recommendation change.' }
   ];
   var walk = document.getElementById('ttWalk'), walkStep = document.getElementById('ttWalkStep'),
       walkH = document.getElementById('ttWalkH'), walkP = document.getElementById('ttWalkP'),
