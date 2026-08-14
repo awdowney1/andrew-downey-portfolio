@@ -1472,6 +1472,14 @@
             </div>
             <div class="tt-field tt-weight">
               <div class="tt-weight-head">
+                <label for="ttMaxSign" style="margin:0;">Maximum signings</label>
+                <span class="tt-weight-val" id="ttMaxSignVal">4</span>
+              </div>
+              <input id="ttMaxSign" class="tt-range" type="range" min="1" max="7" step="1" value="4">
+              <div class="tt-weight-ends"><span>1</span><span>7</span></div>
+            </div>
+            <div class="tt-field tt-weight">
+              <div class="tt-weight-head">
                 <label for="ttWeight" style="margin:0;">Priority balance</label>
                 <span class="tt-weight-val" id="ttWeightVal">Even split</span>
               </div>
@@ -1707,7 +1715,7 @@
   // switched off so the first view is a sensible, bounded set of combinations.
   var DEFAULT_ACTIVE_POS = { CDM: 1, CAM: 1, CM: 1, CB: 1 };
   // How a position's "need" scales the effective priority of its targets.
-  var NEED_MULT = { low: 0.75, normal: 1.0, high: 1.5, critical: 2.0 };
+  var NEED_MULT = { low: 0.5, normal: 1.0, high: 1.5, critical: 2.0 };
   var NEED_ORDER = ['low', 'normal', 'high', 'critical'];
   var NEED_LABEL = { low: 'Low', normal: 'Normal', high: 'High', critical: 'Critical' };
   // Compact multiplier text: 0.75 -> "0.75", 1.5 -> "1.5", 2 -> "2".
@@ -1772,8 +1780,9 @@
   // Candidates are already scoped to the active positions and their top targets,
   // so this stays small in practice; the cap is a safety valve.
   var MAX_PLANS = 60000;
-  function enumeratePlans(players, budget, requiredSet) {
+  function enumeratePlans(players, budget, requiredSet, maxPicks) {
     requiredSet = requiredSet || {};
+    maxPicks = maxPicks || 99;
     var groups = {};
     players.forEach(function (p) { (groups[p.pos] = groups[p.pos] || []).push(p); });
     var positions = Object.keys(groups);
@@ -1787,7 +1796,11 @@
         // A must-sign position drops the "sign nobody" branch, so every surviving
         // plan is forced to include one of its targets.
         if (!required) next.push(plans[i]);
-        for (var j = 0; j < options.length; j++) next.push(plans[i].concat([options[j]]));
+        // Only extend a plan while it's under the signings cap — this keeps the
+        // number of combinations examined small instead of exploding.
+        if (plans[i].length < maxPicks) {
+          for (var j = 0; j < options.length; j++) next.push(plans[i].concat([options[j]]));
+        }
         if (next.length > MAX_PLANS) break;
       }
       plans = next;
@@ -2132,6 +2145,7 @@
     var host = document.getElementById('ttCombos');
     var budget = readNum('ttBudget', 0), revenue = readNum('ttRevenue', 0), baseline = readNum('ttBaseline', 0);
     var weighting = readNum('ttWeight', 50);
+    var maxSign = Math.max(1, Math.min(7, Math.round(readNum('ttMaxSign', 4))));
 
     var activeCount = selectorPositions().filter(function (pos) { return positionConfig[pos] && positionConfig[pos].active; }).length;
     if (!activeCount) {
@@ -2156,9 +2170,16 @@
         ' as a must-sign, but there are no scouted players there. Add one below, or clear the requirement above.</div>';
       return;
     }
+    // Can't force more must-signs than the cap on total signings allows.
+    if (requiredPositions.length > maxSign) {
+      host.innerHTML = '<div class="tt-empty">You’ve made ' + requiredPositions.length +
+        ' positions a must-sign but capped signings at ' + maxSign +
+        '. Raise the maximum signings in step 1, or clear a must-sign above.</div>';
+      return;
+    }
     var requiredSet = {};
     requiredPositions.forEach(function (pos) { requiredSet[pos] = true; });
-    var feasible = enumeratePlans(candidates, budget, requiredSet);
+    var feasible = enumeratePlans(candidates, budget, requiredSet, maxSign);
     var ranked = rankPlans(feasible, weighting);
 
     if (!ranked.length) {
@@ -2223,6 +2244,8 @@
   var weightEl = document.getElementById('ttWeight'), weightVal = document.getElementById('ttWeightVal');
   function weightLabel(v) { return v <= 15 ? 'Scouting fit first' : (v >= 85 ? 'Value for money first' : (v > 55 ? 'Leaning to value' : (v < 45 ? 'Leaning to scouting' : 'Even split'))); }
   weightEl.addEventListener('input', function () { weightVal.textContent = weightLabel(+weightEl.value); renderCombos(); });
+  var maxSignEl = document.getElementById('ttMaxSign'), maxSignVal = document.getElementById('ttMaxSignVal');
+  maxSignEl.addEventListener('input', function () { maxSignVal.textContent = maxSignEl.value; renderCombos(); });
 
   // ---- add / edit target ----
   // One form serves both: with no target being edited it adds; while editing a
