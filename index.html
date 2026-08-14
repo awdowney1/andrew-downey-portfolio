@@ -621,28 +621,27 @@
   .tt-pool-head { display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.85rem; }
   .tt-store-note { font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.03em; color:var(--ink-soft); display:inline-flex; align-items:center; gap:0.45rem; }
   .tt-store-note .tt-lock { color:var(--gold); }
-  /* Compact one-line-per-player list */
-  .tt-list { border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-  .tt-row { display:flex; align-items:center; gap:0.75rem 1rem; padding:0.5rem 0.85rem; border-top:1px solid var(--border); flex-wrap:wrap; transition:background 140ms ease, opacity 140ms ease; }
-  .tt-row:first-child { border-top:none; }
-  .tt-row:hover { background:rgba(255,255,255,0.03); }
-  .tt-row.tt-mine { border-left:2px solid var(--gold); }
-  .tt-row.tt-idle { opacity:0.5; }
-  .tt-row-main { display:flex; align-items:center; gap:0.45rem; min-width:11rem; flex:0 0 auto; }
-  .tt-row-name { font-family:var(--font-head); font-weight:600; font-size:0.95rem; color:#F5F0E7; }
-  .tt-you { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(210,162,76,0.5); border-radius:3px; padding:0.05rem 0.28rem; }
-  .tt-row-stats { display:flex; flex-wrap:wrap; gap:0.35rem 0.9rem; flex:1 1 auto; }
-  .tt-rstat { font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-soft); }
-  .tt-row-calc { display:flex; gap:0.9rem; flex:0 0 auto; }
-  .tt-row-calc span { font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-soft); }
-  .tt-row-calc b { color:var(--gold); font-weight:600; }
-  .tt-row-x { background:none; border:none; color:var(--ink-soft); font-size:1.15rem; line-height:1; cursor:pointer; padding:0 0.2rem; border-radius:4px; flex:0 0 auto; transition:color 150ms ease, background 150ms ease; }
+  /* Compact one-line-per-player table with a labelled header */
+  .tt-tscroll { overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border); border-radius:10px; }
+  .tt-table { min-width:640px; }
+  .tt-thead, .tt-trow { display:grid; grid-template-columns:minmax(8rem,1.6fr) 2.9rem 2.4rem 3.7rem 3.4rem 5rem 3.2rem 3.1rem 4.2rem 3rem 1.6rem; align-items:center; column-gap:0.5rem; padding:0.45rem 0.85rem; }
+  .tt-thead { background:rgba(255,255,255,0.05); border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:0.62rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold); }
+  .tt-thead .tt-num { text-align:right; }
+  .tt-trow { border-top:1px solid var(--border); transition:background 140ms ease, opacity 140ms ease; }
+  .tt-trow:first-of-type { border-top:none; }
+  .tt-trow:hover { background:rgba(255,255,255,0.03); }
+  .tt-trow.tt-mine { border-left:2px solid var(--gold); }
+  .tt-trow.tt-idle { opacity:0.5; }
+  .tt-td-name { display:flex; align-items:center; gap:0.4rem; font-family:var(--font-head); font-weight:600; font-size:0.92rem; color:#F5F0E7; min-width:0; }
+  .tt-num { font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-soft); text-align:right; }
+  .tt-num.tt-gold { color:var(--gold); }
+  .tt-you { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(210,162,76,0.5); border-radius:3px; padding:0.05rem 0.28rem; flex:0 0 auto; }
+  .tt-row-x { background:none; border:none; color:var(--ink-soft); font-size:1.15rem; line-height:1; cursor:pointer; padding:0; border-radius:4px; justify-self:end; transition:color 150ms ease, background 150ms ease; }
   .tt-row-x:hover { color:#E27C7C; background:rgba(226,124,124,0.12); }
-  .tt-need-tag { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.02em; padding:0.05rem 0.32rem; border-radius:4px; }
+  .tt-need-tag { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.02em; padding:0.05rem 0.32rem; border-radius:4px; flex:0 0 auto; }
   .tt-need-tag.tt-need-low { background:rgba(255,255,255,0.06); color:var(--ink-soft); }
   .tt-need-tag.tt-need-high { background:rgba(210,162,76,0.16); color:#E4B65C; }
   .tt-need-tag.tt-need-critical { background:rgba(210,162,76,0.26); color:#EAC077; }
-  @media (max-width:560px){ .tt-row-calc { flex-basis:100%; } }
 
   /* Position selector */
   .tt-pos-block { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:0.9rem 1rem; margin-bottom:1.1rem; }
@@ -654,6 +653,10 @@
   .tt-pos-toggle { background:rgba(255,255,255,0.04); border:none; border-right:1px solid var(--border); color:var(--ink); font-family:var(--font-head); font-weight:600; font-size:0.82rem; padding:0.4rem 0.7rem; cursor:pointer; display:inline-flex; align-items:center; gap:0.35rem; }
   .tt-pos-ctrl.tt-on .tt-pos-toggle { background:rgba(210,162,76,0.16); color:#F5F0E7; }
   .tt-pos-check { font-size:0.7rem; color:var(--gold); width:0.7rem; display:inline-block; }
+  .tt-pos-n { font-family:var(--font-mono); font-size:0.6rem; color:var(--ink-soft); background:rgba(0,0,0,0.25); border-radius:3px; padding:0.02rem 0.28rem; }
+  .tt-pos-ctrl.tt-on .tt-pos-n { color:var(--gold); }
+  .tt-pos-ctrl.tt-pos-empty .tt-pos-n { color:var(--ink-soft); opacity:0.7; }
+  .tt-pos-ctrl.tt-pos-empty:not(.tt-on) { opacity:0.5; }
   .tt-pos-need { background:rgba(0,0,0,0.22); border:none; color:var(--ink); font-family:var(--font-mono); font-size:0.72rem; padding:0 0.5rem; cursor:pointer; }
   .tt-pos-need:disabled { color:var(--ink-soft); opacity:0.5; cursor:default; }
   .tt-pos-need:focus { outline:none; }
@@ -1705,9 +1708,7 @@
   })();
   function savePositionConfig() { storeSet(POS_KEY, JSON.stringify(positionConfig)); }
   function syncPositionConfig() {
-    var seen = {};
-    poolPositions().forEach(function (pos) {
-      seen[pos] = true;
+    selectorPositions().forEach(function (pos) {
       if (!positionConfig[pos]) positionConfig[pos] = { active: !!DEFAULT_ACTIVE_POS[pos], need: 'normal' };
     });
     savePositionConfig();
@@ -1724,6 +1725,18 @@
     var ordered = POS_ORDER.filter(function (pos) { return present[pos]; });
     Object.keys(present).forEach(function (pos) { if (ordered.indexOf(pos) === -1) ordered.push(pos); });
     return ordered;
+  }
+  // Positions offered in the selector: every known position (so GK and LW are
+  // available even before anyone is scouted for them) plus any others in the pool.
+  function selectorPositions() {
+    var out = POS_ORDER.slice();
+    poolPositions().forEach(function (pos) { if (out.indexOf(pos) === -1) out.push(pos); });
+    return out;
+  }
+  function posCount(pos) {
+    var n = 0;
+    allPlayers().forEach(function (p) { if (p.pos === pos) n++; });
+    return n;
   }
   function removePlayer(id) {
     var seed = SEED_PLAYERS.some(function (p) { return p.id === id; });
@@ -1754,44 +1767,62 @@
     var list = allPlayers();
     var countEl = document.getElementById('ttPoolCount');
     if (countEl) countEl.textContent = list.length + (list.length === 1 ? ' target' : ' targets');
-    cards.innerHTML = '<div class="tt-list">' + list.map(function (p) {
+
+    // Column header, so every value below it is labelled.
+    var head = '<div class="tt-thead">' +
+      '<span class="tt-th-name">Player</span>' +
+      '<span>Pos</span>' +
+      '<span class="tt-num">Age</span>' +
+      '<span class="tt-num" title="Asking price">Ask</span>' +
+      '<span class="tt-num" title="Agent &amp; add-on fees">Fees</span>' +
+      '<span class="tt-num" title="Wage per week">Wage/wk</span>' +
+      '<span class="tt-num" title="Contract length">Contr.</span>' +
+      '<span class="tt-num" title="Scouting priority (1–10)">Prio</span>' +
+      '<span class="tt-num" title="Annual squad-cost hit">Cap hit</span>' +
+      '<span class="tt-num" title="Effective priority: scouting × age fit × position need">Eff</span>' +
+      '<span></span></div>';
+
+    var rows = list.map(function (p) {
       var cfg = positionConfig[p.pos] || { active: false, need: 'normal' };
       var needTag = cfg.need !== 'normal'
         ? ' <span class="tt-need-tag tt-need-' + cfg.need + '" title="' + NEED_LABEL[cfg.need] + ' need">×' + NEED_MULT[cfg.need].toFixed(1) + '</span>' : '';
-      return '<div class="tt-row' + (p.mine ? ' tt-mine' : '') + (cfg.active ? '' : ' tt-idle') + '">' +
-        '<span class="tt-row-main"><span class="tt-row-name">' + esc(p.name) + '</span>' +
-          '<span class="tt-pos">' + esc(p.pos) + '</span>' + needTag +
-          (p.mine ? '<span class="tt-you">you</span>' : '') + '</span>' +
-        '<span class="tt-row-stats">' +
-          rstat(p.age + 'y') + rstat(fmtM(p.ask) + ' + ' + fmtM(p.fees)) + rstat(weeklyWageStr(p.wage)) +
-          rstat(p.contract + 'yr') + rstat('P' + p.priority) +
-        '</span>' +
-        '<span class="tt-row-calc">' +
-          '<span title="Annual squad-cost hit">cap <b>' + fmtM(capHit(p)) + '</b></span>' +
-          '<span title="Effective priority: scouting × age fit × position need">eff <b>' + num2(effPriority(p)) + '</b></span>' +
-        '</span>' +
+      return '<div class="tt-trow' + (p.mine ? ' tt-mine' : '') + (cfg.active ? '' : ' tt-idle') + '">' +
+        '<span class="tt-td-name">' + esc(p.name) + (p.mine ? '<span class="tt-you">you</span>' : '') + needTag + '</span>' +
+        '<span><span class="tt-pos">' + esc(p.pos) + '</span></span>' +
+        '<span class="tt-num">' + p.age + '</span>' +
+        '<span class="tt-num">' + fmtM(p.ask) + '</span>' +
+        '<span class="tt-num">' + fmtM(p.fees) + '</span>' +
+        '<span class="tt-num">' + weeklyWageStr(p.wage) + '</span>' +
+        '<span class="tt-num">' + p.contract + 'yr</span>' +
+        '<span class="tt-num">' + p.priority + '/10</span>' +
+        '<span class="tt-num tt-gold">' + fmtM(capHit(p)) + '</span>' +
+        '<span class="tt-num tt-gold">' + num2(effPriority(p)) + '</span>' +
         '<button class="tt-row-x" data-remove="' + esc(p.id) + '" type="button" aria-label="Remove ' + esc(p.name) + ' from the pool" title="Remove ' + esc(p.name) + '">&times;</button>' +
       '</div>';
-    }).join('') + '</div>';
+    }).join('');
+
+    cards.innerHTML = '<div class="tt-tscroll"><div class="tt-table">' + head + rows + '</div></div>';
     cards.querySelectorAll('[data-remove]').forEach(function (btn) {
       btn.addEventListener('click', function () { removePlayer(btn.getAttribute('data-remove')); });
     });
   }
-  function rstat(v) { return '<span class="tt-rstat">' + v + '</span>'; }
 
   // ---- position selector ----
   function renderPositions() {
     syncPositionConfig();
     var host = document.getElementById('ttPositions');
     if (!host) return;
-    host.innerHTML = poolPositions().map(function (pos) {
+    host.innerHTML = selectorPositions().map(function (pos) {
       var cfg = positionConfig[pos];
+      var count = posCount(pos);
       var opts = NEED_ORDER.map(function (n) {
         return '<option value="' + n + '"' + (cfg.need === n ? ' selected' : '') + '>' + NEED_LABEL[n] + (n === 'normal' ? '' : ' ×' + NEED_MULT[n].toFixed(1)) + '</option>';
       }).join('');
-      return '<div class="tt-pos-ctrl' + (cfg.active ? ' tt-on' : '') + '">' +
-        '<button class="tt-pos-toggle" type="button" data-pos="' + pos + '" aria-pressed="' + cfg.active + '">' +
-          '<span class="tt-pos-check">' + (cfg.active ? '✓' : '') + '</span>' + pos + '</button>' +
+      return '<div class="tt-pos-ctrl' + (cfg.active ? ' tt-on' : '') + (count === 0 ? ' tt-pos-empty' : '') + '">' +
+        '<button class="tt-pos-toggle" type="button" data-pos="' + pos + '" aria-pressed="' + cfg.active + '"' +
+          (count === 0 ? ' title="No ' + pos + ' scouted yet — add one below"' : '') + '>' +
+          '<span class="tt-pos-check">' + (cfg.active ? '✓' : '') + '</span>' + pos +
+          '<span class="tt-pos-n">' + count + '</span></button>' +
         '<select class="tt-pos-need" data-pos="' + pos + '" aria-label="Need level for ' + pos + '"' + (cfg.active ? '' : ' disabled') + '>' + opts + '</select>' +
       '</div>';
     }).join('');
@@ -1833,13 +1864,17 @@
     var budget = readNum('ttBudget', 0), revenue = readNum('ttRevenue', 0), baseline = readNum('ttBaseline', 0);
     var weighting = readNum('ttWeight', 50);
 
-    var activeCount = poolPositions().filter(function (pos) { return positionConfig[pos] && positionConfig[pos].active; }).length;
+    var activeCount = selectorPositions().filter(function (pos) { return positionConfig[pos] && positionConfig[pos].active; }).length;
     if (!activeCount) {
       host.innerHTML = '<div class="tt-empty">Switch on at least one position above to build combinations from it.</div>';
       return;
     }
 
     var candidates = candidatePool();
+    if (!candidates.length) {
+      host.innerHTML = '<div class="tt-empty">The positions you’ve switched on have no scouted players yet. Add one below, or switch on a position that does.</div>';
+      return;
+    }
     var feasible = enumeratePlans(candidates, budget);
     var ranked = rankPlans(feasible, weighting);
 
