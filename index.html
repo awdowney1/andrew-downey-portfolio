@@ -641,6 +641,16 @@
   .tt-row-x:hover { color:#E27C7C; background:rgba(226,124,124,0.12); }
   .tt-row-edit { background:none; border:none; color:var(--ink-soft); font-size:0.85rem; line-height:1; cursor:pointer; padding:0.15rem 0.25rem; border-radius:4px; transition:color 150ms ease, background 150ms ease; }
   .tt-row-edit:hover { color:var(--gold); background:rgba(210,162,76,0.14); }
+  /* Collapsible per-position groups in the scouted pool */
+  .tt-grp { border:1px solid var(--border); border-radius:8px; margin-bottom:0.5rem; overflow:hidden; }
+  .tt-grp-head { width:100%; display:flex; align-items:center; gap:0.6rem; background:rgba(255,255,255,0.04); border:none; color:#F5F0E7; font-family:var(--font-head); font-weight:600; font-size:0.9rem; padding:0.6rem 0.85rem; cursor:pointer; text-align:left; }
+  .tt-grp-head:hover { background:rgba(255,255,255,0.07); }
+  .tt-grp.tt-open .tt-grp-head { background:rgba(210,162,76,0.12); }
+  .tt-grp-caret { color:var(--gold); font-size:0.72rem; line-height:1; display:inline-block; transition:transform 150ms ease; }
+  .tt-grp.tt-open .tt-grp-caret { transform:rotate(90deg); }
+  .tt-grp-pos { font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.05em; color:var(--gold); background:rgba(210,162,76,0.16); border-radius:4px; padding:0.1rem 0.45rem; }
+  .tt-grp-n { font-family:var(--font-mono); font-size:0.68rem; color:var(--ink-soft); margin-left:auto; }
+  .tt-grp-body { border-top:1px solid var(--border); }
   .tt-need-tag { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.02em; padding:0.05rem 0.32rem; border-radius:4px; flex:0 0 auto; }
   .tt-need-tag.tt-need-low { background:rgba(255,255,255,0.06); color:var(--ink-soft); }
   .tt-need-tag.tt-need-high { background:rgba(210,162,76,0.16); color:#E4B65C; }
@@ -661,6 +671,8 @@
   .tt-pos-ctrl.tt-pos-empty .tt-pos-n { color:var(--ink-soft); opacity:0.7; }
   .tt-pos-ctrl.tt-pos-empty:not(.tt-on) { opacity:0.5; }
   .tt-pos-need { background:rgba(0,0,0,0.22); border:none; color:var(--ink); font-family:var(--font-mono); font-size:0.72rem; padding:0 0.5rem; cursor:pointer; }
+  /* Explicit colours so the open dropdown list isn't white-on-white. */
+  .tt-pos-need option { background:#17130C; color:#F5F0E7; }
   .tt-pos-need:disabled { color:var(--ink-soft); opacity:0.5; cursor:default; }
   .tt-pos-need:focus { outline:none; }
   .tt-pos-must { background:rgba(255,255,255,0.04); border:none; border-left:1px solid var(--border); color:var(--ink-soft); font-family:var(--font-mono); font-size:0.64rem; letter-spacing:0.05em; text-transform:uppercase; padding:0 0.6rem; cursor:pointer; white-space:nowrap; }
@@ -698,6 +710,7 @@
   .tt-add-grid label { font-family:var(--font-mono); font-size:0.62rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft); }
   .tt-add-grid input, .tt-add-grid select { background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; color:var(--ink); font-family:var(--font-mono); font-size:0.88rem; padding:0.4rem 0.5rem; }
   .tt-add-grid input:focus, .tt-add-grid select:focus { outline:none; border-color:var(--gold); }
+  .tt-add-grid select option { background:#17130C; color:#F5F0E7; }
   .tt-add-actions { display:flex; align-items:center; gap:0.75rem; margin-top:0.85rem; }
   .tt-add-err { font-family:var(--font-mono); font-size:0.72rem; color:#E8A0A0; min-height:1em; }
   .tt-add-cancel { display:none; }
@@ -1479,7 +1492,7 @@
         <section class="tt-step">
           <p class="tt-eyebrow"><span class="tt-dot">2</span> Targets</p>
           <h2 class="tt-h">The scouted pool <span class="tt-count" id="ttPoolCount"></span></h2>
-          <p class="tt-lead">Each card is a target: what they cost, what they earn, and a scouting priority from 1&ndash;10. The model turns fees and wages into an annual squad-cost hit, then discounts priority by an age-fit curve that peaks around 23. Edit any target with its <span aria-hidden="true">✎</span>, remove one with its <span aria-hidden="true">×</span>, or add your own below.</p>
+          <p class="tt-lead">Each target has what they cost, what they earn, and a scouting priority from 1&ndash;10. The model turns fees and wages into an annual squad-cost hit, then discounts priority by an age-fit curve that peaks around 23. Targets are grouped by position — open a position to see its players. Edit any with its <span aria-hidden="true">✎</span>, remove one with its <span aria-hidden="true">×</span>, or add your own below.</p>
           <div class="tt-mod" id="ttMod" hidden>
             <div class="tt-mod-head"><span class="tt-mod-badge">Moderator</span> <span>You're editing the master pool every visitor sees. Add, edit and remove targets here, then export the list and republish — changes only reach visitors once the site is republished.</span></div>
             <div class="tt-mod-actions">
@@ -1922,6 +1935,10 @@
   var weeklyWageStr = function (annualM) { return '£' + (Math.round(annualM * 1000 / 52 / 5) * 5) + 'k/wk'; };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); };
 
+  // Which position groups are expanded in the pool list. Default: none, so a
+  // long pool opens fully collapsed and the visitor expands each at will.
+  var expandedGroups = {};
+
   function renderCards() {
     var cards = document.getElementById('ttCards');
     var list = allPlayers();
@@ -1942,7 +1959,7 @@
       '<span class="tt-num" title="Effective priority: scouting × age fit × position need">Eff</span>' +
       '<span></span></div>';
 
-    var rows = list.map(function (p) {
+    function rowHtml(p) {
       var cfg = positionConfig[p.pos] || { active: false, need: 'normal' };
       var needTag = cfg.need !== 'normal'
         ? ' <span class="tt-need-tag tt-need-' + cfg.need + '" title="' + NEED_LABEL[cfg.need] + ' need">×' + multStr(NEED_MULT[cfg.need]) + '</span>' : '';
@@ -1962,9 +1979,45 @@
           '<button class="tt-row-x" data-remove="' + esc(p.id) + '" type="button" aria-label="Remove ' + esc(p.name) + ' from the pool" title="Remove ' + esc(p.name) + '">&times;</button>' +
         '</span>' +
       '</div>';
+    }
+
+    if (!list.length) {
+      cards.innerHTML = '<div class="tt-empty">No targets in the pool yet — add one below.</div>';
+      return;
+    }
+
+    // One collapsible group per position, in football order. Each opens on its
+    // own header button; the group's own labelled table sits inside.
+    var groups = {};
+    list.forEach(function (p) { (groups[p.pos] = groups[p.pos] || []).push(p); });
+    cards.innerHTML = poolPositions().map(function (pos) {
+      var players = groups[pos] || [];
+      if (!players.length) return '';
+      var open = !!expandedGroups[pos];
+      var rows = players.map(rowHtml).join('');
+      return '<div class="tt-grp' + (open ? ' tt-open' : '') + '">' +
+        '<button class="tt-grp-head" type="button" data-grp="' + esc(pos) + '" aria-expanded="' + open + '">' +
+          '<span class="tt-grp-caret" aria-hidden="true">▸</span>' +
+          '<span class="tt-grp-pos">' + esc(pos) + '</span>' +
+          '<span class="tt-grp-n">' + players.length + (players.length === 1 ? ' target' : ' targets') + '</span>' +
+        '</button>' +
+        '<div class="tt-grp-body"' + (open ? '' : ' hidden') + '>' +
+          '<div class="tt-tscroll"><div class="tt-table">' + head + rows + '</div></div>' +
+        '</div>' +
+      '</div>';
     }).join('');
 
-    cards.innerHTML = '<div class="tt-tscroll"><div class="tt-table">' + head + rows + '</div></div>';
+    cards.querySelectorAll('.tt-grp-head').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var pos = btn.getAttribute('data-grp');
+        var now = !expandedGroups[pos];
+        expandedGroups[pos] = now;
+        var grp = btn.parentNode, body = grp.querySelector('.tt-grp-body');
+        grp.classList.toggle('tt-open', now);
+        btn.setAttribute('aria-expanded', String(now));
+        if (now) body.removeAttribute('hidden'); else body.setAttribute('hidden', '');
+      });
+    });
     cards.querySelectorAll('[data-remove]').forEach(function (btn) {
       btn.addEventListener('click', function () { removePlayer(btn.getAttribute('data-remove')); });
     });
@@ -2118,7 +2171,7 @@
       '<div class="tt-metrics">' +
         metric('Spend', fmtM(best.combinedSpend), 'of ' + fmtM(budget)) +
         metric('Budget left', fmtM(headroom), headroom >= 0 ? 'within budget' : 'over budget') +
-        metric('Squad-cost hit', fmtM(best.combinedCapHit) + '/yr', 'added to the budget') +
+        metric('Squad-cost hit', fmtM(best.combinedCapHit) + '/yr', 'annual cost of this plan') +
         metric('Utility', num2(best.utility), 'best of ' + ranked.length + ' options') +
       '</div>' +
       '<div class="tt-scr">' +
@@ -2250,6 +2303,7 @@
         saveUserPlayers();
       }
       activatePosition(v.pos);
+      expandedGroups[v.pos] = true; // keep the edited target in view
       exitEdit();
       renderAll();
       return;
@@ -2270,6 +2324,7 @@
     // Switch the new player's position on so it joins the combinations straight
     // away — otherwise a target added in an idle position appears to do nothing.
     activatePosition(v.pos);
+    expandedGroups[v.pos] = true; // open its group so the new target is visible
     addForm.reset();
     addErr.textContent = '';
     renderAll();
@@ -2370,7 +2425,7 @@
   // ---- walkthrough ----
   var WALK = [
     { h: 'A structured way to choose signings', p: 'This is the transfer model as a live tool. A few quick steps and you can drive it yourself — nothing is saved to any account.' },
-    { h: 'Start with the scouted pool', p: 'Step 2 lists the scouted targets as cards — cost, wages and a scouting priority. Remove any with its × or add your own; changes are kept in this browser for next time.' },
+    { h: 'Start with the scouted pool', p: 'Step 2 groups the scouted targets by position — open a position to see its players, with their cost, wages and scouting priority. Edit any with its ✎, remove one with its ×, or add your own; changes are kept in this browser for next time.' },
     { h: 'Set the financial picture', p: 'In step 1, set the budget, the revenue and the wage bill already committed. This is what the squad-cost caps are measured against.' },
     { h: 'Choose the positions you need', p: 'In step 3, switch on the positions you are recruiting for and set how badly you need each. A higher need lifts the value of that position’s targets, so the club will pay more for it.' },
     { h: 'Read the best combinations', p: 'The model ranks every affordable combination across your chosen positions. Slide the balance between scouting fit and value for money and watch the recommendation change.' }
