@@ -1641,8 +1641,18 @@
   // no shared database. To change this universal set, edit this list and
   // republish.)
   var SEED_PLAYERS = [
+    // GK
+    P('Gill', 'GK', 26, 5.5, 0.25, 2.08, 2, 4),
+    P('Roefs', 'GK', 23, 35, 1, 5.2, 4, 8),
+    P('Vicario', 'GK', 29, 20, 3, 4.16, 3, 4),
+    P('Mamardashvili', 'GK', 25, 40, 1, 3.38, 4, 7),
+    P('Safonov', 'GK', 27, 30, 2, 5.2, 4, 6),
     // RB
     P('Spence', 'RB', 25, 50, 2.5, 5.2, 4, 6),
+    P('Ryerson', 'RB', 28, 25, 1, 4.16, 4, 8),
+    P('Munoz', 'RB', 30, 30, 1.5, 4.68, 3, 6),
+    P('Baku', 'RB', 28, 20, 0.3, 2.34, 3, 3),
+    P('Molina', 'RB', 28, 20, 1, 3.64, 3, 2),
     // CB
     P('Kim Min Jae', 'CB', 29, 30, 1.5, 7.8, 3, 6),
     P('Anton', 'CB', 29, 20, 1, 3.1, 3, 5),
@@ -1652,39 +1662,45 @@
     // LB
     P('Neco Williams', 'LB', 25, 35, 1.5, 4, 4, 6),
     P('Hall', 'LB', 21, 45, 1, 5.2, 5, 8),
+    P('Brown', 'LB', 24, 15, 1.2, 2.6, 4, 5),
+    P('Lewis-Skelly', 'LB', 19, 65, 5, 5.2, 5, 8),
+    P('Gudmundsson', 'LB', 27, 30, 0.5, 3.9, 4, 8),
     // CDM
     P('Berge', 'CDM', 28, 32, 0.5, 4, 3, 7),
     P('Stiller', 'CDM', 25, 50, 1, 5.2, 4, 5),
-    P('Baleba', 'CDM', 22, 80, 5, 7.8, 4, 3),
     P('Tchouameni', 'CDM', 26, 70, 7, 10.4, 5, 4),
     P('Sano', 'CDM', 24, 40, 3, 4, 4, 6),
     P('Sangare', 'CDM', 24, 50, 2, 3.6, 4, 5),
-    P('Varela', 'CDM', 24, 40, 2, 5.2, 4, 4),
     // CM
     P('Wharton', 'CM', 22, 75, 5, 7, 5, 6),
-    P('Joao Gomes', 'CM', 25, 40, 3, 4, 3, 5),
     P('Kone', 'CM', 25, 60, 3, 6.5, 4, 8),
     P('Larsson', 'CM', 22, 35, 1, 3.8, 4, 6),
-    P('Tielemans', 'CM', 29, 35, 1.5, 7.8, 4, 9),
-    P('Santos', 'CM', 24, 45, 5, 5.2, 3, 5),
     P('Nmecha', 'CM', 25, 60, 5, 6.2, 4, 6),
-    P('Thuram', 'CM', 25, 50, 3.5, 7.8, 4, 7),
     P('Scott', 'CM', 23, 85, 5, 6.5, 5, 7),
     // CAM
     P('Olise', 'CAM', 24, 200, 15, 15, 5, 2),
     P('Bellingham', 'CAM', 23, 140, 10, 15, 5, 8),
-    P('Mora', 'CAM', 17, 20, 0.5, 2.5, 5, 2),
     P('Alvarez', 'CAM', 26, 100, 10, 10.4, 4, 8),
     P('Baturina', 'CAM', 23, 45, 2.5, 3.6, 4, 3),
     P('Kroupi', 'CAM', 20, 100, 5, 6.5, 6, 8),
-    P('Rogers', 'CAM', 24, 120, 10, 13, 6, 6),
     // RW
-    P('Potulski', 'RW', 21, 25, 1, 2.5, 5, 2),
+    P('Mbaye', 'RW', 18, 60, 2, 3.12, 5, 4),
+    P('Conceicao', 'RW', 23, 40, 3, 5.2, 4, 6),
+    P('Rowe', 'RW', 23, 30, 1.2, 4.94, 5, 5),
+    P('Nwaneri', 'RW', 19, 90, 5, 5.2, 5, 8),
+    P('Dibling', 'RW', 20, 50, 1.5, 3.9, 4, 6),
+    // LW
+    P('Rashford', 'LW', 28, 30, 5, 7.8, 3, 8),
+    P('Ndiaye', 'LW', 26, 60, 3, 6.5, 4, 7),
+    P('Leao', 'LW', 27, 45, 4, 7.02, 3, 8),
+    P('Schjelderup', 'LW', 22, 50, 1.5, 4.68, 4, 6),
+    P('Godts', 'LW', 21, 40, 1, 2.86, 6, 4),
     // ST
-    P('Osimhen', 'ST', 27, 45, 5, 10, 3, 5),
+    P('Osimhen', 'ST', 27, 60, 5, 10, 3, 5),
     P('Mateta', 'ST', 29, 40, 2.5, 5.2, 3, 5),
     P('Toney', 'ST', 30, 30, 2.5, 6, 3, 4),
-    P('Brobbey', 'ST', 24, 30, 0.5, 3.5, 4, 5)
+    P('Brobbey', 'ST', 24, 40, 0.5, 3.5, 4, 5),
+    P('Balogun', 'ST', 25, 50, 3, 6.24, 4, 7)
   ];
 
   // Which positions are recruited for by default (need = normal). Others start
