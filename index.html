@@ -563,8 +563,12 @@
      and modal conventions (see .reader above). No external libraries.
      =================================================================== */
 
-  /* Launcher inside the project body — mirrors .diss-open */
-  .tt-open { display:block; width:100%; text-align:left; margin-top:1.4rem; background:rgba(255,255,255,0.05); border:1px solid var(--gold); padding:1rem 1.2rem; cursor:pointer; transition:background 180ms ease; }
+  /* Launcher — mirrors .diss-open, but sits outside the collapsible body so it
+     is visible without expanding the project. The wrapper matches the body's
+     left indent so it lines up with the project text. */
+  .tt-open-wrap { padding:0 1.75rem 1.75rem 4.15rem; }
+  @media (max-width:640px){ .tt-open-wrap { padding-left:1.75rem; } }
+  .tt-open { display:block; width:100%; text-align:left; margin-top:1.1rem; background:rgba(255,255,255,0.05); border:1px solid var(--gold); padding:1rem 1.2rem; cursor:pointer; transition:background 180ms ease; }
   .tt-open:hover { background:rgba(255,255,255,0.1); }
   .tt-open-label { display:block; font-family:var(--font-head); font-weight:600; font-size:1.05rem; color:var(--ink); }
   .tt-open-label::after { content:' \2192'; color:var(--gold); }
@@ -617,18 +621,28 @@
   .tt-pool-head { display:flex; align-items:center; justify-content:space-between; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.85rem; }
   .tt-store-note { font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.03em; color:var(--ink-soft); display:inline-flex; align-items:center; gap:0.45rem; }
   .tt-store-note .tt-lock { color:var(--gold); }
-  .tt-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:0.75rem; }
-  .tt-card { background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:0.9rem 1rem; display:flex; flex-direction:column; gap:0.6rem; transition:opacity 160ms ease, border-color 160ms ease; }
-  .tt-card.tt-mine { border-color:rgba(210,162,76,0.5); }
-  .tt-card.tt-idle { opacity:0.62; }
-  .tt-card-top-right { display:inline-flex; align-items:center; gap:0.45rem; }
-  .tt-card-x { background:none; border:none; color:var(--ink-soft); font-size:1.15rem; line-height:1; cursor:pointer; padding:0 0.15rem; border-radius:4px; transition:color 150ms ease, background 150ms ease; }
-  .tt-card-x:hover { color:#E27C7C; background:rgba(226,124,124,0.12); }
-  .tt-card-foot { display:flex; align-items:center; justify-content:space-between; gap:0.5rem; flex-wrap:wrap; }
-  .tt-need-tag { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.04em; text-transform:uppercase; padding:0.14rem 0.4rem; border-radius:4px; }
+  /* Compact one-line-per-player list */
+  .tt-list { border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  .tt-row { display:flex; align-items:center; gap:0.75rem 1rem; padding:0.5rem 0.85rem; border-top:1px solid var(--border); flex-wrap:wrap; transition:background 140ms ease, opacity 140ms ease; }
+  .tt-row:first-child { border-top:none; }
+  .tt-row:hover { background:rgba(255,255,255,0.03); }
+  .tt-row.tt-mine { border-left:2px solid var(--gold); }
+  .tt-row.tt-idle { opacity:0.5; }
+  .tt-row-main { display:flex; align-items:center; gap:0.45rem; min-width:11rem; flex:0 0 auto; }
+  .tt-row-name { font-family:var(--font-head); font-weight:600; font-size:0.95rem; color:#F5F0E7; }
+  .tt-you { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(210,162,76,0.5); border-radius:3px; padding:0.05rem 0.28rem; }
+  .tt-row-stats { display:flex; flex-wrap:wrap; gap:0.35rem 0.9rem; flex:1 1 auto; }
+  .tt-rstat { font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-soft); }
+  .tt-row-calc { display:flex; gap:0.9rem; flex:0 0 auto; }
+  .tt-row-calc span { font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-soft); }
+  .tt-row-calc b { color:var(--gold); font-weight:600; }
+  .tt-row-x { background:none; border:none; color:var(--ink-soft); font-size:1.15rem; line-height:1; cursor:pointer; padding:0 0.2rem; border-radius:4px; flex:0 0 auto; transition:color 150ms ease, background 150ms ease; }
+  .tt-row-x:hover { color:#E27C7C; background:rgba(226,124,124,0.12); }
+  .tt-need-tag { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.02em; padding:0.05rem 0.32rem; border-radius:4px; }
   .tt-need-tag.tt-need-low { background:rgba(255,255,255,0.06); color:var(--ink-soft); }
   .tt-need-tag.tt-need-high { background:rgba(210,162,76,0.16); color:#E4B65C; }
   .tt-need-tag.tt-need-critical { background:rgba(210,162,76,0.26); color:#EAC077; }
+  @media (max-width:560px){ .tt-row-calc { flex-basis:100%; } }
 
   /* Position selector */
   .tt-pos-block { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:0.9rem 1rem; margin-bottom:1.1rem; }
@@ -643,18 +657,8 @@
   .tt-pos-need { background:rgba(0,0,0,0.22); border:none; color:var(--ink); font-family:var(--font-mono); font-size:0.72rem; padding:0 0.5rem; cursor:pointer; }
   .tt-pos-need:disabled { color:var(--ink-soft); opacity:0.5; cursor:default; }
   .tt-pos-need:focus { outline:none; }
-  .tt-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:0.5rem; }
-  .tt-card-name { font-family:var(--font-head); font-weight:700; font-size:1.02rem; color:#F5F0E7; line-height:1.2; }
   .tt-pos { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.08em; text-transform:uppercase; color:#fff; background:var(--navy); padding:0.16rem 0.42rem; border-radius:4px; white-space:nowrap; }
-  .tt-card-stats { display:grid; grid-template-columns:1fr 1fr; gap:0.3rem 0.8rem; }
-  .tt-stat { display:flex; flex-direction:column; }
-  .tt-stat .tt-k { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft); }
-  .tt-stat .tt-v { font-family:var(--font-mono); font-size:0.9rem; color:var(--ink); }
-  .tt-card-calc { border-top:1px solid var(--border); padding-top:0.55rem; display:flex; justify-content:space-between; gap:0.5rem; font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-soft); }
-  .tt-card-calc b { color:var(--gold); font-weight:600; }
   .tt-mine-tag { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); }
-  .tt-card-remove { align-self:flex-start; background:none; border:none; color:var(--ink-soft); font-family:var(--font-mono); font-size:0.68rem; cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:2px; }
-  .tt-card-remove:hover { color:#E27C7C; }
 
   /* Add-target card */
   .tt-add { background:rgba(210,162,76,0.06); border:1px dashed var(--gold); border-radius:10px; padding:0.9rem 1rem; }
@@ -864,6 +868,10 @@
           <p>I built this because I'm genuinely interested in the finance side of football. I don't code myself, but I've learned to direct AI tools like Claude to turn my own logic and assumptions into a working model on Excel.</p>
           <p>The model scores targets on utility, weighs them against cost and positional need, and solves for the best combination given the budget. It's the same logic that sits behind real transfer committee decisions, just made explicit and testable instead of left to gut feel.</p>
           <p>Football's transfer market still runs largely on scouting relationships and valuation by feel, with financial discipline applied loosely at best. This is a small attempt at bringing some of that decision-making into a structured, repeatable framework, the sort of thing that could genuinely sit inside a recruitment or finance department rather than staying an academic exercise.</p>
+        </div>
+        <!-- Launcher sits OUTSIDE the collapsible body so it shows under "Read more"
+             without the visitor having to expand the project first. -->
+        <div class="tt-open-wrap">
           <button class="tt-open" type="button" aria-haspopup="dialog" aria-controls="transferTool"><span class="tt-open-label">Try the interactive model</span><span class="tt-open-sub">Add targets · set a budget · see the best combinations</span></button>
         </div>
       </div>
@@ -1444,7 +1452,7 @@
                 <div class="tt-af"><label for="ttfAge">Age</label><input id="ttfAge" type="text" inputmode="numeric" placeholder="24"></div>
                 <div class="tt-af"><label for="ttfAsk">Asking price (£m)</label><input id="ttfAsk" type="text" inputmode="decimal" placeholder="45"></div>
                 <div class="tt-af"><label for="ttfFees">Agent &amp; add-on fees (£m)</label><input id="ttfFees" type="text" inputmode="decimal" placeholder="3"></div>
-                <div class="tt-af"><label for="ttfWage">Annual wage (£m)</label><input id="ttfWage" type="text" inputmode="decimal" placeholder="6"></div>
+                <div class="tt-af"><label for="ttfWage">Wage (&pound;k/week)</label><input id="ttfWage" type="text" inputmode="decimal" placeholder="120"></div>
                 <div class="tt-af"><label for="ttfContract">Contract (years)</label><input id="ttfContract" type="text" inputmode="numeric" placeholder="4"></div>
                 <div class="tt-af"><label for="ttfPrio">Scouting priority (1&ndash;10)</label><input id="ttfPrio" type="text" inputmode="numeric" placeholder="7"></div>
               </div>
@@ -1522,59 +1530,42 @@
   function P(name, pos, age, ask, fees, wage, contract, priority) {
     return { id: 'seed-' + name.toLowerCase().replace(/[^a-z]/g, ''), name: name, pos: pos, age: age, ask: ask, fees: fees, wage: wage, contract: contract, priority: priority, mine: false };
   }
+  // The starting pool. These are the scouted targets from the original model —
+  // baked into the page, so every visitor sees the same set. (Anything a
+  // visitor adds themselves stays in their own browser only; static hosting has
+  // no shared database. To change this universal set, edit this list and
+  // republish.)
   var SEED_PLAYERS = [
-    // GK
-    P('Restrepo', 'GK', 25, 22, 1, 3.2, 4, 6),
-    P('Novak', 'GK', 29, 14, 0.5, 2.6, 3, 5),
-    P('Halvorsen', 'GK', 21, 18, 1, 2.2, 5, 7),
-    // RB
-    P('Okafor', 'RB', 23, 30, 2, 4.1, 4, 7),
-    P('Bianchi', 'RB', 27, 24, 1.5, 4.6, 4, 6),
-    P('Soro', 'RB', 20, 20, 1, 2.8, 5, 8),
-    // CB
-    P('Lukeba', 'CB', 23, 55, 2, 5.2, 5, 8),
-    P('Kalulu', 'CB', 26, 35, 1.5, 3.9, 5, 7),
-    P('Romero', 'CB', 28, 50, 5, 10.4, 4, 7),
-    P('Kim Min Jae', 'CB', 29, 30, 1.5, 7.8, 3, 6),
-    P('Anton', 'CB', 29, 20, 1, 3.1, 3, 5),
-    // LB
-    P('Mendes', 'LB', 22, 34, 2.5, 4.4, 5, 8),
-    P('Karlsson', 'LB', 26, 26, 1.5, 4.0, 4, 6),
-    P('Duarte', 'LB', 24, 21, 1, 3.4, 4, 5),
     // CDM
     P('Baleba', 'CDM', 22, 80, 5, 7.8, 4, 3),
     P('Tchouameni', 'CDM', 26, 70, 7, 10.4, 5, 4),
     P('Sano', 'CDM', 24, 40, 3, 4.0, 4, 6),
     P('Sangare', 'CDM', 28, 50, 2, 3.6, 4, 5),
     P('Varela', 'CDM', 24, 40, 2, 5.2, 4, 4),
+    // CAM
+    P('Mora', 'CAM', 17, 20, 0.5, 2.5, 5, 2),
+    P('Alvarez', 'CAM', 26, 100, 10, 10.4, 4, 7),
+    P('Baturina', 'CAM', 23, 45, 2.5, 3.6, 4, 3),
+    P('Kroupi', 'CAM', 20, 100, 5, 6.5, 6, 8),
+    P('Rogers', 'CAM', 24, 120, 10, 13.0, 6, 6),
     // CM
     P('Santos', 'CM', 24, 45, 5, 5.2, 3, 9),
     P('Nmecha', 'CM', 25, 60, 5, 6.2, 4, 6),
     P('Thuram', 'CM', 25, 50, 3.5, 7.8, 4, 7),
     P('Scott', 'CM', 23, 85, 5, 6.5, 5, 7),
-    // CAM
-    P('Alvarez', 'CAM', 26, 100, 10, 10.4, 4, 7),
-    P('Baturina', 'CAM', 23, 45, 2.5, 3.6, 4, 6),
-    P('Kroupi', 'CAM', 20, 100, 5, 6.5, 6, 8),
-    P('Mora', 'CAM', 17, 20, 0.5, 2.5, 5, 5),
+    // CB
+    P('Kim Min Jae', 'CB', 29, 30, 1.5, 7.8, 3, 6),
+    P('Anton', 'CB', 29, 20, 1, 3.1, 3, 5),
+    P('Romero', 'CB', 28, 50, 5, 10.4, 4, 7),
+    P('Lukeba', 'CB', 23, 55, 2, 5.2, 5, 8),
+    P('Kalulu', 'CB', 26, 35, 1.5, 3.9, 5, 7),
     // RW
-    P('Rogers', 'RW', 24, 120, 10, 13.0, 6, 6),
-    P('Potulski', 'RW', 21, 25, 1, 2.5, 5, 6),
-    P('Deng', 'RW', 22, 44, 3, 4.8, 5, 7),
-    // LW
-    P('Ferreira', 'LW', 23, 58, 4, 6.0, 5, 8),
-    P('Ilic', 'LW', 25, 36, 2, 5.4, 4, 6),
-    P('Abara', 'LW', 19, 30, 1.5, 3.0, 6, 7),
-    // ST
-    P('Gudmundsson', 'ST', 24, 70, 5, 8.5, 5, 8),
-    P('Ekwueme', 'ST', 21, 55, 3, 5.5, 5, 9),
-    P('Carbone', 'ST', 28, 40, 3, 7.0, 3, 6),
-    P('Vlasenko', 'ST', 26, 48, 4, 6.8, 4, 7)
+    P('Potulski', 'RW', 21, 25, 1, 2.5, 5, 2)
   ];
 
   // Which positions are recruited for by default (need = normal). Others start
   // switched off so the first view is a sensible, bounded set of combinations.
-  var DEFAULT_ACTIVE_POS = { CDM: 1, CM: 1, CB: 1, ST: 1 };
+  var DEFAULT_ACTIVE_POS = { CDM: 1, CAM: 1, CM: 1, CB: 1 };
   // How a position's "need" scales the effective priority of its targets.
   var NEED_MULT = { low: 0.7, normal: 1.0, high: 1.3, critical: 1.6 };
   var NEED_ORDER = ['low', 'normal', 'high', 'critical'];
@@ -1733,6 +1724,10 @@
   var fmtM = function (n) { return '£' + (Math.round(n * 10) / 10).toFixed(1) + 'm'; };
   var num1 = function (n) { return (Math.round(n * 10) / 10).toFixed(1); };
   var num2 = function (n) { return (Math.round(n * 100) / 100).toFixed(2); };
+  // Annual wage (£m) shown as a weekly figure in £k, rounded to the nearest 5k —
+  // e.g. 4 (£4m/yr) -> 76.9k -> "£75k/wk". Wages are still stored annually for
+  // the cap-hit maths; this is display only.
+  var weeklyWageStr = function (annualM) { return '£' + (Math.round(annualM * 1000 / 52 / 5) * 5) + 'k/wk'; };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); };
 
   function renderCards() {
@@ -1740,28 +1735,30 @@
     var list = allPlayers();
     var countEl = document.getElementById('ttPoolCount');
     if (countEl) countEl.textContent = list.length + (list.length === 1 ? ' target' : ' targets');
-    cards.innerHTML = list.map(function (p) {
+    cards.innerHTML = '<div class="tt-list">' + list.map(function (p) {
       var cfg = positionConfig[p.pos] || { active: false, need: 'normal' };
       var needTag = cfg.need !== 'normal'
-        ? '<span class="tt-need-tag tt-need-' + cfg.need + '">' + NEED_LABEL[cfg.need] + ' need ×' + NEED_MULT[cfg.need].toFixed(1) + '</span>' : '';
-      return '<div class="tt-card' + (p.mine ? ' tt-mine' : '') + (cfg.active ? '' : ' tt-idle') + '">' +
-        '<div class="tt-card-top"><span class="tt-card-name">' + esc(p.name) + '</span>' +
-          '<span class="tt-card-top-right"><span class="tt-pos">' + esc(p.pos) + '</span>' +
-          '<button class="tt-card-x" data-remove="' + esc(p.id) + '" type="button" aria-label="Remove ' + esc(p.name) + ' from the pool" title="Remove ' + esc(p.name) + '">&times;</button></span></div>' +
-        '<div class="tt-card-stats">' +
-          stat('Age', p.age) + stat('Priority', p.priority + '/10') +
-          stat('Asking', fmtM(p.ask)) + stat('Fees', fmtM(p.fees)) +
-          stat('Wage', fmtM(p.wage) + '/yr') + stat('Contract', p.contract + ' yr') +
-        '</div>' +
-        '<div class="tt-card-calc"><span>Cap hit <b>' + fmtM(capHit(p)) + '/yr</b></span><span>Effective priority <b>' + num2(effPriority(p)) + '</b></span></div>' +
-        (p.mine || needTag ? '<div class="tt-card-foot">' + (p.mine ? '<span class="tt-mine-tag">Added by you</span>' : '<span></span>') + needTag + '</div>' : '') +
+        ? ' <span class="tt-need-tag tt-need-' + cfg.need + '" title="' + NEED_LABEL[cfg.need] + ' need">×' + NEED_MULT[cfg.need].toFixed(1) + '</span>' : '';
+      return '<div class="tt-row' + (p.mine ? ' tt-mine' : '') + (cfg.active ? '' : ' tt-idle') + '">' +
+        '<span class="tt-row-main"><span class="tt-row-name">' + esc(p.name) + '</span>' +
+          '<span class="tt-pos">' + esc(p.pos) + '</span>' + needTag +
+          (p.mine ? '<span class="tt-you">you</span>' : '') + '</span>' +
+        '<span class="tt-row-stats">' +
+          rstat(p.age + 'y') + rstat(fmtM(p.ask) + ' + ' + fmtM(p.fees)) + rstat(weeklyWageStr(p.wage)) +
+          rstat(p.contract + 'yr') + rstat('P' + p.priority) +
+        '</span>' +
+        '<span class="tt-row-calc">' +
+          '<span title="Annual squad-cost hit">cap <b>' + fmtM(capHit(p)) + '</b></span>' +
+          '<span title="Effective priority: scouting × age fit × position need">eff <b>' + num2(effPriority(p)) + '</b></span>' +
+        '</span>' +
+        '<button class="tt-row-x" data-remove="' + esc(p.id) + '" type="button" aria-label="Remove ' + esc(p.name) + ' from the pool" title="Remove ' + esc(p.name) + '">&times;</button>' +
       '</div>';
-    }).join('');
+    }).join('') + '</div>';
     cards.querySelectorAll('[data-remove]').forEach(function (btn) {
       btn.addEventListener('click', function () { removePlayer(btn.getAttribute('data-remove')); });
     });
   }
-  function stat(k, v) { return '<div class="tt-stat"><span class="tt-k">' + k + '</span><span class="tt-v">' + v + '</span></div>'; }
+  function rstat(v) { return '<span class="tt-rstat">' + v + '</span>'; }
 
   // ---- position selector ----
   function renderPositions() {
@@ -1909,7 +1906,8 @@
       age: pnum('ttfAge', 24, 15, 45),
       ask: pnum('ttfAsk', 0, 0),
       fees: pnum('ttfFees', 0, 0),
-      wage: pnum('ttfWage', 0, 0),
+      // Entered per week in £k; stored annually in £m for the cap-hit maths.
+      wage: pnum('ttfWage', 100, 0) * 52 / 1000,
       contract: pnum('ttfContract', 4, 1, 8),
       priority: pnum('ttfPrio', 5, 1, 10),
       mine: true
