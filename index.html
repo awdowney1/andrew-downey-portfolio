@@ -2463,11 +2463,11 @@
 
   // ---- walkthrough ----
   var WALK = [
-    { h: 'A structured way to choose signings', p: 'This is the transfer model as a live tool. A few quick steps and you can drive it yourself — nothing is saved to any account.' },
-    { h: 'Start with the scouted pool', p: 'Step 2 groups the scouted targets by position — open a position to see its players, with their cost, wages and scouting priority. Edit any with its ✎, remove one with its ×, or add your own; changes are kept in this browser for next time.' },
-    { h: 'Set the financial picture', p: 'In step 1, set the budget, the revenue and the wage bill already committed. This is what the squad-cost caps are measured against.' },
-    { h: 'Choose the positions you need', p: 'In step 3, switch on the positions you are recruiting for and set how badly you need each. A higher need lifts the value of that position’s targets, so the club will pay more for it.' },
-    { h: 'Read the best combinations', p: 'The model ranks every affordable combination across your chosen positions. Slide the balance between scouting fit and value for money and watch the recommendation change.' }
+    { h: 'A structured way to choose signings', p: 'This is the transfer model as a live tool. It runs in three steps — set the finances, review the scouted targets, then read the combinations it recommends. Nothing is saved to any account; anything you change stays in this browser.' },
+    { h: 'Step 1 — set the financial picture', p: 'Enter the budget, the club’s relevant revenue and the squad cost already committed — together these decide what each signing does to the squad-cost ratio. Here you also cap how many players to sign, tilt the priority balance between scouting fit and financial efficiency, and, if you like, reshape the age-priority curve.' },
+    { h: 'Step 2 — review the scouted pool', p: 'The targets are grouped by position — open one to see its players, each with their cost, wages and a scouting priority from 1–10. Edit any with its ✎, remove one with its ×, or add your own. Your changes are kept in this browser for next time, and Reset all restores the original pool.' },
+    { h: 'Step 3 — choose what you need', p: 'Switch on the positions you’re recruiting for and set how badly you need each — a higher need lifts the value of that position’s targets. Mark a position must-sign to force it into every plan the model considers.' },
+    { h: 'Read the best combinations', p: 'The model tries every affordable combination of one signing per chosen position and ranks them by the priority balance you set in step 1. Adjust any input — the balance, the needs, the budget — and the recommendation updates instantly.' }
   ];
   var walk = document.getElementById('ttWalk'), walkStep = document.getElementById('ttWalkStep'),
       walkH = document.getElementById('ttWalkH'), walkP = document.getElementById('ttWalkP'),
